@@ -512,19 +512,21 @@
         <div class="table-card">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <div>
-                    <h3 style="font-size:14px; font-weight:800; color:#0f172a; text-transform:uppercase;">📊 Monitor de Almacén EWM (/SCWM/MON)</h3>
-                    <p style="font-size:11px; color:#64748b;">Consultas de stock, unidades de manipulación (HU) y tareas de almacén</p>
+                    <h3 style="font-size:14px; font-weight:800; color:#0f172a; text-transform:uppercase;">📊 VISTA ALV GRID DE BASE DE DATOS (TABLAS S/4HANA &amp; EWM)</h3>
+                    <p style="font-size:11px; color:#64748b;">Registros en tiempo real de Pedidos (EKKO/EKPO), Entregas (LIKP/LIPS), Tareas (/SCWM/ORDIM), Stock (AQUA) y Movimientos (MSEG)</p>
                 </div>
                 <div style="display:flex; gap:10px; align-items:center;">
-                    <input id="mon-search" class="form-input" style="width:240px; padding:6px 10px; font-size:12px;" placeholder="🔍 Filtrar por Ubicación, HU, Mat..." oninput="filterMonTable()" />
+                    <input id="mon-search" class="form-input" style="width:260px; padding:6px 10px; font-size:12px;" placeholder="🔍 Filtrar documento, material, proveedor..." oninput="filterMonTable()" />
                     <button class="btn btn-outline" style="color:#0f172a; border-color:#cbd5e1; padding:6px 12px; font-size:12px;" onclick="exportMonCsv()">📥 Exportar CSV</button>
                 </div>
             </div>
 
             <div class="tab-bar">
-                <button class="tab-btn active" id="tab-btn-stock" onclick="switchMonTab('stock')">📦 Stock por Ubicación (Z101)</button>
-                <button class="tab-btn" id="tab-btn-wt" onclick="switchMonTab('wt')">📋 Tareas de Almacén (WT)</button>
-                <button class="tab-btn" id="tab-btn-inbound" onclick="switchMonTab('inbound')">🚚 Historial Entregas Entrantes (PRDI)</button>
+                <button class="tab-btn active" id="tab-btn-po" onclick="switchMonTab('po')">📑 Pedidos Compra (EKKO / EKPO)</button>
+                <button class="tab-btn" id="tab-btn-inbound" onclick="switchMonTab('inbound')">🚚 Entregas Entrantes (LIKP / LIPS)</button>
+                <button class="tab-btn" id="tab-btn-wt" onclick="switchMonTab('wt')">📋 Tareas Almacén (/SCWM/ORDIM_O/C)</button>
+                <button class="tab-btn" id="tab-btn-stock" onclick="switchMonTab('stock')">📦 Stock &amp; Bins (/SCWM/LAGP/AQUA)</button>
+                <button class="tab-btn" id="tab-btn-mseg" onclick="switchMonTab('mseg')">🏷️ Movimientos Material (MKPF / MSEG)</button>
                 <button class="tab-btn" id="tab-btn-qrfc" onclick="switchMonTab('qrfc')">🔄 Colas qRFC (SMQ2)</button>
             </div>
 
@@ -591,7 +593,7 @@
     <!-- SCRIPT DE DATOS Y LÓGICA EWM -->
     <script src="data/ewm_master_data.js"></script>
     <script>
-        var currentActiveTab = "stock";
+        var currentActiveTab = "po";
         var currentAppKey = "me21n";
         var currentF4TargetId = null;
         var currentF4CatalogKey = null;
@@ -648,7 +650,7 @@
         }
 
         // ================================================================
-        // TABS MONITOR DE ALMACÉN (/SCWM/MON)
+        // TABS MONITOR DE ALMACÉN & TABLAS REALES S/4HANA
         // ================================================================
         function switchMonTab(tabKey) {
             currentActiveTab = tabKey;
@@ -668,123 +670,239 @@
 
             if (!thead || !tbody) return;
 
-            if (currentActiveTab === "stock") {
+            // 1. TABLA EKKO / EKPO (PEDIDOS DE COMPRA S/4HANA)
+            if (currentActiveTab === "po") {
                 thead.innerHTML = `
                     <tr>
-                        <th>Ubicación (Bin)</th>
-                        <th>Tipo Almacén</th>
-                        <th>Nº Handling Unit (HU)</th>
-                        <th>Material</th>
-                        <th>Descripción</th>
-                        <th>Cantidad</th>
+                        <th>Doc. Compras (EBELN)</th>
+                        <th>Pos. (EBELP)</th>
+                        <th>Clase (BSART)</th>
+                        <th>Proveedor (LIFNR)</th>
+                        <th>Material (MATNR)</th>
+                        <th>Texto Breve Material</th>
+                        <th>Centro</th>
+                        <th>Almacén</th>
+                        <th>Cantidad (MENGE)</th>
                         <th>UM</th>
-                        <th>Peso Total</th>
-                        <th>Estado EWM</th>
+                        <th>Precio Neto</th>
+                        <th>Valor Total</th>
+                        <th>Fecha Doc.</th>
+                        <th>Estado</th>
                     </tr>
                 `;
-                var list = data.handlingUnits || [];
+                var list = data.ekkoEkpoTable || [];
                 var filtered = list.filter(function(r) {
-                    return !query || (r.bin.toLowerCase().includes(query) || r.huId.includes(query) || r.mat.toLowerCase().includes(query) || r.status.toLowerCase().includes(query));
+                    return !query || (r.ebeln.includes(query) || r.vendorName.toLowerCase().includes(query) || r.matnr.toLowerCase().includes(query) || r.txz01.toLowerCase().includes(query));
                 });
                 var html = "";
                 filtered.forEach(function(r) {
-                    var statusColor = r.status.includes("Disponible") ? "badge badge-success" : "badge badge-warning";
+                    var statusColor = r.status.includes("Disponible") ? "badge badge-success" : "badge badge-info";
                     html += `
                         <tr>
-                            <td style="font-weight:700; color:#065f46;">${r.bin}</td>
-                            <td><span class="badge badge-neutral">${r.bin.startsWith("GR") ? "Z910" : "Z020"}</span></td>
-                            <td style="font-weight:700;">📦 #${r.huId}</td>
-                            <td style="font-weight:700; color:#0284c7;">${r.mat}</td>
-                            <td>${r.matDesc}</td>
-                            <td style="font-weight:700;">${r.qty}</td>
-                            <td>${r.uom}</td>
-                            <td>${r.weight}</td>
+                            <td style="font-weight:700; color:#065f46;">#${r.ebeln}</td>
+                            <td style="text-align:center; color:#64748b;">${r.ebelp}</td>
+                            <td><span class="badge badge-neutral">${r.bsart}</span></td>
+                            <td style="font-weight:600;">${r.lifnr} - ${r.vendorName}</td>
+                            <td style="font-weight:700; color:#0284c7;">${r.matnr}</td>
+                            <td>${r.txz01}</td>
+                            <td><span class="badge badge-neutral">${r.werks}</span></td>
+                            <td><span class="badge badge-info">${r.lgort}</span></td>
+                            <td style="font-weight:800; color:#0f172a;">${r.menge}</td>
+                            <td>${r.meins}</td>
+                            <td>$ ${r.netpr.toFixed(2)}</td>
+                            <td style="font-weight:800; color:#065f46;">$ ${r.netwr.toLocaleString("es-ES", { minimumFractionDigits: 2 })} ${r.waers}</td>
+                            <td>${r.aedat}</td>
                             <td><span class="${statusColor}">${r.status}</span></td>
                         </tr>
                     `;
                 });
-                tbody.innerHTML = html || "<tr><td colspan='9' style='text-align:center; padding:20px;'>Sin registros encontrados.</td></tr>";
+                tbody.innerHTML = html || "<tr><td colspan='14' style='text-align:center; padding:20px;'>Sin registros en tablas EKKO / EKPO.</td></tr>";
 
-            } else if (currentActiveTab === "wt") {
-                thead.innerHTML = `
-                    <tr>
-                        <th>Nº Tarea (WT)</th>
-                        <th>Clase Proceso</th>
-                        <th>Handling Unit (HU)</th>
-                        <th>Material</th>
-                        <th>Cantidad</th>
-                        <th>Ubicación Origen</th>
-                        <th>Ubicación Destino</th>
-                        <th>Estado</th>
-                        <th>Usuario</th>
-                    </tr>
-                `;
-                var list = data.warehouseTasks || [];
-                var filtered = list.filter(function(r) {
-                    return !query || (r.wtNum.includes(query) || r.huId.includes(query) || r.srcBin.toLowerCase().includes(query) || r.destBin.toLowerCase().includes(query));
-                });
-                var html = "";
-                filtered.forEach(function(r) {
-                    var badge = r.status === "Confirmada" ? "badge badge-success" : "badge badge-warning";
-                    html += `
-                        <tr>
-                            <td style="font-weight:700; color:#065f46;">#${r.wtNum}</td>
-                            <td><span class="badge badge-info">${r.procType}</span></td>
-                            <td style="font-weight:700;">📦 #${r.huId}</td>
-                            <td style="font-weight:700; color:#0284c7;">${r.mat}</td>
-                            <td style="font-weight:700;">${r.qty} ${r.uom}</td>
-                            <td>${r.srcBin}</td>
-                            <td style="font-weight:700; color:#059669;">➔ ${r.destBin}</td>
-                            <td><span class="${badge}">${r.status}</span></td>
-                            <td>${r.user}</td>
-                        </tr>
-                    `;
-                });
-                tbody.innerHTML = html || "<tr><td colspan='9' style='text-align:center; padding:20px;'>Sin tareas de almacén registradas.</td></tr>";
-
+            // 2. TABLA LIKP / LIPS (ENTREGAS ENTRANTES ERP)
             } else if (currentActiveTab === "inbound") {
                 thead.innerHTML = `
                     <tr>
-                        <th>Pedido Compra (PO)</th>
-                        <th>Entrega Entrante (IBD)</th>
-                        <th>Proveedor</th>
-                        <th>Material</th>
-                        <th>Cantidad</th>
-                        <th>Entrada Mercancías</th>
-                        <th>Tarea Ubicación</th>
-                        <th>Depósito ERP</th>
-                        <th>Cola qRFC</th>
+                        <th>Entrega Entrante (VBELN)</th>
+                        <th>Pos. (POSNR)</th>
+                        <th>Pedido Ref. (VGBEL)</th>
+                        <th>Puesto Exp. (VSTEL)</th>
+                        <th>Centro</th>
+                        <th>Almacén</th>
+                        <th>Material (MATNR)</th>
+                        <th>Descripción</th>
+                        <th>Cantidad Entregada (LFIMG)</th>
+                        <th>UM</th>
+                        <th>Puesta en Disposición</th>
+                        <th>Fecha Entrada</th>
+                        <th>Estado EWM</th>
                     </tr>
                 `;
-                var list = data.inboundHistory || [];
+                var list = data.likpLipsTable || [];
                 var filtered = list.filter(function(r) {
-                    return !query || (r.poNum.includes(query) || r.ibdNum.includes(query) || r.vendorName.toLowerCase().includes(query));
+                    return !query || (r.vbeln.includes(query) || r.vgbel.includes(query) || r.matnr.toLowerCase().includes(query) || r.arktx.toLowerCase().includes(query));
                 });
                 var html = "";
                 filtered.forEach(function(r) {
                     html += `
                         <tr>
-                            <td style="font-weight:700; color:#0284c7;">#${r.poNum}</td>
-                            <td style="font-weight:700; color:#065f46;">🚚 #${r.ibdNum}</td>
-                            <td>${r.vendorName}</td>
-                            <td style="font-weight:700;">${r.mat}</td>
-                            <td style="font-weight:700;">${r.qty} ${r.uom}</td>
-                            <td><span class="badge badge-success">${r.grStatus}</span></td>
-                            <td><span class="badge badge-info">${r.putawayStatus}</span></td>
-                            <td><span class="badge badge-neutral">${r.stockLoc}</span></td>
-                            <td style="font-weight:700; color:#15803d;">${r.qrfcQueue}</td>
+                            <td style="font-weight:700; color:#065f46;">🚚 #${r.vbeln}</td>
+                            <td style="text-align:center;">${r.posnr}</td>
+                            <td style="font-weight:700; color:#0284c7;">#${r.vgbel}</td>
+                            <td><span class="badge badge-neutral">${r.vstel}</span></td>
+                            <td>${r.werks}</td>
+                            <td><span class="badge badge-info">${r.lgort}</span></td>
+                            <td style="font-weight:700; color:#0284c7;">${r.matnr}</td>
+                            <td>${r.arktx}</td>
+                            <td style="font-weight:800; color:#0f172a;">${r.lfimg}</td>
+                            <td>${r.meins}</td>
+                            <td><span class="badge badge-info" style="font-size:10px;">${r.stagArea}</span></td>
+                            <td>${r.wadat}</td>
+                            <td><span class="badge badge-success">${r.status}</span></td>
                         </tr>
                     `;
                 });
-                tbody.innerHTML = html;
+                tbody.innerHTML = html || "<tr><td colspan='13' style='text-align:center; padding:20px;'>Sin registros en tablas LIKP / LIPS.</td></tr>";
 
+            // 3. TABLA /SCWM/ORDIM_O & ORDIM_C (TAREAS DE ALMACÉN WT)
+            } else if (currentActiveTab === "wt") {
+                thead.innerHTML = `
+                    <tr>
+                        <th>Nº Tarea (TANUM)</th>
+                        <th>Clase Proceso</th>
+                        <th>Handling Unit (HUIDENT)</th>
+                        <th>Material (MATNR)</th>
+                        <th>Cantidad Tarea (VSOLA)</th>
+                        <th>UM</th>
+                        <th>Ubicación Origen (VLPLA)</th>
+                        <th>Ubicación Destino (NLPLA)</th>
+                        <th>Estado (STATUS)</th>
+                        <th>Fecha / Hora Creación</th>
+                        <th>Usuario (UNAME)</th>
+                    </tr>
+                `;
+                var list = data.ewmTasksTable || [];
+                var filtered = list.filter(function(r) {
+                    return !query || (r.tanum.includes(query) || r.huident.includes(query) || r.matnr.toLowerCase().includes(query) || r.vlpla.toLowerCase().includes(query) || r.nlpla.toLowerCase().includes(query));
+                });
+                var html = "";
+                filtered.forEach(function(r) {
+                    var badge = r.status.includes("Confirmada") ? "badge badge-success" : "badge badge-warning";
+                    html += `
+                        <tr>
+                            <td style="font-weight:700; color:#065f46;">#${r.tanum}</td>
+                            <td><span class="badge badge-info">${r.proctype}</span></td>
+                            <td style="font-weight:700;">📦 #${r.huident}</td>
+                            <td style="font-weight:700; color:#0284c7;">${r.matnr}</td>
+                            <td style="font-weight:700;">${r.vsola}</td>
+                            <td>${r.meins}</td>
+                            <td><span class="badge badge-neutral">${r.vlpla} (${r.vltyp})</span></td>
+                            <td style="font-weight:700; color:#059669;">➔ ${r.nlpla} (${r.nltyp})</td>
+                            <td><span class="${badge}">${r.status}</span></td>
+                            <td>${r.creadat}</td>
+                            <td>${r.uname}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html || "<tr><td colspan='11' style='text-align:center; padding:20px;'>Sin registros en tablas /SCWM/ORDIM.</td></tr>";
+
+            // 4. TABLA /SCWM/LAGP & AQUA (UBICACIONES FÍSICAS & CUANTOS DE STOCK)
+            } else if (currentActiveTab === "stock") {
+                thead.innerHTML = `
+                    <tr>
+                        <th>Almacén (LGNUM)</th>
+                        <th>Tipo Almacén (LGTYP)</th>
+                        <th>Ubicación (LGPLA)</th>
+                        <th>Handling Unit (HUIDENT)</th>
+                        <th>Material (MATNR)</th>
+                        <th>Descripción</th>
+                        <th>Cantidad en Ubicación</th>
+                        <th>UM</th>
+                        <th>Cat. Stock (CAT)</th>
+                        <th>Depósito ERP (LGORT)</th>
+                        <th>Estado Físico</th>
+                    </tr>
+                `;
+                var list = data.ewmStockTable || [];
+                var filtered = list.filter(function(r) {
+                    return !query || (r.lgpla.toLowerCase().includes(query) || r.huident.includes(query) || r.matnr.toLowerCase().includes(query) || r.status.toLowerCase().includes(query));
+                });
+                var html = "";
+                filtered.forEach(function(r) {
+                    var statusColor = r.status.includes("Disponible") ? "badge badge-success" : (r.status.includes("Picking") ? "badge badge-info" : "badge badge-warning");
+                    html += `
+                        <tr>
+                            <td style="font-weight:700;">${r.lgnum}</td>
+                            <td><span class="badge badge-neutral">${r.lgtyp}</span></td>
+                            <td style="font-weight:700; color:#065f46;">${r.lgpla}</td>
+                            <td style="font-weight:700;">${r.huident !== '-' ? '📦 #' + r.huident : '—'}</td>
+                            <td style="font-weight:700; color:#0284c7;">${r.matnr}</td>
+                            <td>${r.maktx}</td>
+                            <td style="font-weight:800; color:#0f172a;">${r.quan}</td>
+                            <td>${r.meins}</td>
+                            <td><span class="badge badge-neutral">${r.cat}</span></td>
+                            <td><span class="badge badge-info">${r.lgort}</span></td>
+                            <td><span class="${statusColor}">${r.status}</span></td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html || "<tr><td colspan='11' style='text-align:center; padding:20px;'>Sin registros en tablas /SCWM/LAGP & AQUA.</td></tr>";
+
+            // 5. TABLA MKPF / MSEG (DOCUMENTOS DE MATERIAL ERP - 101 Y 411)
+            } else if (currentActiveTab === "mseg") {
+                thead.innerHTML = `
+                    <tr>
+                        <th>Doc. Material (MBLNR)</th>
+                        <th>Ejercicio</th>
+                        <th>Pos.</th>
+                        <th>Clase Mov. (BWART)</th>
+                        <th>Descripción Movimiento</th>
+                        <th>Material (MATNR)</th>
+                        <th>Centro</th>
+                        <th>Alm. Emisor (LGORT)</th>
+                        <th>Alm. Receptor (UMLGO)</th>
+                        <th>Cantidad (MENGE)</th>
+                        <th>UM</th>
+                        <th>Pedido Ref. (EBELN)</th>
+                        <th>Fecha Contab.</th>
+                        <th>Usuario (USNAM)</th>
+                    </tr>
+                `;
+                var list = data.msegTable || [];
+                var filtered = list.filter(function(r) {
+                    return !query || (r.mblnr.includes(query) || r.matnr.toLowerCase().includes(query) || r.bwart.includes(query) || r.ebeln.includes(query));
+                });
+                var html = "";
+                filtered.forEach(function(r) {
+                    var bwartBadge = r.bwart === "101" ? "badge badge-info" : "badge badge-success";
+                    html += `
+                        <tr>
+                            <td style="font-weight:700; color:#065f46;">📄 #${r.mblnr}</td>
+                            <td>${r.mjahr}</td>
+                            <td style="text-align:center;">${r.zeile}</td>
+                            <td><span class="${bwartBadge}">${r.bwart}</span></td>
+                            <td style="font-weight:600;">${r.bwartDesc}</td>
+                            <td style="font-weight:700; color:#0284c7;">${r.matnr}</td>
+                            <td>${r.werks}</td>
+                            <td><span class="badge badge-info">${r.lgort}</span></td>
+                            <td><span class="badge ${r.umlgo !== '-' ? 'badge-success' : 'badge-neutral'}">${r.umlgo}</span></td>
+                            <td style="font-weight:800; color:#0f172a;">${r.menge}</td>
+                            <td>${r.meins}</td>
+                            <td style="font-weight:700; color:#0284c7;">#${r.ebeln}</td>
+                            <td>${r.budat}</td>
+                            <td>${r.usnam}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html || "<tr><td colspan='14' style='text-align:center; padding:20px;'>Sin registros en tablas MKPF / MSEG.</td></tr>";
+
+            // 6. TABLA TRFCQIN / SMQ2 (COLAS QRFC)
             } else if (currentActiveTab === "qrfc") {
                 thead.innerHTML = `
                     <tr>
                         <th>Transacción</th>
-                        <th>Nombre Cola (SMQ2)</th>
-                        <th>Origen</th>
-                        <th>Destino</th>
+                        <th>Nombre Cola qRFC</th>
+                        <th>Sistema Origen</th>
+                        <th>Sistema Destino</th>
                         <th>Documento Referencia</th>
                         <th>Estado de Cola</th>
                         <th>Última Transmisión</th>
@@ -796,7 +914,7 @@
                         <td style="font-weight:700; color:#0284c7;">EWM_IBD_180004521</td>
                         <td>EWM (Mandante 100)</td>
                         <td>ERP (Mandante 100)</td>
-                        <td>Entrada Mercancía 101</td>
+                        <td>Entrada Mercancía (101 en ZR01)</td>
                         <td><span class="badge badge-success">✓ Procesada OK (Verde)</span></td>
                         <td>02.11.2026 10:14:22</td>
                     </tr>
@@ -805,7 +923,7 @@
                         <td style="font-weight:700; color:#0284c7;">EWM_TO_10000450</td>
                         <td>EWM (Mandante 100)</td>
                         <td>ERP (Mandante 100)</td>
-                        <td>Traspaso 411 (ZR01 ➔ ZA01)</td>
+                        <td>Traspaso Almacén (411 ZR01 ➔ ZA01)</td>
                         <td><span class="badge badge-success">✓ Procesada OK (Verde)</span></td>
                         <td>02.11.2026 09:32:05</td>
                     </tr>
@@ -818,14 +936,42 @@
         }
 
         function exportMonCsv() {
-            var data = window.ewmMasterData.handlingUnits || [];
-            var headers = ["Bin", "HU", "Material", "Cantidad", "UM", "Peso", "Estado"];
-            var rows = [headers.join(";")];
-            data.forEach(function(r) {
-                rows.push([r.bin, r.huId, r.mat, r.qty, r.uom, r.weight, r.status].join(";"));
-            });
+            var data = window.ewmMasterData || {};
+            var rows = [];
+            var filename = "EWM_" + currentActiveTab + "_" + new Date().toISOString().split('T')[0] + ".csv";
+
+            if (currentActiveTab === "po") {
+                rows.push(["Doc. Compras", "Pos", "Clase", "Proveedor", "Material", "Centro", "Almacen", "Cantidad", "UM", "Neto", "Moneda", "Fecha"].join(";"));
+                (data.ekkoEkpoTable || []).forEach(function(r) {
+                    rows.push([r.ebeln, r.ebelp, r.bsart, r.lifnr, r.matnr, r.werks, r.lgort, r.menge, r.meins, r.netpr, r.waers, r.aedat].join(";"));
+                });
+            } else if (currentActiveTab === "inbound") {
+                rows.push(["Entrega", "Pos", "Pedido Ref", "Puesto Exp", "Centro", "Almacen", "Material", "Cantidad", "UM", "Puesta Disp", "Fecha"].join(";"));
+                (data.likpLipsTable || []).forEach(function(r) {
+                    rows.push([r.vbeln, r.posnr, r.vgbel, r.vstel, r.werks, r.lgort, r.matnr, r.lfimg, r.meins, r.stagArea, r.wadat].join(";"));
+                });
+            } else if (currentActiveTab === "mseg") {
+                rows.push(["Doc. Material", "Ejercicio", "Pos", "Clase Mov", "Material", "Centro", "Alm. Emisor", "Alm. Receptor", "Cantidad", "UM", "Pedido", "Fecha"].join(";"));
+                (data.msegTable || []).forEach(function(r) {
+                    rows.push([r.mblnr, r.mjahr, r.zeile, r.bwart, r.matnr, r.werks, r.lgort, r.umlgo, r.menge, r.meins, r.ebeln, r.budat].join(";"));
+                });
+            } else {
+                rows.push(["Bin", "HU", "Material", "Cantidad", "UM", "Cat", "Almacen ERP", "Estado"].join(";"));
+                (data.ewmStockTable || []).forEach(function(r) {
+                    rows.push([r.lgpla, r.huident, r.matnr, r.quan, r.meins, r.cat, r.lgort, r.status].join(";"));
+                });
+            }
+
             var csv = "\uFEFF" + rows.join("\n");
             var blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast("📥 Exportado reporte de tabla " + currentActiveTab.toUpperCase() + " a CSV");
+        }
             var a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
             a.download = "EWM_Z101_Stock_" + new Date().toISOString().split('T')[0] + ".csv";
