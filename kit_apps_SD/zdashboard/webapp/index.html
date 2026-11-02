@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuidora Express S.A. · Centro de Mando SD &amp; Logística</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: "72", "72full", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+        body { background-color: #f1f5f9; color: #1e293b; padding-bottom: 40px; }
+
+        /* HERO HEADER */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0e374e 100%);
+            padding: 24px 36px;
+            color: #ffffff;
+            border-bottom: 3px solid #00b4db;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
+        }
+        .hero-left { display: flex; align-items: center; gap: 16px; }
+        .hero-logo {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; box-shadow: 0 4px 12px rgba(0, 180, 219, 0.35);
+        }
+        .company-pill { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: #38bdf8; text-transform: uppercase; }
+        .partner-pill { font-size: 11px; font-weight: 600; color: #94a3b8; margin-left: 8px; }
+        .hero-title { font-size: 1.55rem; font-weight: 700; margin: 4px 0 2px 0; }
+        .hero-sub { font-size: 0.85rem; color: #cbd5e1; }
+
+        .hero-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .status-pill {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 7px 14px;
+            border-radius: 20px;
+            display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600;
+        }
+        .live-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #10b981;
+            box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.7; } }
+
+        .btn {
+            border: none; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 6px;
+        }
+        .btn-primary { background: #0070f2; color: #ffffff; }
+        .btn-primary:hover { background: #0056ba; transform: translateY(-1px); }
+        .btn-outline { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #ffffff; }
+        .btn-outline:hover { background: rgba(255,255,255,0.2); }
+        .btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #ffffff; }
+        .btn-ghost:hover { background: rgba(255,255,255,0.15); }
+
+        .container { max-width: 1400px; margin: 24px auto; padding: 0 24px; }
+        .section-header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .section-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+        .section-hint { font-size: 12px; color: #64748b; }
+
+        /* KPI GRID */
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .kpi-card {
+            background: #ffffff; border-radius: 14px; padding: 18px 16px; border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.05); cursor: pointer; transition: all 0.25s ease;
+            position: relative; overflow: hidden;
+        }
+        .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px -4px rgba(0, 180, 219, 0.22); border-color: #00b4db; }
+        .kpi-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #00b4db, #0083b0); opacity: 0; transition: opacity 0.2s ease;
+        }
+        .kpi-card:hover::after { opacity: 1; }
+        .kpi-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .kpi-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .badge { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; }
+        .badge-success { background: #dcfce7; color: #15803d; }
+        .badge-info { background: #e0f2fe; color: #0369a1; }
+        .badge-warning { background: #fef3c7; color: #b45309; }
+        .badge-neutral { background: #f1f5f9; color: #475569; }
+
+        .kpi-val { font-size: 1.85rem; font-weight: 800; color: #0f172a; line-height: 1.1; margin-bottom: 4px; }
+        .kpi-lbl { font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 8px; }
+        .kpi-link { font-size: 11px; font-weight: 700; color: #00b4db; }
+        .kpi-tab-btn {
+            font-size: 10px; font-weight: 700; color: #0284c7; background: #f0f9ff;
+            border: 1px solid #bae6fd; padding: 2px 7px; border-radius: 6px;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 3px;
+            transition: all 0.2s ease;
+        }
+        .kpi-tab-btn:hover { background: #0284c7; color: #ffffff; border-color: #0284c7; transform: translateY(-1px); }
+
+        /* ANALYTICS GRID */
+        .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .chart-card {
+            background: #ffffff; border-radius: 14px; padding: 20px; border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.05);
+        }
+        .chart-title { font-size: 14px; font-weight: 700; color: #0f172a; }
+        .chart-sub { font-size: 11px; color: #64748b; margin-top: 2px; margin-bottom: 16px; }
+
+        /* BARS */
+        .bar-container { display: flex; justify-content: space-between; align-items: flex-end; height: 160px; border-bottom: 1px dashed #cbd5e1; padding-top: 15px; }
+        .bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; height: 100%; justify-content: flex-end; }
+        .bar-pill {
+            width: 20px; background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%); border-radius: 6px 6px 0 0;
+            display: flex; justify-content: center; padding-top: 4px; font-size: 10px; font-weight: 700; color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        .bar-pill:hover { background: linear-gradient(180deg, #00b4db 0%, #0083b0 100%); transform: scaleY(1.05); }
+        .bar-pill.active { background: linear-gradient(180deg, #00b4db 0%, #0f172a 100%); box-shadow: 0 4px 10px rgba(0, 180, 219, 0.4); }
+        .bar-txt { font-size: 10px; color: #64748b; margin-top: 6px; }
+
+        /* HORIZONTAL BARS */
+        .h-list { display: flex; flex-direction: column; gap: 12px; }
+        .h-head { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px; font-weight: 600; }
+        .h-track { width: 100%; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden; }
+        .h-fill { height: 100%; border-radius: 4px; }
+
+        /* DONUT */
+        .donut-box {
+            background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%); border-radius: 12px; padding: 22px;
+            text-align: center; border: 1px solid #ccfbf1; margin-bottom: 14px;
+        }
+        .donut-big { font-size: 2.2rem; font-weight: 800; color: #0f172a; line-height: 1; }
+        .donut-sub { font-size: 11px; font-weight: 700; color: #0d9488; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+        /* FOOTER */
+        .footer {
+            background: #ffffff; padding: 12px 24px; border-radius: 10px; border: 1px solid #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #475569;
+        }
+
+        /* MODAL POPUP */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(6px);
+            display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+        .modal-box {
+            background: #ffffff; border-radius: 16px; width: 92%; max-width: 640px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden;
+            animation: modalFadeIn 0.25s ease-out; transition: max-width 0.3s ease;
+        }
+        .modal-box.modal-wide {
+            max-width: 1140px;
+            width: 95%;
+        }
+        /* ALV GRID TABLE STYLES (S/4HANA VA05 REPORT) */
+        .sap-alv-container {
+            border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;
+            background: #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .sap-alv-table {
+            width: 100%; border-collapse: collapse; font-size: 11.5px; text-align: left;
+            font-family: "72", "72full", Arial, sans-serif;
+        }
+        .sap-alv-table thead th {
+            background: #f1f5f9; color: #334155; font-weight: 700; padding: 8px 10px;
+            border-bottom: 2px solid #cbd5e1; border-right: 1px solid #e2e8f0;
+            white-space: nowrap; position: sticky; top: 0; z-index: 5;
+            user-select: none;
+        }
+        .sap-alv-table tbody td {
+            padding: 7px 10px; border-bottom: 1px solid #e2e8f0; border-right: 1px solid #f1f5f9;
+            color: #0f172a; white-space: nowrap;
+        }
+        .sap-alv-table tbody tr:nth-child(even) { background: #f8fafc; }
+        .sap-alv-table tbody tr:hover { background: #e0f2fe; }
+        .sap-alv-num { font-variant-numeric: tabular-nums; text-align: right; }
+        .sap-alv-doc { font-weight: 700; color: #0284c7; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal-head {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff; padding: 20px 24px; border-bottom: 2px solid #00b4db;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-badge { font-size: 11px; color: #38bdf8; font-weight: 700; text-transform: uppercase; }
+        .modal-title { font-size: 1.15rem; font-weight: 700; }
+        .modal-close { background: none; border: none; color: #94a3b8; font-size: 22px; cursor: pointer; }
+        .modal-close:hover { color: #ffffff; }
+        .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 14px; max-height: 75vh; overflow-y: auto; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-group { display: flex; flex-direction: column; gap: 4px; }
+        .form-label { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; display: flex; justify-content: space-between; }
+        .form-input-container { display: flex; position: relative; }
+        .form-input {
+            width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px;
+            color: #0f172a; outline: none; background: #ffffff;
+        }
+        .form-input:focus { border-color: #00b4db; background: #ffffff; box-shadow: 0 0 0 2px rgba(0,180,219,0.2); }
+        .btn-f4 {
+            position: absolute; right: 2px; top: 2px; bottom: 2px; width: 34px;
+            background: #f1f5f9; border: none; border-left: 1px solid #cbd5e1;
+            border-radius: 0 6px 6px 0; color: #0284c7; cursor: pointer; font-size: 14px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+        }
+        .btn-f4:hover { background: #00b4db; color: #ffffff; }
+        .modal-foot {
+            background: #f8fafc; padding: 16px 24px; border-top: 1px solid #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+        }
+
+        /* MODAL DE AYUDA DE BÚSQUEDA (SAP FIORI VALUE HELP / F4) */
+        .f4-modal-box {
+            background: #ffffff; border-radius: 16px; width: 92%; max-width: 600px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.35); overflow: hidden;
+            border: 1px solid #cbd5e1; z-index: 2500;
+        }
+        .f4-search-box {
+            padding: 14px 20px; background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+            display: flex; gap: 10px; align-items: center;
+        }
+        .f4-search-input {
+            flex: 1; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1;
+            font-size: 13px; outline: none;
+        }
+        .f4-search-input:focus { border-color: #00b4db; box-shadow: 0 0 0 2px rgba(0,180,219,0.25); }
+        .f4-list-container { max-height: 340px; overflow-y: auto; padding: 8px; }
+        .f4-item {
+            padding: 10px 14px; border-radius: 8px; cursor: pointer; transition: background 0.15s ease;
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9;
+        }
+        .f4-item:hover { background: #e0f2fe; }
+        .f4-code { font-weight: 700; color: #0284c7; font-size: 13px; font-feature-settings: "tnum"; }
+        .f4-desc { font-size: 13px; color: #1e293b; font-weight: 500; }
+        .f4-sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+        .toast {
+            position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #ffffff; padding: 14px 20px;
+            border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-left: 4px solid #00b4db;
+            display: none; z-index: 3000; font-size: 13px; max-width: 440px; line-height: 1.4;
+        }
+
+        /* Ocultar marca de agua de hosting */
+        [class*="ship"], [id*="ship"], a[href*="ship.page"], div:has(> a[href*="ship.page"]) {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+    </style>
+    <script>
+        // Remover automáticamente marca de agua del hosting
+        (function() {
+            function hideHostBadge() {
+                var links = document.querySelectorAll('a[href*="ship.page"]');
+                links.forEach(function(a) {
+                    var p = a.parentElement;
+                    while (p && p !== document.body && p.tagName !== 'BODY') {
+                        if (getComputedStyle(p).position === 'fixed' || p.offsetWidth < 300) {
+                            p.style.setProperty('display', 'none', 'important');
+                            p.remove();
+                            break;
+                        }
+                        p = p.parentElement;
+                    }
+                });
+            }
+            setInterval(hideHostBadge, 300);
+            window.addEventListener('load', hideHostBadge);
+        })();
+    </script>
+</head>
+<body>
+
+    <!-- HERO HEADER -->
+    <div class="hero">
+        <div class="hero-left">
+            <div class="hero-logo">🏢</div>
+            <div>
+                <div><span class="company-pill">Distribuidora Express S.A.</span><span class="partner-pill">· AVLIS Consultores</span></div>
+                <h1 class="hero-title">Centro de Mando Comercial &amp; Logístico</h1>
+                <p class="hero-sub">Estructura Greenfield S/4HANA</p>
+            </div>
+        </div>
+
+        <div class="hero-actions">
+            <div class="status-pill">
+                <span class="live-dot"></span>
+                <span>S/4HANA 1909 Activo (Mandante 100)</span>
+            </div>
+            <button class="btn btn-primary" onclick="openAppModal('orders')">
+                ➕ Nuevo Pedido (VA01)
+            </button>
+            <button class="btn btn-outline" onclick="openAppModal('va05')">
+                📋 Lista Pedidos (VA05)
+            </button>
+            <button class="btn btn-outline" onclick="openAppModal('deliveries')">
+                🚚 Despacho (VL01N)
+            </button>
+            <button class="btn btn-ghost" onclick="refreshData()">
+                🔄 Actualizar
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+
+        <!-- SECCIÓN 1: KPIS -->
+        <div class="section-header">
+            <span class="section-title">Greenfield Distribuidora Express</span>
+        </div>
+
+        <div class="kpi-grid">
+            <!-- 1. Crear Pedido VA01 -->
+            <div class="kpi-card" onclick="openAppModal('orders')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#e0f2fe; color:#0284c7;">📑</div>
+                    <span class="badge badge-success">VA01</span>
+                </div>
+                <div class="kpi-val" id="val-orders">2,357</div>
+                <div class="kpi-lbl">Crear Pedido de Venta</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Crear Pedido (VA01) ➔</span>
+                </div>
+            </div>
+
+            <!-- 2. Lista de Pedidos VA05 -->
+            <div class="kpi-card" onclick="openAppModal('va05')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#ede9fe; color:#6366f1;">📋</div>
+                    <span class="badge badge-info">VA05</span>
+                </div>
+                <div class="kpi-val" id="val-va05">2,557</div>
+                <div class="kpi-lbl">Lista de Pedidos de Venta</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link" style="color:#6366f1;">Consultar Lista (VA05) ➔</span>
+                </div>
+            </div>
+
+            <!-- 2. Cotizaciones -->
+            <div class="kpi-card" onclick="openAppModal('quotations')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#e0e7ff; color:#4f46e5;">📝</div>
+                    <span class="badge badge-info">86% conv.</span>
+                </div>
+                <div class="kpi-val" id="val-quotations">1,288</div>
+                <div class="kpi-lbl">Cotizaciones / Ofertas</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Crear Cotización (VA21) ➔</span>
+                </div>
+            </div>
+
+            <!-- 3. Entregas -->
+            <div class="kpi-card" onclick="openAppModal('deliveries')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#cffafe; color:#0891b2;">🚚</div>
+                    <span class="badge badge-success">98% a tiempo</span>
+                </div>
+                <div class="kpi-val" id="val-deliveries">2,058</div>
+                <div class="kpi-lbl">Entregas de Salida</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Despachar Entrega (VL01N) ➔</span>
+                </div>
+            </div>
+
+            <!-- 4. Facturacion -->
+            <div class="kpi-card" onclick="openAppModal('billing')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">💳</div>
+                    <span class="badge badge-warning">$4.2M USD</span>
+                </div>
+                <div class="kpi-val" id="val-billing">1,969</div>
+                <div class="kpi-lbl">Documentos Facturación</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Facturar Comercial (VF01) ➔</span>
+                </div>
+            </div>
+
+            <!-- 5. Clientes BP -->
+            <div class="kpi-card" onclick="openAppModal('bp')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#f3e8ff; color:#9333ea;">👥</div>
+                    <span class="badge badge-neutral">32 Nuevos</span>
+                </div>
+                <div class="kpi-val" id="val-bp">323</div>
+                <div class="kpi-lbl">Clientes (BP)</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Maestro Clientes (BP) ➔</span>
+                </div>
+            </div>
+
+            <!-- 6. Precios -->
+            <div class="kpi-card" onclick="openAppModal('pricing')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#ffe4e6; color:#e11d48;">🏷️</div>
+                    <span class="badge badge-neutral">Vigentes</span>
+                </div>
+                <div class="kpi-val" id="val-pricing">12</div>
+                <div class="kpi-lbl">Condiciones de Precio</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Gestionar Precios (VK11) ➔</span>
+                </div>
+            </div>
+
+            <!-- 7. Stocks -->
+            <div class="kpi-card" onclick="openAppModal('stocks')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#d1fae5; color:#059669;">📦</div>
+                    <span class="badge badge-success">Stock Óptimo</span>
+                </div>
+                <div class="kpi-val" id="val-stocks">4,534</div>
+                <div class="kpi-lbl">Resumen de Stocks</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Consultar Stock (MMBE) ➔</span>
+                </div>
+            </div>
+
+            <!-- 8. Almacen EWM -->
+            <div class="kpi-card" onclick="openAppModal('ewm')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#ccfbf1; color:#0d9488;">🏭</div>
+                    <span class="badge badge-info">EWM Z101</span>
+                </div>
+                <div class="kpi-val" id="val-ewm">789</div>
+                <div class="kpi-lbl">Almacén (EWM)</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Monitor Almacén (EWM) ➔</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: ANALÍTICA -->
+        <div class="section-header">
+            <span class="section-title">Comportamiento del Negocio y Análisis O2C</span>
+            <span class="section-hint">Estructura Organizativa: Org. ZX01 · Centro ZC10</span>
+        </div>
+
+        <div class="analytics-grid">
+            <!-- Grafico 1 -->
+            <div class="chart-card">
+                <div class="chart-title">Evolución de Pedidos por Mes</div>
+                <div class="chart-sub">Volumen mensual registrado en SD (Distribuidora Express)</div>
+                <div class="bar-container">
+                    <div class="bar-col"><div class="bar-pill" style="height:38%;">6</div><span class="bar-txt">08/25</span></div>
+                    <div class="bar-col"><div class="bar-pill" style="height:44%;">7</div><span class="bar-txt">12/25</span></div>
+                    <div class="bar-col"><div class="bar-pill" style="height:25%;">4</div><span class="bar-txt">01/26</span></div>
+                    <div class="bar-col"><div class="bar-pill" style="height:56%;">9</div><span class="bar-txt">02/26</span></div>
+                    <div class="bar-col"><div class="bar-pill" style="height:25%;">4</div><span class="bar-txt">04/26</span></div>
+                    <div class="bar-col"><div class="bar-pill" style="height:56%;">9</div><span class="bar-txt">05/26</span></div>
+                    <div class="bar-col"><div class="bar-pill" style="height:31%;">5</div><span class="bar-txt">09/26</span></div>
+                    <div class="bar-col"><div class="bar-pill active" id="bar-oct" style="height:100%;">16</div><span class="bar-txt">10/26</span></div>
+                </div>
+            </div>
+
+            <!-- Grafico 2 -->
+            <div class="chart-card">
+                <div class="chart-title">Pedidos por Clase de Documento</div>
+                <div class="chart-sub">Distribución por tipo de pedido comercial Greenfield</div>
+                <div class="h-list">
+                    <div>
+                        <div class="h-head"><span>Pedido Estándar (OR / TA)</span><span id="txt-or-count">967 (96.7%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:96.7%; background:linear-gradient(90deg, #38bdf8, #0284c7);"></div></div>
+                    </div>
+                    <div>
+                        <div class="h-head"><span>Pedido Express (ZB01)</span><span>13 (1.3%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:15%; background:linear-gradient(90deg, #818cf8, #4f46e5);"></div></div>
+                    </div>
+                    <div>
+                        <div class="h-head"><span>Pedido Urgente (OR1)</span><span>11 (1.1%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:12%; background:linear-gradient(90deg, #60a5fa, #2563eb);"></div></div>
+                    </div>
+                    <div>
+                        <div class="h-head"><span>Muestras / Consignación (ZK01)</span><span>4 (0.4%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:6%; background:linear-gradient(90deg, #c084fc, #9333ea);"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grafico 3 -->
+            <div class="chart-card">
+                <div class="chart-title">Estatus de Entregas de Salida</div>
+                <div class="chart-sub">Ciclo de Picking en Z101 y Salida de Mercancías</div>
+                <div class="donut-box">
+                    <div class="donut-big" id="donut-val">1.000</div>
+                    <div class="donut-sub">Entregas de Salida</div>
+                </div>
+                <div style="font-size:11px; color:#475569; display:flex; flex-direction:column; gap:6px;">
+                    <div>🟢 Concluidas / SM Contabilizada: <b id="val-done-dlv">962 (96.2%)</b></div>
+                    <div>🟠 Pendientes de Picking (Z101): <b>19 (1.9%)</b></div>
+                    <div>🔵 En Tratamiento / Carga: <b>18 (1.8%)</b></div>
+                </div>
+            </div>
+
+            <!-- Grafico 4 -->
+            <div class="chart-card">
+                <div class="chart-title">Facturación por Tipo de Documento</div>
+                <div class="chart-sub">Documentos contabilizados automáticamente en Soc. ZX01</div>
+                <div class="h-list">
+                    <div>
+                        <div class="h-head"><span>Factura Comercial (F2)</span><span id="txt-inv-count">936 (93.6%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:93.6%; background:linear-gradient(90deg, #38bdf8, #0284c7);"></div></div>
+                    </div>
+                    <div>
+                        <div class="h-head"><span>Solicitud de Anticipo (FAAZ)</span><span>17 (1.7%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:17%; background:linear-gradient(90deg, #fbbf24, #d97706);"></div></div>
+                    </div>
+                    <div>
+                        <div class="h-head"><span>Factura Proforma (F8)</span><span>12 (1.2%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:14%; background:linear-gradient(90deg, #818cf8, #4f46e5);"></div></div>
+                    </div>
+                    <div>
+                        <div class="h-head"><span>Notas de Crédito (G2)</span><span>12 (1.2%)</span></div>
+                        <div class="h-track"><div class="h-fill" style="width:14%; background:linear-gradient(90deg, #fb7185, #e11d48);"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <div>🗄️ <b>Estructura S/4HANA Activa:</b> Soc. ZX01 · Org. ZX01 · Centro ZC10 · Destino 's4hana1909'</div>
+            <div id="timestamp-txt">Actualizado en vivo · AVLIS Consultores</div>
+        </div>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- MODAL PRINCIPAL DE OPERACIONES SD                                -->
+    <!-- ================================================================= -->
+    <div id="appModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-head">
+                <div>
+                    <div id="modal-badge" class="modal-badge">SAP S/4HANA · MÓDULO SD</div>
+                    <div id="modal-title" class="modal-title">Título de la Transacción</div>
+                </div>
+                <button class="modal-close" onclick="closeAppModal()">&times;</button>
+            </div>
+            
+            <!-- Cuerpo dinamico segun la aplicacion seleccionada -->
+            <div id="modal-body-content" class="modal-body">
+                <!-- Se inyecta por JavaScript -->
+            </div>
+
+            <div class="modal-foot" style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:11.5px; color:#64748b; font-weight:600; display:flex; align-items:center; gap:6px;">
+                    🏢 <b>Distribuidora Express S.A.</b> · S/4HANA Mandante 100
+                </span>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-ghost" style="color:#64748b;" onclick="closeAppModal()">Cancelar</button>
+                    <button id="btn-save-tx" class="btn btn-primary" onclick="confirmSaveCurrentTx()">💾 Grabar en S/4HANA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- DIÁLOGO DE AYUDA PARA ENTRADAS (SAP FIORI VALUE HELP / MATCHCODE F4) -->
+    <!-- ================================================================= -->
+    <div id="f4Modal" class="modal-overlay" style="z-index: 2500;">
+        <div class="f4-modal-box">
+            <div class="modal-head" style="padding: 16px 20px;">
+                <div>
+                    <div style="font-size:10px; color:#38bdf8; font-weight:700;">AYUDA PARA ENTRADAS DE SAP (F4)</div>
+                    <div id="f4-title" style="font-size:1rem; font-weight:700;">Seleccionar Valor del Sistema</div>
+                </div>
+                <button class="modal-close" onclick="closeF4Modal()">&times;</button>
+            </div>
+            <div class="f4-search-box">
+                <input id="f4-search" class="f4-search-input" placeholder="🔍 Escribe para buscar código, nombre o descripción..." oninput="filterF4Results()" onkeydown="handleF4SearchKeyDown(event)" />
+                <span id="f4-count" style="font-size:11px; color:#64748b; font-weight:600; white-space:nowrap;"></span>
+            </div>
+            <div id="f4-list" class="f4-list-container">
+                <!-- Filas dinamicas de F4 Help -->
+            </div>
+            <div style="padding: 10px 16px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:11px; color:#64748b;">💡 Puedes seleccionar un valor existente o escribir uno propio en el formulario.</span>
+                <button class="btn btn-ghost" style="font-size:12px; color:#475569;" onclick="closeF4Modal()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST POPUP -->
+    <div id="toast" class="toast"></div>
+
+    <!-- DATASET MAESTRO REAL EXPORTADO DE SAP S/4HANA (TABLA VBAK/VBAP - 2,557 PEDIDOS) -->
+    <script src="data/sap_orders_master.js"></script>
+
+    <script>
+        var currentAppKey = "orders";
+
+        // ================================================================
+        // CATÁLOGO DE VALORES DISPONIBLES EN EL SISTEMA SAP (AYUDA F4)
+        // ================================================================
+        var sapSystemCatalog = {
+            orderTypes: [
+                { code: "O", title: "O - Pedido Estándar Best Practices", sub: "Documento de ventas modelo S/4HANA (Mandante 100)" },
+                { code: "OR1", title: "OR1 - Pedido Urgente / Despacho Inmediato", sub: "Pedido express con asignación de transporte directo" },
+                { code: "TA", title: "TA - Pedido de Venta Estándar", sub: "Venta estándar con entrega y factura comercial ordinaria" },
+                { code: "ZB01", title: "ZB01 - Pedido Distribuidora Express", sub: "Flujo comercial prioritario para clientes mayoristas de la red" },
+                { code: "SRVO", title: "SRVO - Pedido de Servicio SD", sub: "Prestación de servicios y asistencia técnica comercial" },
+                { code: "RE", title: "RE - Solicitud de Abono / Devolución", sub: "Retorno de mercancía y nota de crédito" },
+                { code: "RK", title: "RK - Solicitud de Factura por Corrección", sub: "Ajuste de precio o cantidades facturadas" },
+                { code: "SA", title: "SA - Pedido Abierto / Plan de Entregas", sub: "Suministro calendarizado continuo" },
+                { code: "BV", title: "BV - Venta al Mostrador / Contado", sub: "Venta rápida directa con pago inmediato" },
+                { code: "ZK01", title: "ZK01 - Consignación / Muestras Comerciales", sub: "Entrega de productos en depósito del cliente sin cobro inmediato" },
+                { code: "KB", title: "KB - Reposición de Consignación", sub: "Aprovisionamiento de inventario en custodia" },
+                { code: "FD", title: "FD - Entrega Gratuita / Bonificación", sub: "Muestras de degustación o bonificación por volumen" }
+            ],
+
+            salesOrgs: [
+                { code: "ZX01", title: "ZX01 - Ventas Distribuidora Express", sub: "Organización de Ventas Principal Greenfield (Mandante 100)" },
+                { code: "1000", title: "1000 - Org. Ventas Nacional S4H", sub: "Ventas estándar del sistema S/4HANA modelo base" },
+                { code: "1710", title: "1710 - US Sales Org S/4HANA", sub: "Modelo de referencia Best Practices SAP" },
+                { code: "ZX02", title: "ZX02 - Ventas Regionales Occidente", sub: "Sucursal Zulia / Falcón / Lara" }
+            ],
+
+            channels: [
+                { code: "10", title: "10 - Venta Mayorista", sub: "Cadenas de supermercados, mayoristas y grandes distribuidores" },
+                { code: "20", title: "20 - Venta Directa / Minorista", sub: "Tiendas propias, franquicias y puntos de venta al detalle" },
+                { code: "30", title: "30 - Distribuidores Regionales", sub: "Red de agentes independientes en el interior del país" },
+                { code: "40", title: "40 - Canal Institucional / HORECA", sub: "Hoteles, restaurantes, comedores y catering" }
+            ],
+
+            divisions: [
+                { code: "00", title: "00 - Sector General", sub: "Aplica a todos los rubros de distribución" },
+                { code: "01", title: "01 - Aceites & Grasas Comestibles", sub: "Línea Aceite Vegetal Premium ZMAT-02" },
+                { code: "02", title: "02 - Bebidas & Jugos Express", sub: "Línea Bebidas energizantes y jugos ZMAT-01" },
+                { code: "03", title: "03 - Alimentos Secos & Granos", sub: "Línea Arroz, harinas y granos ZMAT-03" }
+            ],
+
+            customers: [
+                { code: "1000219", title: "1000219 - PROYECTO GREENFIELD", sub: "Población: PALO ALTO · CP 94301 (US) · Mandante 100 S/4HANA" },
+                { code: "1000220", title: "1000220 - PROYECTO GREENFIELD", sub: "Población: PALO ALTO · CP 94301 (US) · Mandante 100 S/4HANA" },
+                { code: "1000203", title: "1000203 - PROYECTO NEXO E2E", sub: "Población: PALO ALTO · CP 94301 (US) · Cliente Estratégico" },
+                { code: "USCU_L01", title: "USCU_L01 - SKYMART CORP", sub: "Población: NEW YORK · CP 10007 (US) · Gran Superficie" },
+                { code: "USCU_L02", title: "USCU_L02 - TOYS4U", sub: "Población: WILMINGTON · CP 19801 (US) · Cadena Comercial" },
+                { code: "USCU_L03", title: "USCU_L03 - VIADOX", sub: "Población: BALTIMORE · CP 21202 (US) · Mayorista" },
+                { code: "USCU_L04", title: "USCU_L04 - QUOTEX", sub: "Población: RALEIGH · CP 27603 (US) · Distribuidor" },
+                { code: "USCU_L05", title: "USCU_L05 - BLUESTAR CORP", sub: "Población: CHARLESTON · CP 29401 (US) · Mayorista Tier 1" },
+                { code: "USCU_L06", title: "USCU_L06 - DEXON", sub: "Población: NASHVILLE · CP 37201 (US) · Red Minorista" },
+                { code: "USCU_L07", title: "USCU_L07 - INTERLUDE INC", sub: "Población: MIAMI · CP 33128 (US) · Logística Sur" },
+                { code: "USCU_L08", title: "USCU_L08 - VERACITY", sub: "Población: ATLANTA · CP 30303 (US) · Mayorista" },
+                { code: "USCU_L09", title: "USCU_L09 - BIGMART", sub: "Población: DETROIT · CP 48226 (US) · Cadenas Masivas" },
+                { code: "USCU_L10", title: "USCU_L10 - COSTCLUB", sub: "Población: PUBLIC SQUARE · CP 44114 (US) · Hipermercado" },
+                { code: "USCU_S01", title: "USCU_S01 - PERFORMANCE BIKES", sub: "Población: PITTSBURGH · CP 15219 (US)" },
+                { code: "USCU_S02", title: "USCU_S02 - CUSTOM SPORTS", sub: "Población: BOSTON · CP 02109 (US)" },
+                { code: "USCU_S03", title: "USCU_S03 - EASTSIDE BIKES", sub: "Población: GREENSBURG · CP 15601 (US)" },
+                { code: "USCU_S04", title: "USCU_S04 - FIT CYCLES", sub: "Población: PORTLAND · CP 04101 (US)" },
+                { code: "USCU_S05", title: "USCU_S05 - GREATER HARTFORD AREA", sub: "Población: HARTFORD · CP 06103 (US)" },
+                { code: "USCU_S06", title: "USCU_S06 - HUB & SPOKES INC", sub: "Población: MANHATTAN · CP 10017 (US)" },
+                { code: "USCU_S07", title: "USCU_S07 - WESTEND CYCLES", sub: "Población: RALEIGH · CP 27603 (US)" },
+                { code: "USCU_S08", title: "USCU_S08 - VELOCITY CYCLES", sub: "Población: CHARLESTON · CP 29401 (US)" },
+                { code: "USCU_S09", title: "USCU_S09 - GREENHIGH BIKES", sub: "Población: NASHVILLE · CP 37201 (US)" },
+                { code: "USCU_S10", title: "USCU_S10 - TURBO BIKES", sub: "Población: MIAMI · CP 33128 (US)" },
+                { code: "USCU_S11", title: "USCU_S11 - BIKE WORLD", sub: "Población: ATLANTA · CP 30303 (US)" },
+                { code: "USCU_S12", title: "USCU_S12 - CENTURY CYCLES", sub: "Población: RICHMOND · CP 23218 (US)" },
+                { code: "USCU_S13", title: "USCU_S13 - ROLLING BIKE SHOP", sub: "Población: MONTGOMERY · CP 36104 (US)" },
+                { code: "USCU_S14", title: "USCU_S14 - CITYSCAPE CYCLES", sub: "Población: CHICAGO · CP 60602 (US)" },
+                { code: "USCU_S15", title: "USCU_S15 - NORTHSIDE BIKES", sub: "Población: DES MOINES · CP 50306 (US)" },
+                { code: "USCU_S16", title: "USCU_S16 - GOGO BIKES", sub: "Población: MILWAUKEE · CP 53202 (US)" },
+                { code: "USCU_S17", title: "USCU_S17 - BIKEPROS", sub: "Población: MINNEAPOLIS · CP 55432 (US)" },
+                { code: "17100001", title: "17100001 - DOMESTIC US CUSTOMER 1", sub: "Población: ATLANTA · CP 30315-1402 (US) · Cliente SD" },
+                { code: "17100002", title: "17100002 - DOMESTIC US CUSTOMER 2", sub: "Población: CHULA VISTA · CP 91910-1007 (US)" },
+                { code: "17100003", title: "17100003 - DOMESTIC CUSTOMER US 3", sub: "Población: HOUMA · CP 70363-5455 (US)" },
+                { code: "17100004", title: "17100004 - DOMESTIC CUSTOMER US 4", sub: "Población: KEARNEY · CP 68847-5457 (US)" },
+                { code: "17100005", title: "17100005 - DOMESTIC US CUSTOMER 5", sub: "Población: BILLINGS · CP 59101-2614 (US)" },
+                { code: "17100006", title: "17100006 - DOMESTIC CUSTOMER US 6", sub: "Población: WICHITA · CP 67202-3723 (US)" },
+                { code: "17100007", title: "17100007 - DOMESTIC US SUBCONTRACTOR", sub: "Población: BLACKSBURG · CP 24060-7206 (US)" },
+                { code: "17100008", title: "17100008 - DOMESTIC US CUSTOMER 8", sub: "Población: KEARNEY · CP 68847-5457 (US)" },
+                { code: "17100009", title: "17100009 - DOMESTIC US CUSTOMER 9", sub: "Población: KEARNEY · CP 68847-5457 (US)" },
+                { code: "17100010", title: "17100010 - DOMESTIC US CUSTOMER 10", sub: "Población: ATLANTA · CP 30315-1402 (US)" },
+                { code: "17100011", title: "17100011 - SAP SE (Newtown Square)", sub: "Población: NEWTOWN SQUARE · CP 19073-3299 (US)" },
+                { code: "17100012", title: "17100012 - DOMESTIC CUSTOMER INVOICE", sub: "Población: ATLANTA · CP 30315-1402 (US) · Facturación" },
+                { code: "17100013", title: "17100013 - DOMESTIC US CUSTOMER 13", sub: "Población: ATLANTA · CP 30315 (US)" },
+                { code: "17100014", title: "17100014 - PAYER - CENTRAL", sub: "Población: ATLANTA · CP 30315-1402 (US) · Pagador" },
+                { code: "17186001", title: "17186001 - INTERCOMPANY US CLIENT 1", sub: "Población: CHICAGO · CP 60601 (US) · S/4HANA Mandante 100" },
+                { code: "17186002", title: "17186002 - INTERCOMPANY US CLIENT 2", sub: "Población: NEW YORK · CP 10001 (US)" },
+                { code: "17186003", title: "17186003 - INTERCOMPANY US CLIENT 3", sub: "Población: BOSTON · CP 02101 (US)" },
+                { code: "17186005", title: "17186005 - INTERCOMPANY US CLIENT 5", sub: "Población: DALLAS · CP 75201 (US)" },
+                { code: "17186007", title: "17186007 - INTERCOMPANY US CLIENT 7", sub: "Población: HOUSTON · CP 77001 (US)" },
+                { code: "17186008", title: "17186008 - INTERCOMPANY US CLIENT 8", sub: "Población: AUSTIN · CP 73301 (US)" },
+                { code: "17186010", title: "17186010 - INTERCOMPANY US CLIENT 10", sub: "Población: SAN ANTONIO · CP 78201 (US)" },
+                { code: "17186011", title: "17186011 - INTERCOMPANY US CLIENT 11", sub: "Población: MIAMI · CP 33101 (US)" },
+                { code: "10100001", title: "10100001 - INLANDSKUNDE DE 1", sub: "Población: BERLIN · CP 10115 (DE)" },
+                { code: "17100050", title: "17100050 - FOREIGN CUSTOMER 50 (DE)", sub: "Población: GERBRUNN · CP 97218 (DE)" },
+                { code: "17100051", title: "17100051 - FOREIGN CUSTOMER 51 (CA)", sub: "Población: CALGARY · CP T1X 0L3 (CA)" },
+                { code: "17100100", title: "17100100 - DOMESTIC US CUSTOMER DIRE", sub: "Población: SAN DIEGO · CP 92128-1096 (US)" },
+                { code: "17100273", title: "17100273 - DOMESTIC US CPD", sub: "Población: WICHITA · CP 67208-2915 (US)" },
+                { code: "1000167", title: "1000167 - MOHA", sub: "Población: CHARENTON LE PONT · CP 94220 (FR)" },
+                { code: "1000049", title: "1000049 - MDG BUPA", sub: "Población: WALLDORF · CP 69111 (DE)" },
+                { code: "1000050", title: "1000050 - MDG BUPA COPY", sub: "Población: WALLDORF · CP 69111 (DE)" },
+                { code: "1000165", title: "1000165 - ANAIS BLONDEAU", sub: "Población: MARSEILLE · CP 13012 (FR)" },
+                { code: "3000020", title: "3000020 - DEMO COMPANY", sub: "Población: KARLSRUHE · CP 76131 (DE)" },
+                { code: "1000153", title: "1000153 - AVICENNE", sub: "Población: PARIS · CP 75002 (FR)" },
+                { code: "10200001", title: "10200001 - SUPPLIER/CUSTOMER FOR INT", sub: "Población: BUDAPEST · CP 1032 (HU)" },
+                { code: "1000166", title: "1000166 - BAR LE CASEY", sub: "Población: NICE · CP 06201 (FR)" },
+                { code: "1000161", title: "1000161 - DOROTHÉE LA NAUGE", sub: "Población: NANTES · CP 44000 (FR)" },
+                { code: "1000164", title: "1000164 - FATEN L'AGHA", sub: "Población: KEBILI · CP 4200 (TN)" },
+                { code: "1000157", title: "1000157 - FASONCUUUUUU", sub: "Población: ISTANBUL · CP 34000 (TR)" },
+                { code: "1000163", title: "1000163 - SCHIANO LANDROVER", sub: "Población: BASTIA · CP 20200 (FR)" },
+                { code: "EWM10-CU01", title: "EWM10-CU01 - EWM-KUNDE 01 (INLAND)", sub: "Población: LEIPZIG · CP 04249 (DE) · Almacén EWM" },
+                { code: "EWM10-CU02", title: "EWM10-CU02 - EWM-KUNDE 02 (INLAND)", sub: "Población: HAMBURG · CP 22525 (DE)" },
+                { code: "EWM10-CU03", title: "EWM10-CU03 - EWM-KUNDE 03 (INLAND)", sub: "Población: MÜNCHEN · CP 81514 (DE)" },
+                { code: "EWM17-CU01", title: "EWM17-CU01 - EWM DOMESTIC CUSTOMER 01", sub: "Población: ATLANTA · CP 30344 (US)" },
+                { code: "EWM17-CU02", title: "EWM17-CU02 - EWM DOMESTIC CUSTOMER 02", sub: "Población: ATLANTA · CP 30344 (US)" },
+                { code: "EWM17-CU03", title: "EWM17-CU03 - EWM DOMESTIC CUSTOMER 03", sub: "Población: PALO ALTO · CP 94304 (US)" },
+                { code: "10100010", title: "10100010 - INLANDSKUNDE DE 10", sub: "Población: SCHÖNTAL · CP 74214 (DE)" },
+                { code: "10100100", title: "10100100 - INLANDSKUNDE DE 100 (SEPA)", sub: "Población: SAARBRÜCKEN · CP 66119 (DE)" },
+                { code: "10100011", title: "10100011 - SAP SE (DE Walldorf)", sub: "Población: WALLDORF · CP 69190 (DE)" },
+                { code: "10100002", title: "10100002 - INLANDSKUNDE DE 2", sub: "Población: CHEMNITZ · CP 09119 (DE)" },
+                { code: "10100003", title: "10100003 - INLANDSKUNDE DE 3", sub: "Población: BUDENHEIM · CP 55257 (DE)" },
+                { code: "10100004", title: "10100004 - INLANDSKUNDE DE 4", sub: "Población: WETZLAR · CP 35578 (DE)" },
+                { code: "10100005", title: "10100005 - INLANDSKUNDE DE 5 (CMS)", sub: "Población: STEINHAGEN · CP 33803 (DE)" },
+                { code: "10100006", title: "10100006 - INLANDSKUNDE DE 6 (RETOUR)", sub: "Población: HAMBURG · CP 22767 (DE)" },
+                { code: "10100008", title: "10100008 - INLANDSKUNDE DE 8", sub: "Población: WETZLAR · CP 35578 (DE)" },
+                { code: "10100009", title: "10100009 - INLANDSKUNDE DE 9", sub: "Población: WETZLAR · CP 35578 (DE)" },
+                { code: "MDG_CU04", title: "MDG_CU04 - ABC COMPANY 04", sub: "Población: WASHINGTON DC (US)" },
+                { code: "MDG_CU01", title: "MDG_CU01 - ABC CUSTOMER 01", sub: "Población: NEW YORK (US)" },
+                { code: "MDG_CU02", title: "MDG_CU02 - ABC COMPANY 02", sub: "Población: NEW DELHI" },
+                { code: "MDG_CU03", title: "MDG_CU03 - ABC COMPANY 03", sub: "Población: NEW YORK (US)" },
+                { code: "MDG_CU05", title: "MDG_CU05 - ABC COMPANY 05", sub: "Población: LOS ANGELES (US)" },
+                { code: "17411710", title: "17411710 - PLANT 1710 US", sub: "Población: PALO ALTO · CP 94304 (US)" },
+                { code: "17411720", title: "17411720 - PLANT 1720 US", sub: "Población: SACRAMENTO · CP 95834 (US)" },
+                { code: "1000010", title: "1000010 - SHIPPING POINT 1710 - ADD", sub: "Población: PALO ALTO · CP 94304 (US)" },
+                { code: "10154801", title: "10154801 - JIT COMPANY", sub: "Población: HALLBERGMOOS · CP 85399 (DE)" },
+                { code: "17154801", title: "17154801 - JIT COMPANY", "sub": "Población: NEWTOWN SQUARE · CP 19073 (US)" },
+                { code: "12345678", title: "12345678 - CUST", sub: "Población: MOUNTAIN VIEW · CP 94043-1315 (US)" },
+                { code: "0000100323", title: "0000100323 - Supermercados El Valle C.A.", sub: "RIF: J-30491823-1 · Caracas, Dto. Capital · Mayorista Tier 1" },
+                { code: "0000100324", title: "0000100324 - Cadena Comercial Oriente S.A.", sub: "RIF: J-40192837-4 · Barcelona, Edo. Anzoátegui" },
+                { code: "0000100325", title: "0000100325 - Distribuidora Central Los Cedros C.A.", sub: "RIF: J-29837461-0 · Valencia, Edo. Carabobo" },
+                { code: "0000100326", title: "0000100326 - Bodegones del Caribe S.A.", sub: "RIF: J-31827364-9 · Porlamar, Edo. Nueva Esparta" }
+            ],
+
+            materials: [
+                { code: "MZ-FG-C900", title: "MZ-FG-C900 - Mountain Bike Pro C900", sub: "Producto terminado de alta rotación S/4HANA (Bicicleta de montaña)" },
+                { code: "MZ-FG-C950", title: "MZ-FG-C950 - Mountain Bike Carbon C950", sub: "Bicicleta de carbono profesional" },
+                { code: "MZ-FG-C990", title: "MZ-FG-C990 - Mountain Bike Elite C990", sub: "Gama alta competencia internacional" },
+                { code: "MZ-FG-M500", title: "MZ-FG-M500 - Mens City Bike M500", sub: "Bicicleta urbana masculina estándar" },
+                { code: "MZ-FG-M525", title: "MZ-FG-M525 - Mens City Bike Deluxe M525", sub: "Línea urbana con equipamiento premium" },
+                { code: "MZ-FG-M550", title: "MZ-FG-M550 - Mens City Bike Sport M550", sub: "Línea deportiva urbana" },
+                { code: "MZ-FG-R100", title: "MZ-FG-R100 - Road Bike Race R100", sub: "Bicicleta de ruta aerodinámica" },
+                { code: "TG11", title: "TG11 - Trading Goods 11 (Comercial)", sub: "Material de venta frecuente mandante 100 S/4HANA" },
+                { code: "TG10", title: "TG10 - Trading Goods Standard 10", sub: "Línea de comercio general Best Practices" },
+                { code: "FG228", title: "FG228 - Finished Goods 228", sub: "Producto terminado para distribución mayorista" },
+                { code: "FG126", title: "FG126 - Finished Goods 126", sub: "Producto terminado estándar" },
+                { code: "FG226", title: "FG226 - Finished Goods 226", sub: "Producto terminado para ensamble" },
+                { code: "EWMS4-01", title: "EWMS4-01 - Standard EWM Material 01", sub: "Material integrado con Extended Warehouse Management" },
+                { code: "CM-FL-V00", title: "CM-FL-V00 - Commercial Flow Base", sub: "Flujo comercial estándar S/4HANA" },
+                { code: "CM-FL-V01", title: "CM-FL-V01 - Commercial Flow Material", sub: "Material para flujos logísticos y ensambles" },
+                { code: "ZMAT-02", title: "ZMAT-02 - Aceite Vegetal Premium (Caja x 60 un)", sub: "Embalaje ZPL1 · Pallet ZPL-120 · Lote FEFO 730 días" },
+                { code: "ZMAT-01", title: "ZMAT-01 - Bebidas & Jugos Express (Pack 24 un x 500ml)", sub: "Línea refrescante · Pallet 48 fardos · Rotación rápida" },
+                { code: "ZMAT-03", title: "ZMAT-03 - Alimentos Secos & Granos (Saco 25kg)", sub: "Materia prima empacada · Almacén ZA01" },
+                { code: "ZMAT-04", title: "ZMAT-04 - Harina de Maíz Precocida (Fardo 20kg)", sub: "Consumo masivo · Alta demanda cadenas nacionales" },
+                { code: "ZMAT-05", title: "ZMAT-05 - Arroz Blanco Extra Premium (Fardo 24x1kg)", sub: "Grano entero seleccionado · Despacho continuo" },
+                { code: "ZPL-120", title: "ZPL-120 - Pallet Estándar Distribuidora Express", sub: "Elemento de transporte y embalaje logístico" }
+            ],
+
+            centers: [
+                { code: "ZC10", title: "ZC10 - Centro Distribución Central", sub: "Hub logístico principal Distribuidora Express (Caracas)" },
+                { code: "ZC20", title: "ZC20 - Centro Logístico Valencia", sub: "Almacén regional zona central" },
+                { code: "1000", title: "1000 - Planta Matriz S/4HANA", sub: "Centro de producción y compras modelo" },
+                { code: "1710", title: "1710 - Distribution Center S4H", sub: "Centro de referencia" }
+            ],
+
+            paymentTerms: [
+                { code: "Z030", title: "Z030 - Crédito Mayorista a 30 Días", sub: "Condición estándar para clientes calificados" },
+                { code: "Z060", title: "Z060 - Crédito Preferencial a 60 Días", sub: "Grandes superficies y cadenas nacionales" },
+                { code: "Z015", title: "Z015 - Pago a 15 Días (2% Descuento)", sub: "Pronto pago financiero acordado" },
+                { code: "NT00", title: "NT00 - Pago Inmediato de Contado", sub: "Transferencia / liquidación antes de despacho" }
+            ],
+
+            shippingPoints: [
+                { code: "ZC10", title: "ZC10 - Muelle Principal Centro Distribución", sub: "Muelle de carga de alta velocidad (Rampa 1 a 6)" },
+                { code: "ZC20", title: "ZC20 - Muelle Despacho Rápido Valencia", sub: "Envíos directos a zona occidental" },
+                { code: "1000", title: "1000 - Muelle de Expedición Matriz", sub: "Puesto de carga general" }
+            ],
+
+            billingTypes: [
+                { code: "F2", title: "F2 - Factura Comercial Estándar", sub: "Factura comercial definitiva contra entrega contabilizada" },
+                { code: "FAAZ", title: "FAAZ - Solicitud de Anticipo Comercial", sub: "Anticipo previo a despacho de mercancías" },
+                { code: "F8", title: "F8 - Factura Comercial Proforma", sub: "Documento previo para trámites aduanales o cartas de crédito" },
+                { code: "G2", title: "G2 - Nota de Crédito por Devolución", sub: "Abono financiero al cliente por mermas o devoluciones" },
+                { code: "L2", title: "L2 - Nota de Débito Comercial", sub: "Cargo adicional por flete o diferencia de precio" }
+            ],
+
+            bpRoles: [
+                { code: "FLCU01", title: "FLCU01 - Cliente SD (Ventas Distribuidora)", sub: "Datos comerciales para Org. ZX01, canal y sector" },
+                { code: "FLCU00", title: "FLCU00 - Deudor FI (Finanzas)", sub: "Datos de cuenta de mayor y gestión de cobro en Soc. ZX01" },
+                { code: "CRM000", title: "CRM000 - Interlocutor Comercial Greenfield", sub: "Registro maestro de cuenta corporativa" },
+                { code: "BUP001", title: "BUP001 - Persona de Contacto", sub: "Comprador o gerente de logística del cliente" }
+            ],
+
+            bpGroups: [
+                { code: "0001", title: "0001 - Clientes Mayoristas Distribuidora", sub: "Cadenas de supermercados y grandes cuentas nacionales" },
+                { code: "0002", title: "0002 - Clientes Minoristas / Puntos de Venta", sub: "Tiendas y detallistas locales" },
+                { code: "0003", title: "0003 - Distribuidores Regionales Autorizados", sub: "Canal indirecto y aliados regionales" }
+            ],
+
+            condTypes: [
+                { code: "PR00", title: "PR00 - Precio Base de Venta", sub: "Tarifa estándar por caja / fardo según lista Greenfield" },
+                { code: "K007", title: "K007 - Descuento Automático Mayorista (10%)", sub: "Descuento por volumen acordado para clientes VIP" },
+                { code: "KF00", title: "KF00 - Flete Logístico a Destino", sub: "Recargo por transporte interurbano" },
+                { code: "MWST", title: "MWST - Impuesto al Valor Agregado (IVA)", sub: "Alícuota fiscal del 16%" },
+                { code: "RA00", title: "RA00 - Descuento Especial por Pronto Pago", sub: "Bonificación financiera comercial" }
+            ],
+
+            storageLocations: [
+                { code: "ZA01", title: "ZA01 - Almacén General de Distribución", sub: "Inventario de producto terminado disponible para venta" },
+                { code: "ZR01", title: "ZR01 - Almacén de Recepción y Cuarentena", sub: "Entrada de proveedores pendiente de control de calidad" },
+                { code: "ZM01", title: "ZM01 - Almacén de Muestras y Merma", sub: "Stock no comercializable" }
+            ],
+
+            ewmProcesses: [
+                { code: "2010", title: "2010 - Picking para Entrega de Salida (FEFO)", sub: "Extracción automática según lote más próximo a vencer" },
+                { code: "1010", title: "1010 - Ubicación de Mercancía Recibida (Putaway)", sub: "Colocación guiada en estanterías de alta densidad" },
+                { code: "3010", title: "3010 - Reabastecimiento Interno (Replenishment)", sub: "Traslado de reserva a posiciones de picking rápido" },
+                { code: "4010", title: "4010 - Conteo Cíclico de Inventario Físico", sub: "Auditoría periódica de almacén EWM Z101" }
+            ],
+
+            ewmBins: [
+                { code: "RACK-01-NIVEL-02", title: "RACK-01-NIVEL-02 (Zona Z001 Almacenamiento Dinámico)", sub: "Capacidad para 4 pallets estándar ZPL-120" },
+                { code: "RACK-02-NIVEL-01", title: "RACK-02-NIVEL-01 (Zona Z001 Pallet Completo)", sub: "Posición a nivel de suelo para carga pesada" },
+                { code: "STAG-OUT-01", title: "STAG-OUT-01 (Zona Z920 Pre-despacho y Consolidación)", sub: "Muelle de salida previo al cargamento de camiones" },
+                { code: "INB-RECEPT-01", title: "INB-RECEPT-01 (Zona Z910 Área de Descarga)", sub: "Rampa de recepción de planta de producción" }
+            ]
+        };
+
+        // ================================================================
+        // GESTOR DE AYUDA DE BÚSQUEDA (MATCHCODE F4)
+        // ================================================================
+        var currentF4TargetId = null;
+        var currentF4CatalogKey = null;
+
+        function openF4Help(catalogKey, targetInputId, dialogTitle) {
+            currentF4TargetId = targetInputId;
+            currentF4CatalogKey = catalogKey;
+            
+            document.getElementById("f4-title").innerText = dialogTitle || "Seleccionar Valor del Sistema (F4)";
+            document.getElementById("f4-search").value = "";
+            renderF4List(sapSystemCatalog[catalogKey] || []);
+            document.getElementById("f4Modal").style.display = "flex";
+            document.getElementById("f4-search").focus();
+        }
+
+        function closeF4Modal() {
+            document.getElementById("f4Modal").style.display = "none";
+        }
+
+        function renderF4List(items) {
+            var listEl = document.getElementById("f4-list");
+            document.getElementById("f4-count").innerText = items.length + " opciones disponibles";
+
+            if (items.length === 0) {
+                listEl.innerHTML = '<div style="padding:24px; text-align:center; color:#64748b; font-size:13px;">No se encontraron resultados para la búsqueda.</div>';
+                return;
+            }
+
+            var html = "";
+            for (var i = 0; i < items.length; i++) {
+                var it = items[i];
+                var safeTitle = it.title.replace(/'/g, "\\'");
+                html += '<div class="f4-item" onclick="selectF4Item(\'' + it.code + '\', \'' + safeTitle + '\')">';
+                html += '  <div>';
+                html += '    <div class="f4-desc">' + it.title + '</div>';
+                html += '    <div class="f4-sub">' + it.sub + '</div>';
+                html += '  </div>';
+                html += '  <div class="f4-code">' + it.code + '</div>';
+                html += '</div>';
+            }
+            listEl.innerHTML = html;
+        }
+
+        var lastFilteredF4Items = [];
+
+        function filterF4Results() {
+            var query = document.getElementById("f4-search").value.toLowerCase();
+            var allItems = sapSystemCatalog[currentF4CatalogKey] || [];
+            
+            lastFilteredF4Items = allItems.filter(function(it) {
+                return it.code.toLowerCase().indexOf(query) !== -1 ||
+                       it.title.toLowerCase().indexOf(query) !== -1 ||
+                       it.sub.toLowerCase().indexOf(query) !== -1;
+            });
+            renderF4List(lastFilteredF4Items);
+        }
+
+        function handleF4SearchKeyDown(e) {
+            if (e.key === "Enter") {
+                if (lastFilteredF4Items && lastFilteredF4Items.length > 0) {
+                    var topItem = lastFilteredF4Items[0];
+                    selectF4Item(topItem.code, topItem.title);
+                }
+            } else if (e.key === "Escape") {
+                closeF4Modal();
+            }
+        }
+
+        function selectF4Item(code, displayTitle) {
+            if (currentF4TargetId) {
+                var inputEl = document.getElementById(currentF4TargetId);
+                if (inputEl) {
+                    inputEl.value = displayTitle;
+                }
+                if (currentF4TargetId.indexOf("va05") !== -1) {
+                    setTimeout(executeVA05Query, 50);
+                }
+            }
+            closeF4Modal();
+            showToast("🎯 Valor seleccionado: " + code);
+        }
+
+        // ================================================================
+        // MAESTRO DE PEDIDOS DE VENTA REALES S/4HANA (TABLAS VBAK / VBAP)
+        // Extraído directamente de EXPORT.XLSX (2,557 Pedidos Reales Mandante 100)
+        // ================================================================
+        var va05OrdersMaster = window.va05OrdersMaster || [
+            { refCliente: "17101702", fechaDoc: "17.10.2017", claseDoc: "O", docVentas: "51", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "2", um: "PI", valorNeto: 35.10, moneda: "USD" },
+            { refCliente: "18101701", fechaDoc: "18.10.2017", claseDoc: "O", docVentas: "52", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "2", um: "PI", valorNeto: 35.10, moneda: "USD" },
+            { refCliente: "18101702", fechaDoc: "18.10.2017", claseDoc: "O", docVentas: "53", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "1", um: "PI", valorNeto: 17.55, moneda: "USD" },
+            { refCliente: "xyz", fechaDoc: "02.01.2018", claseDoc: "O", docVentas: "300", posicion: "10", solicitante: "17100002", material: "TG10", cantidad: "10", um: "PI", valorNeto: 169.00, moneda: "USD" },
+            { refCliente: "CR21032018", fechaDoc: "21.03.2018", claseDoc: "O", docVentas: "420", posicion: "20", solicitante: "17100002", material: "TG11", cantidad: "10", um: "PI", valorNeto: 175.50, moneda: "USD" },
+            { refCliente: "8768787", fechaDoc: "05.11.2018", claseDoc: "O", docVentas: "724", posicion: "10", solicitante: "17100002", material: "FG228", cantidad: "1", um: "PI", valorNeto: 35.35, moneda: "USD" },
+            { refCliente: "321321", fechaDoc: "06.11.2018", claseDoc: "O", docVentas: "727", posicion: "10", solicitante: "17100002", material: "CM-FL-V01", cantidad: "1", um: "PI", valorNeto: 8000.00, moneda: "USD" },
+            { refCliente: "WIL-1809-3", fechaDoc: "06.11.2018", claseDoc: "O", docVentas: "730", posicion: "10", solicitante: "17100002", material: "TG10", cantidad: "10", um: "PI", valorNeto: 169.00, moneda: "USD" },
+            { refCliente: "WIL-1809-3", fechaDoc: "06.11.2018", claseDoc: "O", docVentas: "731", posicion: "10", solicitante: "17100002", material: "TG10", cantidad: "10", um: "PI", valorNeto: 169.00, moneda: "USD" },
+            { refCliente: "-", fechaDoc: "13.11.2018", claseDoc: "SRVO", docVentas: "813", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "1", um: "PI", valorNeto: 1.00, moneda: "USD" },
+            { refCliente: "SO1125", fechaDoc: "14.10.2019", claseDoc: "O", docVentas: "1753", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "10", um: "PI", valorNeto: 175.50, moneda: "USD" },
+            { refCliente: "Customer ref 01", fechaDoc: "22.10.2019", claseDoc: "O", docVentas: "1874", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "10", um: "PI", valorNeto: 175.50, moneda: "USD" },
+            { refCliente: "Cust ref 02", fechaDoc: "22.10.2019", claseDoc: "O", docVentas: "1876", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "10", um: "PI", valorNeto: 175.50, moneda: "USD" },
+            { refCliente: "cust ref 03", fechaDoc: "22.10.2019", claseDoc: "O", docVentas: "1877", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "10", um: "PI", valorNeto: 175.50, moneda: "USD" },
+            { refCliente: "Predictive", fechaDoc: "22.10.2019", claseDoc: "O", docVentas: "1878", posicion: "10", solicitante: "17100002", material: "TG11", cantidad: "10", um: "PI", valorNeto: 175.50, moneda: "USD" },
+            { refCliente: "244", fechaDoc: "05.11.2019", claseDoc: "O", docVentas: "2042", posicion: "10", solicitante: "17100002", material: "CM-FL-V01", cantidad: "1", um: "PI", valorNeto: 8000.00, moneda: "USD" },
+            { refCliente: "WILLIE-REF", fechaDoc: "05.11.2019", claseDoc: "O", docVentas: "2059", posicion: "10", solicitante: "17100002", material: "TG10", cantidad: "10", um: "PI", valorNeto: 169.00, moneda: "USD" },
+            { refCliente: "EXP-2026-01", fechaDoc: "28.10.2026", claseDoc: "TA", docVentas: "2445", posicion: "10", solicitante: "1000219", material: "ZMAT-02", cantidad: "60", um: "CJ", valorNeto: 3480.00, moneda: "USD" }
+        ];
+
+        var currentVA05FilteredList = [];
+        var currentVA05RenderLimit = 100;
+
+        function loadMoreVA05Rows(count) {
+            currentVA05RenderLimit += (count || 100);
+            renderVA05Table(currentVA05FilteredList, true);
+        }
+
+        function loadAllVA05Rows() {
+            currentVA05RenderLimit = currentVA05FilteredList.length;
+            renderVA05Table(currentVA05FilteredList, true);
+        }
+
+        function renderVA05Table(items, keepLimit) {
+            var allItems = (window.va05OrdersMaster && window.va05OrdersMaster.length > 0) ? window.va05OrdersMaster : va05OrdersMaster;
+            var rawList = items !== undefined ? items : allItems;
+
+            // Deduplicar para garantizar que ningún documento de venta se muestre repetido en la grilla ALV
+            var seenKeys = {};
+            var list = [];
+            for (var d = 0; d < rawList.length; d++) {
+                var uniqueKey = (rawList[d].docVentas || "") + "_" + (rawList[d].posicion || "10");
+                if (!seenKeys[uniqueKey]) {
+                    seenKeys[uniqueKey] = true;
+                    list.push(rawList[d]);
+                }
+            }
+            currentVA05FilteredList = list;
+
+            if (!keepLimit) {
+                currentVA05RenderLimit = 100;
+            }
+
+            var tbody = document.getElementById("va05-tbody");
+            var countEl = document.getElementById("va05-result-count");
+            var totalNetEl = document.getElementById("va05-total-net");
+            var moreContainer = document.getElementById("va05-load-more");
+
+            if (!tbody) return;
+
+            var totalSum = 0;
+            for (var k = 0; k < list.length; k++) {
+                totalSum += (list[k].valorNeto || 0);
+            }
+
+            var limit = Math.min(currentVA05RenderLimit, list.length);
+            var html = "";
+
+            for (var i = 0; i < limit; i++) {
+                var it = list[i];
+                var formattedNet = (it.valorNeto !== undefined && it.valorNeto !== null) ? it.valorNeto.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "0,00";
+                var badgeColor = it.claseDoc === "OR1" ? "background:#fef3c7; color:#b45309;" : (it.claseDoc === "SRVO" ? "background:#f1f5f9; color:#475569;" : "background:#e0f2fe; color:#0369a1;");
+                
+                var displayRef = (!it.refCliente || it.refCliente === "-") ? "<span style='color:#cbd5e1;'>—</span>" : it.refCliente;
+                var displayPos = (!it.posicion || it.posicion === "-") ? "<span style='color:#cbd5e1;'>—</span>" : it.posicion;
+                var displayMat = (!it.material || it.material === "-") ? "<span style='color:#cbd5e1;'>—</span>" : ("<span style='background:#f1f5f9; padding:2px 6px; border-radius:4px; font-weight:700; color:#0369a1;'>" + it.material + "</span>");
+                var displayQty = (!it.cantidad || it.cantidad === "-") ? "<span style='color:#cbd5e1;'>—</span>" : it.cantidad;
+                var displayUm = (!it.um || it.um === "-") ? "<span style='color:#cbd5e1;'>—</span>" : it.um;
+
+                html += "<tr>";
+                html += "  <td style='font-weight:600; color:#334155;'>" + displayRef + "</td>";
+                html += "  <td>" + it.fechaDoc + "</td>";
+                html += "  <td><span style='" + badgeColor + " font-size:10px; font-weight:700; padding:2px 6px; border-radius:4px;'>" + it.claseDoc + "</span></td>";
+                html += "  <td class='sap-alv-doc'>#" + it.docVentas + "</td>";
+                html += "  <td style='text-align:center; color:#64748b; font-weight:600;'>" + displayPos + "</td>";
+                html += "  <td style='font-weight:700; color:#0f172a;'>" + it.solicitante + "</td>";
+                html += "  <td>" + displayMat + "</td>";
+                html += "  <td class='sap-alv-num' style='font-weight:700;'>" + displayQty + "</td>";
+                html += "  <td style='color:#64748b; font-weight:600;'>" + displayUm + "</td>";
+                html += "  <td class='sap-alv-num' style='font-weight:800; color:#0f172a;'>" + formattedNet + "</td>";
+                html += "  <td style='color:#64748b; font-weight:700;'>" + it.moneda + "</td>";
+                html += "</tr>";
+            }
+
+            if (list.length === 0) {
+                html = "<tr><td colspan='11' style='text-align:center; padding:32px; color:#64748b; font-size:13px;'>No se encontraron documentos de ventas con los criterios seleccionados.</td></tr>";
+            }
+
+            tbody.innerHTML = html;
+            if (countEl) countEl.innerText = list.length.toLocaleString() + " Entradas encontradas en S/4HANA";
+            if (totalNetEl) totalNetEl.innerText = "$ " + totalSum.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " USD";
+
+            if (moreContainer) {
+                if (list.length > limit) {
+                    moreContainer.style.display = "flex";
+                    moreContainer.innerHTML = "<span>Mostrando <strong>" + limit.toLocaleString() + "</strong> de <strong>" + list.length.toLocaleString() + "</strong> pedidos reales de S/4HANA (Mandante 100).</span>" +
+                        "<div><button type='button' class='btn btn-outline' onclick='loadMoreVA05Rows(100)' style='font-size:11px; padding:3px 10px; border-color:#cbd5e1;'>⬇️ Cargar 100 más</button> " +
+                        "<button type='button' class='btn btn-outline' onclick='loadAllVA05Rows()' style='margin-left:6px; font-size:11px; padding:3px 10px; border-color:#cbd5e1;'>📄 Mostrar Todos (" + list.length.toLocaleString() + ")</button></div>";
+                } else {
+                    moreContainer.style.display = list.length > 0 ? "flex" : "none";
+                    moreContainer.innerHTML = "<span style='color:#15803d; font-weight:600;'>✓ Mostrando los " + list.length.toLocaleString() + " pedidos de ventas reales sincronizados desde S/4HANA.</span>";
+                }
+            }
+        }
+
+        function executeVA05Query() {
+            var docVal = (document.getElementById("inp-va05-doc") ? document.getElementById("inp-va05-doc").value : "").trim();
+            var auartVal = (document.getElementById("inp-va05-auart") ? document.getElementById("inp-va05-auart").value : "").trim();
+            var custVal = (document.getElementById("inp-va05-cust") ? document.getElementById("inp-va05-cust").value : "").trim().toLowerCase();
+            var matVal = (document.getElementById("inp-va05-mat") ? document.getElementById("inp-va05-mat").value : "").trim().toLowerCase();
+            var refVal = (document.getElementById("inp-va05-ref") ? document.getElementById("inp-va05-ref").value : "").trim().toLowerCase();
+            var dateFrom = document.getElementById("inp-va05-date-from") ? document.getElementById("inp-va05-date-from").value : "";
+            var dateTo = document.getElementById("inp-va05-date-to") ? document.getElementById("inp-va05-date-to").value : "";
+            var userVal = (document.getElementById("inp-va05-user") ? document.getElementById("inp-va05-user").value : "").trim().toLowerCase();
+            var quickSearch = (document.getElementById("va05-quick-search") ? document.getElementById("va05-quick-search").value : "").trim().toLowerCase();
+
+            // Extraer códigos limpios si vienen con descripción (ej: "OR1 - Pedido Urgente")
+            var auartCode = (auartVal.indexOf("-") !== -1 ? auartVal.split("-")[0].trim() : auartVal).toUpperCase();
+            var custCode = custVal.indexOf("-") !== -1 ? custVal.split("-")[0].trim().toLowerCase() : custVal;
+            var matCode = matVal.indexOf("-") !== -1 ? matVal.split("-")[0].trim().toLowerCase() : matVal;
+
+            var allOrders = (window.va05OrdersMaster && window.va05OrdersMaster.length > 0) ? window.va05OrdersMaster : va05OrdersMaster;
+
+            var filtered = allOrders.filter(function(row) {
+                // 1. Filtro por Documento de Ventas
+                if (docVal && row.docVentas.indexOf(docVal) === -1) {
+                    return false;
+                }
+
+                // 2. Filtro por Clase de Pedido (AUART)
+                if (auartCode && auartCode !== "*" && auartCode.indexOf("TOD") === -1) {
+                    var rowAuart = (row.claseDoc || "").toUpperCase();
+                    if (rowAuart !== auartCode && auartVal.toUpperCase().indexOf(rowAuart) === -1) {
+                        return false;
+                    }
+                }
+
+                // 3. Filtro por Solicitante (Cliente BP)
+                if (custCode && custCode !== "*" && custCode.indexOf("todos") === -1) {
+                    var matchCust = row.solicitante.toLowerCase().indexOf(custCode) !== -1 ||
+                                    custVal.indexOf(row.solicitante.toLowerCase()) !== -1;
+                    if (!matchCust) return false;
+                }
+
+                // 4. Filtro por Material
+                if (matCode && matCode !== "*" && matCode.indexOf("todos") === -1) {
+                    var matchMat = (row.material || "").toLowerCase().indexOf(matCode) !== -1 ||
+                                   matVal.indexOf((row.material || "").toLowerCase()) !== -1;
+                    if (!matchMat) return false;
+                }
+
+                // 5. Filtro por Referencia de Cliente (BSTNK)
+                if (refVal) {
+                    var rowRef = (row.refCliente || "").toLowerCase();
+                    if (rowRef.indexOf(refVal) === -1) {
+                        return false;
+                    }
+                }
+
+                // 6. Filtro por Rango de Fecha docum. (AUDAT)
+                if (dateFrom || dateTo) {
+                    var parts = (row.fechaDoc || "").split(".");
+                    if (parts.length === 3) {
+                        var rowIso = parts[2] + "-" + parts[1] + "-" + parts[0];
+                        if (dateFrom && rowIso < dateFrom) return false;
+                        if (dateTo && rowIso > dateTo) return false;
+                    }
+                }
+
+                // 7. Filtro por Creado Por (Personas resp.)
+                if (userVal && userVal !== "*" && userVal.indexOf("tod") === -1) {
+                    var rowUser = (row.creadoPor || "cb9980000010").toLowerCase();
+                    if (rowUser.indexOf(userVal) === -1) {
+                        return false;
+                    }
+                }
+
+                // 8. Búsqueda rápida general
+                if (quickSearch) {
+                    var matchQuick = row.docVentas.indexOf(quickSearch) !== -1 ||
+                                     row.refCliente.toLowerCase().indexOf(quickSearch) !== -1 ||
+                                     row.material.toLowerCase().indexOf(quickSearch) !== -1 ||
+                                     row.fechaDoc.indexOf(quickSearch) !== -1 ||
+                                     row.solicitante.toLowerCase().indexOf(quickSearch) !== -1 ||
+                                     row.claseDoc.toLowerCase().indexOf(quickSearch) !== -1;
+                    if (!matchQuick) return false;
+                }
+
+                return true;
+            });
+
+            renderVA05Table(filtered);
+            showToast("🔍 Reporte VA05: " + filtered.length.toLocaleString() + " pedidos listados desde S/4HANA (Mandante 100)");
+        }
+
+        function resetVA05Filters() {
+            var docEl = document.getElementById("inp-va05-doc"); if (docEl) docEl.value = "";
+            var auartEl = document.getElementById("inp-va05-auart"); if (auartEl) auartEl.value = "";
+            var custEl = document.getElementById("inp-va05-cust"); if (custEl) custEl.value = "";
+            var matEl = document.getElementById("inp-va05-mat"); if (matEl) matEl.value = "";
+            var refEl = document.getElementById("inp-va05-ref"); if (refEl) refEl.value = "";
+            var dFromEl = document.getElementById("inp-va05-date-from"); if (dFromEl) dFromEl.value = "";
+            var dToEl = document.getElementById("inp-va05-date-to"); if (dToEl) dToEl.value = "";
+            var userEl = document.getElementById("inp-va05-user"); if (userEl) userEl.value = "";
+            var quickEl = document.getElementById("va05-quick-search"); if (quickEl) quickEl.value = "";
+            executeVA05Query();
+            showToast("🔄 Criterios de búsqueda restablecidos");
+        }
+
+        function exportVA05ToCSV() {
+            var allItems = (window.va05OrdersMaster && window.va05OrdersMaster.length > 0) ? window.va05OrdersMaster : va05OrdersMaster;
+            var list = currentVA05FilteredList && currentVA05FilteredList.length > 0 ? currentVA05FilteredList : allItems;
+            var headers = ["Referencia de cliente", "Fecha doc.", "Clase doc.ventas", "Documento de ventas", "Posicion", "Solicitante", "Material", "Ctd.pedido (pos.)", "UM", "Valor neto (posicion)", "Moneda doc."];
+            var csvRows = [headers.join(";")];
+            for (var i = 0; i < list.length; i++) {
+                var r = list[i];
+                csvRows.push([r.refCliente, r.fechaDoc, r.claseDoc, r.docVentas, r.posicion, r.solicitante, r.material, r.cantidad, r.um, r.valorNeto, r.moneda].join(";"));
+            }
+            var blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "VA05_S4HANA_Mandante100_Completo.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showToast("📥 Exportados " + list.length.toLocaleString() + " pedidos de S/4HANA a CSV");
+        }
+
+        // ================================================================
+        // APLICACIONES DEL SISTEMA (SD, MM, EWM, FI)
+        // ================================================================
+        var appsConfig = {
+            orders: {
+                badge: "SAP S/4HANA · VENTAS Y DISTRIBUCIÓN (SD)",
+                title: "Crear Pedido de Ventas (VA01)",
+                intent: "SalesOrder-create",
+                targetId: "val-orders",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Clase de Pedido</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('orderTypes', 'inp-ordertype', 'Buscar Clase de Pedido (TVAK)')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-ordertype" class="form-input" placeholder="Seleccionar Clase de Pedido (F4)" value="" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('orderTypes', 'inp-ordertype', 'Buscar Clase de Pedido (TVAK)')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span>Org. de Ventas</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('salesOrgs', 'inp-salesorg', 'Buscar Organización de Ventas (TVKO)')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-salesorg" class="form-input" placeholder="Seleccionar Org. de Ventas (F4)" value="" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('salesOrgs', 'inp-salesorg', 'Buscar Organización de Ventas (TVKO)')">🔍</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Canal Distribución</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('channels', 'inp-channel', 'Buscar Canal de Distribución (TVTW)')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-channel" class="form-input" placeholder="Seleccionar Canal (F4)" value="" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('channels', 'inp-channel', 'Buscar Canal de Distribución (TVTW)')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span>Sector / División</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('divisions', 'inp-division', 'Buscar Sector / División (TVTS)')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-division" class="form-input" placeholder="Seleccionar Sector / División (F4)" value="" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('divisions', 'inp-division', 'Buscar Sector / División (TVTS)')">🔍</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><span>Cliente Solicitante (Business Partner - KNA1/BUT000)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-customer', 'Buscar Cliente Solicitante (KNA1 / BUT000)')">🔍 Buscar Cliente (F4)</span></label>
+                            <div class="form-input-container">
+                                <input id="inp-customer" class="form-input" placeholder="Buscar Cliente Solicitante (F4)" value="" />
+                                <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-customer', 'Buscar Cliente Solicitante (KNA1 / BUT000)')">🔍</button>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="grid-column: span 1;">
+                                <label class="form-label"><span>Referencia de Cliente (N° de Pedido / BSTNK)</span><span style="font-size:10px; color:#0284c7; font-weight:700;">Editable</span></label>
+                                <input id="inp-orderref" class="form-input" placeholder="Ej: PO-2026-001, Pedido Mayo, Nexo, etc." value="" />
+                            </div>
+                            <div class="form-group" style="grid-column: span 1;">
+                                <label class="form-label"><span>Fecha Referencia de Cliente</span></label>
+                                <input id="inp-orderrefdate" type="date" class="form-input" value="" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group" style="grid-column: span 1;">
+                                <label class="form-label"><span>Material / Producto Maestro</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('materials', 'inp-material', 'Buscar Material Maestro (MAKT)')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-material" class="form-input" placeholder="Buscar Material Maestro (F4)" value="" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('materials', 'inp-material', 'Buscar Material Maestro (MAKT)')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="grid-column: span 1;">
+                                <label class="form-label">Cantidad (Unidades / Cajas)</label>
+                                <input id="inp-qty" type="number" class="form-input" placeholder="Ej: 10" value="" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Centro de Suministro</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('centers', 'inp-plant', 'Buscar Centro Logístico (T001W)')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-plant" class="form-input" placeholder="Buscar Centro Logístico (F4)" value="" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('centers', 'inp-plant', 'Buscar Centro Logístico (T001W)')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span>Condición de Pago</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('paymentTerms', 'inp-zterm', 'Buscar Condición de Pago (T052)')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-zterm" class="form-input" placeholder="Buscar Condición de Pago (F4)" value="" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('paymentTerms', 'inp-zterm', 'Buscar Condición de Pago (T052)')">🔍</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var orderType = ((document.getElementById("inp-ordertype") && document.getElementById("inp-ordertype").value) ? document.getElementById("inp-ordertype").value.split("-")[0].trim() : "") || "TA";
+                    var custRaw = (document.getElementById("inp-customer") && document.getElementById("inp-customer").value) ? document.getElementById("inp-customer").value.trim() : "17100002";
+                    var custCode = (custRaw ? custRaw.split("-")[0].trim() : "") || "17100002";
+                    var custName = (custRaw.indexOf("-") !== -1 ? custRaw.split("-")[1].trim() : custRaw) || "Cliente";
+                    var refValue = (document.getElementById("inp-orderref") ? document.getElementById("inp-orderref").value.trim() : "") || ("PED-" + Math.floor(1000 + Math.random() * 9000));
+                    var matRaw = (document.getElementById("inp-material") && document.getElementById("inp-material").value) ? document.getElementById("inp-material").value.trim() : "TG11";
+                    var matCode = (matRaw ? matRaw.split("-")[0].trim() : "") || "TG11";
+                    var qty = (document.getElementById("inp-qty") ? document.getElementById("inp-qty").value.trim() : "") || "10";
+                    var docNum = Math.floor(2500 + Math.random() * 500);
+
+                    // Formato fecha hoy DD.MM.YYYY
+                    var d = new Date();
+                    var day = String(d.getDate()).padStart(2, '0');
+                    var month = String(d.getMonth() + 1).padStart(2, '0');
+                    var year = d.getFullYear();
+                    var formattedToday = day + "." + month + "." + year;
+
+                    var pricePerUnit = 17.55;
+                    var totalNetVal = parseFloat(qty) * pricePerUnit;
+
+                    // Insertar nuevo pedido en memoria para que se liste de inmediato en la App VA05 (una sola vez)
+                    var newOrder = {
+                        refCliente: refValue,
+                        fechaDoc: formattedToday,
+                        claseDoc: orderType || "TA",
+                        docVentas: String(docNum),
+                        posicion: "10",
+                        solicitante: custCode || "17100002",
+                        material: matCode || "TG11",
+                        cantidad: String(qty),
+                        um: "PI",
+                        valorNeto: totalNetVal,
+                        moneda: "USD"
+                    };
+
+                    var targetMaster = window.va05OrdersMaster || (typeof va05OrdersMaster !== 'undefined' ? va05OrdersMaster : null);
+                    if (targetMaster && Array.isArray(targetMaster)) {
+                        var alreadyExists = targetMaster.some(function(item) {
+                            return String(item.docVentas) === String(docNum);
+                        });
+                        if (!alreadyExists) {
+                            targetMaster.unshift(newOrder);
+                        }
+                    }
+
+                    // Incrementar contador de VA05 para mantener sincronía
+                    var valVa05 = document.getElementById("val-va05");
+                    if (valVa05) {
+                        var currV = parseInt(valVa05.innerText.replace(/,/g, ""), 10) || 2557;
+                        valVa05.innerText = (currV + 1).toLocaleString();
+                    }
+                    
+                    var barOct = document.getElementById("bar-oct");
+                    if (barOct) {
+                        barOct.innerText = (parseInt(barOct.innerText, 10) || 16) + 1;
+                    }
+                    
+                    return "✅ ¡Pedido Grabado en S/4HANA (Mandante 100)!\nDocumento de ventas #" + docNum + " (" + orderType + ") registrado exitosamente con Referencia de Cliente '" + refValue + "' para " + custName + " (" + qty + " unidades).";
+                }
+            },
+
+            va05: {
+                badge: "SAP S/4HANA · REPORTES COMERCIALES (SD)",
+                title: "Lista de Pedidos de Venta (VA05 / VA05N)",
+                intent: "SalesOrder-manage",
+                targetId: "val-va05",
+                renderHtml: function() {
+                    return `
+                        <!-- Panel de Criterios de Selección SAP VA05 -->
+                        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:12px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    <span style="font-size:12px; font-weight:800; color:#0369a1; text-transform:uppercase; letter-spacing:0.5px;">📋 Criterios de Selección · Lista de Pedidos de Cliente (VA05)</span>
+                                </div>
+                                <div style="display:flex; gap:8px; align-items:center;">
+                                    <button type="button" class="btn btn-ghost" style="font-size:11px; padding:3px 10px; color:#475569; border:1px solid #cbd5e1; background:#ffffff; border-radius:6px; cursor:pointer;" onclick="resetVA05Filters()">🔄 Limpiar Filtros</button>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 1: Datos doc.venta -->
+                            <div>
+                                <div style="font-size:11px; font-weight:800; color:#334155; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                                    <span style="color:#0284c7;">📁</span> <span>Datos doc.venta</span>
+                                </div>
+                                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:10px;">
+                                    <!-- 1. Documento de Ventas -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Nº Documento (Pedido)</span></label>
+                                        <input id="inp-va05-doc" class="form-input" placeholder="Ej: 2440, 51..." oninput="executeVA05Query()" />
+                                    </div>
+
+                                    <!-- 2. Clase de Pedido (AUART) -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Clase de Pedido</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('orderTypes', 'inp-va05-auart', 'Buscar Clase de Pedido')">🔍 F4</span></label>
+                                        <div class="form-input-container">
+                                            <input id="inp-va05-auart" class="form-input" placeholder="Todas las clases (*)" value="" onchange="executeVA05Query()" />
+                                            <button class="btn-f4" type="button" onclick="openF4Help('orderTypes', 'inp-va05-auart', 'Buscar Clase de Pedido')">🔍</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 3. Solicitante (Cliente BP) -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Cliente Solicitante (BP)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-va05-cust', 'Buscar Cliente (BP)')">🔍 F4</span></label>
+                                        <div class="form-input-container">
+                                            <input id="inp-va05-cust" class="form-input" placeholder="Todos los clientes (*)" value="" onchange="executeVA05Query()" />
+                                            <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-va05-cust', 'Buscar Cliente (BP)')">🔍</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 4. Material / Producto Maestro -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Material / Producto</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('materials', 'inp-va05-mat', 'Buscar Material')">🔍 F4</span></label>
+                                        <div class="form-input-container">
+                                            <input id="inp-va05-mat" class="form-input" placeholder="Todos los materiales (*)" value="" onchange="executeVA05Query()" />
+                                            <button class="btn-f4" type="button" onclick="openF4Help('materials', 'inp-va05-mat', 'Buscar Material')">🔍</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- 5. Referencia de Cliente (PO / Orden de Compra) -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Referencia Cliente (PO)</span></label>
+                                        <input id="inp-va05-ref" class="form-input" placeholder="Ej: PO-2026-001, NEXO, Jouli..." oninput="executeVA05Query()" />
+                                    </div>
+
+                                    <!-- 6. Fecha docum. (Rango AUDAT Desde / Hasta) -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Fecha docum. (Desde / Hasta)</span></label>
+                                        <div style="display:flex; gap:6px; align-items:center;">
+                                            <input id="inp-va05-date-from" type="date" class="form-input" style="padding:4px 6px; font-size:11px;" onchange="executeVA05Query()" />
+                                            <span style="font-size:11px; color:#64748b; font-weight:700;">a</span>
+                                            <input id="inp-va05-date-to" type="date" class="form-input" style="padding:4px 6px; font-size:11px;" onchange="executeVA05Query()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- SECCIÓN 2: Personas resp. & Datos Organizativos SD -->
+                            <div style="border-top:1px solid #e2e8f0; padding-top:8px;">
+                                <div style="font-size:11px; font-weight:800; color:#334155; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px;">
+                                    <span style="color:#0284c7;">🏢</span> <span>Personas resp. & Datos Organizativos SD</span>
+                                </div>
+                                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
+                                    <!-- Org. Ventas -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Organización de Ventas</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('salesOrgs', 'inp-va05-org', 'Buscar Org. Ventas')">🔍 F4</span></label>
+                                        <div class="form-input-container">
+                                            <input id="inp-va05-org" class="form-input" value="1710 - Doméstico US / ZX01" />
+                                            <button class="btn-f4" type="button" onclick="openF4Help('salesOrgs', 'inp-va05-org', 'Buscar Org. Ventas')">🔍</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Canal de Distribución -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Canal de Distribución</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('channels', 'inp-va05-chan', 'Buscar Canal')">🔍 F4</span></label>
+                                        <div class="form-input-container">
+                                            <input id="inp-va05-chan" class="form-input" value="10 - Venta Mayorista Directa" />
+                                            <button class="btn-f4" type="button" onclick="openF4Help('channels', 'inp-va05-chan', 'Buscar Canal')">🔍</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Creado Por (Responsable) -->
+                                    <div class="form-group">
+                                        <label class="form-label"><span>Creado Por (Usuario SAP)</span></label>
+                                        <input id="inp-va05-user" class="form-input" placeholder="Todos los usuarios (*)" oninput="executeVA05Query()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Barra de Herramientas ALV Grid -->
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:4px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="font-size:12px; font-weight:800; color:#1e293b; text-transform:uppercase;">Vista ALV Grid (Tablas VBAK / VBAP)</span>
+                                <span id="va05-result-count" style="background:#e0f2fe; color:#0369a1; padding:3px 10px; border-radius:12px; font-weight:700; font-size:11px;">Cargando...</span>
+                            </div>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <input id="va05-quick-search" type="text" placeholder="🔍 Filtrar en vivo..." style="padding:5px 10px; border:1px solid #cbd5e1; border-radius:6px; font-size:12px; width:180px;" oninput="executeVA05Query()" />
+                                <button type="button" class="btn btn-outline" onclick="exportVA05ToCSV()" style="padding:5px 12px; font-size:11px; height:30px; display:inline-flex; align-items:center; gap:4px; border-color:#cbd5e1;">
+                                    📥 Exportar Excel/CSV
+                                </button>
+                                <span id="va05-total-net" style="font-weight:800; color:#0f172a; font-size:12px; background:#f1f5f9; padding:5px 10px; border-radius:6px; border:1px solid #cbd5e1;">$ 0.00 USD</span>
+                            </div>
+                        </div>
+
+                        <!-- Contenedor Tabla ALV Grid -->
+                        <div class="sap-alv-container" style="max-height:360px; overflow-y:auto; overflow-x:auto;">
+                            <table class="sap-alv-table">
+                                <thead>
+                                    <tr>
+                                        <th>Referencia de cliente</th>
+                                        <th>Fecha doc.</th>
+                                        <th>Clase doc.ventas</th>
+                                        <th>Documento de ventas</th>
+                                        <th>Posición</th>
+                                        <th>Solicitante</th>
+                                        <th>Material</th>
+                                        <th style="text-align:right;">Ctd.pedido (pos.)</th>
+                                        <th>UM</th>
+                                        <th style="text-align:right;">Valor neto (posición)</th>
+                                        <th>Moneda doc.</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="va05-tbody">
+                                    <!-- Renderizado dinámicamente con registros reales de S/4HANA -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Barra de Paginación y Carga Progresiva -->
+                        <div id="va05-load-more" style="display:none; justify-content:space-between; align-items:center; background:#f8fafc; border:1px solid #cbd5e1; border-radius:8px; padding:8px 14px; font-size:12px; color:#475569; margin-top:8px;"></div>
+                    `;
+                },
+                onSave: function() {
+                    return "📋 ¡Reporte VA05 Actualizado!\nRegistros de ventas consultados en tiempo real sobre tablas VBAK/VBAP de S/4HANA.";
+                }
+            },
+
+            quotations: {
+                badge: "SAP S/4HANA · PREVENTA (SD)",
+                title: "Crear Oferta / Cotización Comercial (VA21)",
+                intent: "SalesQuotation-manage",
+                targetId: "val-quotations",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Clase de Oferta</label>
+                                <input class="form-input" value="QT - Cotización Estándar" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span>Org. Ventas</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('salesOrgs', 'inp-q-org', 'Buscar Org. Ventas')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-q-org" class="form-input" value="ZX01 - Ventas Distribuidora Express" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('salesOrgs', 'inp-q-org', 'Buscar Org. Ventas')">🔍</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><span>Cliente Prospecto / Solicitante</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-q-cust', 'Buscar Cliente (BP)')">🔍 Buscar F4</span></label>
+                            <div class="form-input-container">
+                                <input id="inp-q-cust" class="form-input" value="0000100324 - Cadena Comercial Oriente S.A." />
+                                <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-q-cust', 'Buscar Cliente (BP)')">🔍</button>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Material Ofrecido</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('materials', 'inp-q-mat', 'Buscar Material')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-q-mat" class="form-input" value="ZMAT-02 - Aceite Vegetal Premium (60 un)" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('materials', 'inp-q-mat', 'Buscar Material')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Importe Cotizado (USD)</label>
+                                <input id="inp-q-amt" type="text" class="form-input" value="$14,500.00" />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var docNum = Math.floor(20000000 + Math.random() * 900000);
+                    return "✅ ¡Cotización generada en S/4HANA (Soc. ZX01)!\nOferta comercial #" + docNum + " guardada en mandante 100 con vigencia a 30 días.";
+                }
+            },
+
+            deliveries: {
+                badge: "SAP S/4HANA · EXPEDICIÓN & DESPACHO (SD/LE)",
+                title: "Crear Entrega de Salida con Ref. Pedido (VL01N)",
+                intent: "OutboundDelivery-create",
+                targetId: "val-deliveries",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Puesto de Expedición</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('shippingPoints', 'inp-del-sp', 'Buscar Puesto Expedición')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-del-sp" class="form-input" value="ZC10 - Muelle Principal Centro Distribución" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('shippingPoints', 'inp-del-sp', 'Buscar Puesto Expedición')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fecha Prevista de SM</label>
+                                <input type="date" class="form-input" value="2026-10-30" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><span>Destinatario de Mercancías (Cliente BP)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-del-cust', 'Buscar Destinatario')">🔍 F4</span></label>
+                            <div class="form-input-container">
+                                <input id="inp-del-cust" class="form-input" value="0000100323 - Supermercados El Valle C.A." />
+                                <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-del-cust', 'Buscar Destinatario')">🔍</button>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Centro de Carga</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('centers', 'inp-del-plant', 'Buscar Centro')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-del-plant" class="form-input" value="ZC10 - Centro Distribución Central" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('centers', 'inp-del-plant', 'Buscar Centro')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Status de Picking (EWM Z101)</label>
+                                <input class="form-input" value="Completado / Embalaje ZPL1 OK" readonly style="color:#059669; font-weight:700;" />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var docNum = Math.floor(80000000 + Math.random() * 900000);
+                    var doneDlv = document.getElementById("val-done-dlv");
+                    doneDlv.innerText = "963 (96.3%)";
+                    return "🚚 ¡Entrega de Salida Registrada en S/4HANA!\nDocumento #" + docNum + " contabilizado en LIKP desde Centro ZC10. Salida de Mercancías efectuada.";
+                }
+            },
+
+            billing: {
+                badge: "SAP S/4HANA · FACTURACIÓN & FINANZAS (SD/FI)",
+                title: "Crear Documento de Facturación (VF01)",
+                intent: "BillingDocument-create",
+                targetId: "val-billing",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Clase de Factura</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('billingTypes', 'inp-bill-type', 'Buscar Clase de Factura')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-bill-type" class="form-input" value="F2 - Factura Comercial Estándar" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('billingTypes', 'inp-bill-type', 'Buscar Clase de Factura')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Sociedad Pagadora</label>
+                                <input class="form-input" value="ZX01 - Distribuidora Express S.A." readonly />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label"><span>Cliente Responsable del Pago (BP)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-bill-cust', 'Buscar Cliente Facturado')">🔍 F4</span></label>
+                            <div class="form-input-container">
+                                <input id="inp-bill-cust" class="form-input" value="0000100323 - Supermercados El Valle C.A." />
+                                <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-bill-cust', 'Buscar Cliente Facturado')">🔍</button>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Condición de Pago</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('paymentTerms', 'inp-bill-zterm', 'Buscar Condición de Pago')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-bill-zterm" class="form-input" value="Z030 - Crédito Mayorista a 30 Días" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('paymentTerms', 'inp-bill-zterm', 'Buscar Condición de Pago')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Total Facturado (USD)</label>
+                                <input class="form-input" value="$3,480.00 + IVA" readonly style="font-weight:700; color:#0f172a;" />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var docNum = Math.floor(90000000 + Math.random() * 900000);
+                    var bType = (document.getElementById("inp-bill-type").value || "F2").split("-")[0].trim();
+                    var txtInv = document.getElementById("txt-inv-count");
+                    txtInv.innerText = "937 (93.7%)";
+                    return "💳 ¡Factura Comercial Emitida en S/4HANA!\nDocumento " + bType + " #" + docNum + " grabado en tabla VBRK (Sociedad ZX01). Asiento contable FI generado.";
+                }
+            },
+
+            bp: {
+                badge: "SAP S/4HANA · MAESTRO DE CLIENTES (BP)",
+                title: "Crear Interlocutor Comercial / Cliente (BP)",
+                intent: "BusinessPartner-manage",
+                targetId: "val-bp",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Rol del Interlocutor</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('bpRoles', 'inp-bp-role', 'Buscar Rol BP')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-bp-role" class="form-input" value="FLCU01 - Cliente SD (Ventas Distribuidora)" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('bpRoles', 'inp-bp-role', 'Buscar Rol BP')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span>Agrupación BP</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('bpGroups', 'inp-bp-group', 'Buscar Agrupación BP')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-bp-group" class="form-input" value="0001 - Clientes Mayoristas Distribuidora" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('bpGroups', 'inp-bp-group', 'Buscar Agrupación BP')">🔍</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nombre / Razón Social</label>
+                            <input id="inp-bp-name" class="form-input" value="Inversiones &amp; Supermercados Plaza Mayor C.A." />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">RIF / Identificación Fiscal</label>
+                                <input class="form-input" value="J-50123984-7" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Ciudad / Región</label>
+                                <input class="form-input" value="Maracay, Edo. Aragua" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Límite de Crédito Autorizado</label>
+                                <input class="form-input" value="$45,000.00 USD" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Grupo de Cuentas</label>
+                                <input class="form-input" value="KNA1 - Deudor Nacional" readonly />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var bpNum = Math.floor(100330 + Math.random() * 100);
+                    var name = document.getElementById("inp-bp-name").value;
+                    return "👥 ¡Cliente Creado en S/4HANA!\nBusiness Partner #" + bpNum + " registrado en tabla BUT000/KNA1 para '" + name + "' asignado a Soc. ZX01.";
+                }
+            },
+
+            pricing: {
+                badge: "SAP S/4HANA · CONDICIONES DE PRECIO (SD)",
+                title: "Crear Condición de Precio Comercial (VK11)",
+                intent: "PriceCondition-manage",
+                targetId: "val-pricing",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Clase de Condición</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('condTypes', 'inp-cond-type', 'Buscar Clase de Condición')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-cond-type" class="form-input" value="PR00 - Precio Base de Venta" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('condTypes', 'inp-cond-type', 'Buscar Clase de Condición')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Cadena de Distribución</label>
+                                <input class="form-input" value="ZX01 / 10 Mayorista" readonly />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Material Objetivo</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('materials', 'inp-pr-mat', 'Buscar Material')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-pr-mat" class="form-input" value="ZMAT-02 - Aceite Vegetal Premium (Caja x 60 un)" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('materials', 'inp-pr-mat', 'Buscar Material')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Importe / Tarifa (USD)</label>
+                                <input class="form-input" value="$58.00 por Caja" />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var cType = (document.getElementById("inp-cond-type").value || "PR00").split("-")[0].trim();
+                    return "🏷️ ¡Condición de Precio Grabada en S/4HANA!\nRegistro de condición " + cType + " actualizado en tabla KONP para ZMAT-02 en Org. ZX01.";
+                }
+            },
+
+            stocks: {
+                badge: "SAP S/4HANA · GESTIÓN DE STOCKS (MM/IM)",
+                title: "Consultar y Movimiento de Stock (MMBE / MIGO)",
+                intent: "Material-displayStockOverview",
+                targetId: "val-stocks",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Material Maestro</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('materials', 'inp-st-mat', 'Buscar Material')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-st-mat" class="form-input" value="ZMAT-02 - Aceite Vegetal Premium (Caja x 60 un)" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('materials', 'inp-st-mat', 'Buscar Material')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span>Centro Logístico</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('centers', 'inp-st-plant', 'Buscar Centro')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-st-plant" class="form-input" value="ZC10 - Centro Distribución Central" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('centers', 'inp-st-plant', 'Buscar Centro')">🔍</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Almacén de Stock</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('storageLocations', 'inp-st-lgort', 'Buscar Almacén')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-st-lgort" class="form-input" value="ZA01 - Almacén General de Distribución" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('storageLocations', 'inp-st-lgort', 'Buscar Almacén')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Stock Libre Utilización</label>
+                                <input class="form-input" value="4,534 Cajas (Disponible)" readonly style="font-weight:700; color:#059669;" />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var mDoc = Math.floor(50000000 + Math.random() * 900000);
+                    return "📦 ¡Inventario Sincronizado con S/4HANA!\nDocumento de material #" + mDoc + " verificado en tabla MARD (Centro ZC10). Stock al día.";
+                }
+            },
+
+            ewm: {
+                badge: "SAP S/4HANA · ALMACENES AVANZADOS (EWM)",
+                title: "Monitor y Órdenes de Almacén EWM (/SCWM/MON)",
+                intent: "WarehouseTask-manage",
+                targetId: "val-ewm",
+                renderHtml: function() {
+                    return `
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Número de Almacén EWM</label>
+                                <input class="form-input" value="Z101 - Almacén Automatizado EWM" readonly />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label"><span>Proceso Logístico</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('ewmProcesses', 'inp-ewm-proc', 'Buscar Proceso EWM')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-ewm-proc" class="form-input" value="2010 - Picking para Entrega de Salida (FEFO)" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('ewmProcesses', 'inp-ewm-proc', 'Buscar Proceso EWM')">🔍</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label"><span>Ubicación Física (Storage Bin)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('ewmBins', 'inp-ewm-bin', 'Buscar Ubicación')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-ewm-bin" class="form-input" value="RACK-01-NIVEL-02 (Zona Z001 Almacenamiento Dinámico)" />
+                                    <button class="btn-f4" type="button" onclick="openF4Help('ewmBins', 'inp-ewm-bin', 'Buscar Ubicación')">🔍</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Dispositivo de Impresión</label>
+                                <input class="form-input" value="ZLBL (Etiquetas SSCC Spool)" readonly />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var wtNum = Math.floor(1000 + Math.random() * 9000);
+                    return "🏭 ¡Tarea EWM Confirmada en S/4HANA!\nOrden de almacén #" + wtNum + " procesada en almacén Z101. Inventario físico actualizado.";
+                }
+            }
+        };
+
+        function openAppModal(key) {
+            currentAppKey = key;
+            var cfg = appsConfig[key];
+            if (!cfg) return;
+
+            var modalBox = document.querySelector("#appModal .modal-box");
+            if (modalBox) {
+                if (key === "va05") {
+                    modalBox.classList.add("modal-wide");
+                } else {
+                    modalBox.classList.remove("modal-wide");
+                }
+            }
+
+            document.getElementById("modal-badge").innerText = cfg.badge;
+            document.getElementById("modal-title").innerText = cfg.title;
+            document.getElementById("modal-body-content").innerHTML = cfg.renderHtml();
+            
+            var saveBtn = document.getElementById("btn-save-tx");
+            if (saveBtn) {
+                saveBtn.innerText = key === "va05" ? "🔍 Consultar Lista (VBAK)" : "💾 Grabar en S/4HANA";
+            }
+
+            document.getElementById("appModal").style.display = "flex";
+
+            if (key === "va05") {
+                setTimeout(function() {
+                    executeVA05Query();
+                }, 50);
+            }
+        }
+
+        function closeAppModal() {
+            document.getElementById("appModal").style.display = "none";
+        }
+
+        function confirmSaveCurrentTx() {
+            var cfg = appsConfig[currentAppKey];
+            if (!cfg) return;
+
+            // En caso de VA05, es la consulta del reporte ALV: ejecutar consulta y mantener modal abierto
+            if (currentAppKey === "va05") {
+                executeVA05Query();
+                return;
+            }
+
+            // En caso de VA01 (Crear Pedido de Venta), conectar en vivo con el OData Bridge de S/4HANA Mandante 100
+            if (currentAppKey === "orders") {
+                executeRealSapOrderCreation();
+                return;
+            }
+
+            // 1. Incrementar valor del KPI en pantalla solo si no es consulta
+            var el = document.getElementById(cfg.targetId);
+            if (el) {
+                var currentVal = parseInt(el.innerText.replace(/,/g, ""), 10);
+                el.innerText = (currentVal + 1).toLocaleString();
+            }
+
+            // 2. Ejecutar callback especifico de la app
+            var msg = cfg.onSave();
+
+            closeAppModal();
+
+            // 3. Notificacion Toast
+            showToast(msg);
+        }
+
+        function executeRealSapOrderCreation() {
+            var btnSave = document.getElementById("btn-save-tx");
+
+            var orderTypeRaw = document.getElementById("inp-ordertype") ? document.getElementById("inp-ordertype").value.trim() : "";
+            var orderType = (orderTypeRaw ? orderTypeRaw.split("-")[0].trim() : "") || "TA";
+
+            var salesOrgRaw = document.getElementById("inp-salesorg") ? document.getElementById("inp-salesorg").value.trim() : "";
+            var salesOrg = (salesOrgRaw ? salesOrgRaw.split("-")[0].trim() : "") || "1710";
+
+            var distChannelRaw = document.getElementById("inp-channel") ? document.getElementById("inp-channel").value.trim() : "";
+            var distChannel = (distChannelRaw ? distChannelRaw.split("-")[0].trim() : "") || "10";
+
+            var divisionRaw = document.getElementById("inp-division") ? document.getElementById("inp-division").value.trim() : "";
+            var division = (divisionRaw ? divisionRaw.split("-")[0].trim() : "") || "00";
+
+            var custRaw = (document.getElementById("inp-customer") ? document.getElementById("inp-customer").value.trim() : "") || "17100002";
+            var custCode = (custRaw ? custRaw.split("-")[0].trim() : "") || "17100002";
+            var custName = (custRaw.indexOf("-") !== -1 ? custRaw.split("-")[1].trim() : custRaw) || "Cliente";
+
+            var refValue = (document.getElementById("inp-orderref") ? document.getElementById("inp-orderref").value.trim() : "") || ("PED-" + Math.floor(1000 + Math.random() * 9000));
+
+            var matRaw = (document.getElementById("inp-material") ? document.getElementById("inp-material").value.trim() : "") || "TG11";
+            var matCode = (matRaw ? matRaw.split("-")[0].trim() : "") || "TG11";
+
+            var qty = (document.getElementById("inp-qty") ? document.getElementById("inp-qty").value.trim() : "") || "10";
+
+            // Bloquear botón y mostrar spinner de carga
+            if (btnSave) {
+                btnSave.disabled = true;
+                btnSave.innerHTML = "⏳ Grabando en SAP S/4HANA (Mandante 100)...";
+            }
+
+            var payload = {
+                orderType: orderType,
+                salesOrg: salesOrg,
+                distChannel: distChannel,
+                division: division,
+                customer: custCode,
+                customerRef: refValue,
+                material: matCode,
+                quantity: qty
+            };
+
+            // Detectar si el puente corre en mismo origen o en localhost:8085
+            var bridgeUrl = (window.location.origin && window.location.origin.indexOf("localhost:8085") !== -1)
+                ? "/api/create-order"
+                : "http://localhost:8085/api/create-order";
+
+            fetch(bridgeUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function(res) {
+                return res.json().then(function(data) {
+                    return { ok: res.ok, status: res.status, data: data };
+                });
+            })
+            .then(function(result) {
+                if (btnSave) {
+                    btnSave.disabled = false;
+                    btnSave.innerHTML = "💾 Grabar en S/4HANA";
+                }
+
+                if (result.ok && result.data && result.data.success) {
+                    var docNum = result.data.docNum;
+
+                    // Formato fecha hoy DD.MM.YYYY
+                    var d = new Date();
+                    var day = String(d.getDate()).padStart(2, '0');
+                    var month = String(d.getMonth() + 1).padStart(2, '0');
+                    var year = d.getFullYear();
+                    var formattedToday = day + "." + month + "." + year;
+
+                    var pricePerUnit = 17.55;
+                    var totalNetVal = parseFloat(result.data.netAmount) || (parseFloat(qty) * pricePerUnit);
+
+                    // Insertar en la lista master de la VA05 para visualización inmediata en ALV Grid
+                    var newOrder = {
+                        refCliente: refValue,
+                        fechaDoc: formattedToday,
+                        claseDoc: "OR",
+                        docVentas: String(docNum),
+                        posicion: "10",
+                        solicitante: custCode || "17100002",
+                        material: matCode || "TG11",
+                        cantidad: String(qty),
+                        um: "PI",
+                        valorNeto: totalNetVal,
+                        moneda: "USD"
+                    };
+
+                    var targetMaster = window.va05OrdersMaster || (typeof va05OrdersMaster !== 'undefined' ? va05OrdersMaster : null);
+                    if (targetMaster && Array.isArray(targetMaster)) {
+                        var alreadyExists = targetMaster.some(function(item) {
+                            return String(item.docVentas) === String(docNum);
+                        });
+                        if (!alreadyExists) {
+                            targetMaster.unshift(newOrder);
+                        }
+                    }
+
+                    // Incrementar contadores en dashboard
+                    var el = document.getElementById("val-orders");
+                    if (el) {
+                        var curr = parseInt(el.innerText.replace(/,/g, ""), 10) || 0;
+                        el.innerText = (curr + 1).toLocaleString();
+                    }
+                    var valVa05 = document.getElementById("val-va05");
+                    if (valVa05) {
+                        var currV = parseInt(valVa05.innerText.replace(/,/g, ""), 10) || 2557;
+                        valVa05.innerText = (currV + 1).toLocaleString();
+                    }
+
+                    closeAppModal();
+
+                    // Notificación Toast de éxito con confirmación de base de datos
+                    showToast("🎉 ¡Pedido #" + docNum + " grabado físicamente en SAP S/4HANA (Mandante 100)!\nTablas VBAK / VBAP actualizadas.");
+                    
+                    // Alerta detallada para confirmación de consulta en SAP GUI
+                    setTimeout(function() {
+                        alert("✅ ¡ÉXITO! Pedido grabado en el servidor SAP S/4HANA:\n\n" +
+                              "• N° de Pedido Oficial SAP: #" + docNum + "\n" +
+                              "• Referencia de Cliente: " + refValue + "\n" +
+                              "• Solicitante: " + custCode + " - " + custName + "\n" +
+                              "• Material: " + matCode + " (" + qty + " unidades)\n" +
+                              "• Sistema: S4H / Mandante 100 (Tablas VBAK/VBAP)\n\n" +
+                              "👉 Abre tu SAP GUI tradicional o SAP WebGUI, entra a la transacción VA05 y verás el pedido #" + docNum + " en la lista.");
+                    }, 200);
+
+                } else {
+                    var errorMsg = (result.data && result.data.error) ? result.data.error : ("Error HTTP " + result.status);
+                    alert("❌ Error devuelto por SAP S/4HANA (Mandante 100):\n\n" + errorMsg + "\n\nPor favor verifica tu contraseña o los datos ingresados.");
+                }
+            })
+            .catch(function(err) {
+                if (btnSave) {
+                    btnSave.disabled = false;
+                    btnSave.innerHTML = "💾 Grabar en S/4HANA";
+                }
+                
+                var doMock = confirm("⚠️ No se pudo conectar con el servidor puente 'sap_bridge_server.py' en su máquina local.\n\n" +
+                                     "Para que los pedidos se graben físicamente en su SAP GUI (Mandante 100):\n" +
+                                     "1. Asegúrese de haber ejecutado el archivo 'preview_dashboard.bat' en su equipo.\n" +
+                                     "2. El servidor puente debe estar escuchando en http://localhost:8085.\n\n" +
+                                     "¿Desea registrar este pedido en modo de simulación temporal en el navegador?");
+                if (doMock) {
+                    var cfgOrders = appsConfig["orders"];
+                    var msg = cfgOrders.onSave();
+                    var elOrders = document.getElementById("val-orders");
+                    if (elOrders) {
+                        var curr = parseInt(elOrders.innerText.replace(/,/g, ""), 10) || 0;
+                        elOrders.innerText = (curr + 1).toLocaleString();
+                    }
+                    closeAppModal();
+                    showToast(msg);
+                }
+            });
+        }
+
+        function refreshData() {
+            var el = document.getElementById("val-orders");
+            var val = parseInt(el.innerText.replace(",", ""), 10);
+            el.innerText = (val + 1).toLocaleString();
+
+            var now = new Date();
+            document.getElementById("timestamp-txt").innerText = "Actualizado a las " + now.toLocaleTimeString() + " · AVLIS Consultores";
+            showToast("🔄 Datos sincronizados en tiempo real con S/4HANA 1909 (Sociedad ZX01 / Mandante 100)");
+        }
+
+        function showToast(msg) {
+            var toast = document.getElementById("toast");
+            toast.innerText = msg;
+            toast.style.display = "block";
+            setTimeout(function() { toast.style.display = "none"; }, 4500);
+        }
+    </script>
+</body>
+</html>

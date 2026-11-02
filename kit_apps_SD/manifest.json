@@ -1,0 +1,171 @@
+{
+  "_version": "1.24.0",
+  "sap.app": {
+    "id": "com.avlis.sales.shortcuts.card",
+    "type": "card",
+    "title": "Centro de Operaciones Comerciales y Distribución",
+    "subTitle": "Accesos Directos SD & O2C",
+    "description": "Tarjeta interactiva con accesos directos al ciclo Order-to-Cash: Pedidos (VA01-VA05), Entregas (VL01N-VL02N), Facturación (VF01-VF03), Clientes (BP) y Stocks (MMBE)",
+    "tags": [
+      "SD",
+      "Ventas",
+      "Distribucion",
+      "WorkZone",
+      "VA01",
+      "VA02",
+      "VA03",
+      "VA05",
+      "VL01N",
+      "VL02N",
+      "VF01",
+      "VF03",
+      "BP",
+      "MMBE"
+    ]
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "sap-icon://sales-order"
+    }
+  },
+  "sap.card": {
+    "type": "List",
+    "header": {
+      "title": "Gestión Comercial y Operativa SD",
+      "subTitle": "S/4HANA Order-to-Cash (Distribuidora Express)",
+      "icon": {
+        "src": "sap-icon://sales-order-item",
+        "shape": "Circle"
+      },
+      "status": {
+        "text": "S/4HANA Active",
+        "state": "Success"
+      }
+    },
+    "content": {
+      "data": {
+        "json": [
+          {
+            "title": "Crear Pedido de Ventas",
+            "subtitle": "Transacción VA01 / Nueva Solicitud",
+            "badge": "VA01",
+            "badgeState": "Success",
+            "icon": "sap-icon://add-document",
+            "semanticObject": "SalesOrder",
+            "action": "create"
+          },
+          {
+            "title": "Modificar Pedido de Ventas",
+            "subtitle": "Transacción VA02 / Edición & Ajustes",
+            "badge": "VA02",
+            "badgeState": "Warning",
+            "icon": "sap-icon://edit",
+            "semanticObject": "SalesOrder",
+            "action": "change"
+          },
+          {
+            "title": "Visualizar Pedido de Ventas",
+            "subtitle": "Transacción VA03 / Consulta & Flujo",
+            "badge": "VA03",
+            "badgeState": "Information",
+            "icon": "sap-icon://display",
+            "semanticObject": "SalesOrder",
+            "action": "display"
+          },
+          {
+            "title": "Listado de Pedidos de Ventas",
+            "subtitle": "Transacción VA05 / Reporte y Monitoreo",
+            "badge": "VA05",
+            "badgeState": "None",
+            "icon": "sap-icon://sales-order",
+            "semanticObject": "SalesOrder",
+            "action": "manage"
+          },
+          {
+            "title": "Crear Entrega de Salida",
+            "subtitle": "Transacción VL01N / Despacho con Ref. Pedido",
+            "badge": "VL01N",
+            "badgeState": "Success",
+            "icon": "sap-icon://shipping-status",
+            "semanticObject": "OutboundDelivery",
+            "action": "create"
+          },
+          {
+            "title": "Modificar Entrega / Salida Mercancías",
+            "subtitle": "Transacción VL02N / Picking & Contabilización SM",
+            "badge": "VL02N",
+            "badgeState": "Warning",
+            "icon": "sap-icon://product",
+            "semanticObject": "OutboundDelivery",
+            "action": "change"
+          },
+          {
+            "title": "Visualizar Entrega de Salida",
+            "subtitle": "Transacción VL03N / Tracking de Despacho",
+            "badge": "VL03N",
+            "badgeState": "Information",
+            "icon": "sap-icon://inspection",
+            "semanticObject": "OutboundDelivery",
+            "action": "display"
+          },
+          {
+            "title": "Crear Documento de Facturación",
+            "subtitle": "Transacción VF01 / Emisión y Liquidación",
+            "badge": "VF01",
+            "badgeState": "Success",
+            "icon": "sap-icon://lead",
+            "semanticObject": "BillingDocument",
+            "action": "create"
+          },
+          {
+            "title": "Visualizar Factura Comercial",
+            "subtitle": "Transacción VF03 / Historial & Estatus Contable",
+            "badge": "VF03",
+            "badgeState": "Information",
+            "icon": "sap-icon://receipt",
+            "semanticObject": "BillingDocument",
+            "action": "display"
+          },
+          {
+            "title": "Gestión de Clientes (Business Partner)",
+            "subtitle": "Transacción BP / Maestro de Clientes & Crédito",
+            "badge": "BP",
+            "badgeState": "None",
+            "icon": "sap-icon://customer",
+            "semanticObject": "BusinessPartner",
+            "action": "manage"
+          },
+          {
+            "title": "Resumen de Stocks por Material",
+            "subtitle": "Transacción MMBE / Stock en Tiempo Real",
+            "badge": "MMBE",
+            "badgeState": "Information",
+            "icon": "sap-icon://inventory",
+            "semanticObject": "Material",
+            "action": "displayStockOverview"
+          }
+        ]
+      },
+      "item": {
+        "title": "{title}",
+        "description": "{subtitle}",
+        "icon": {
+          "src": "{icon}"
+        },
+        "info": {
+          "value": "{badge}",
+          "state": "{badgeState}"
+        },
+        "actions": [
+          {
+            "type": "Navigation",
+            "parameters": {
+              "intent": "#{semanticObject}-{action}"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

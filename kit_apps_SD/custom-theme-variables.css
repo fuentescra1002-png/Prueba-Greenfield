@@ -1,0 +1,19 @@
+/* Estilos personalizados para SAP Build Work Zone - Módulo SD */
+.sapUshellShellHeader {
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%) !important;
+  border-bottom: 2px solid #00b4db !important;
+}
+.sapFCard {
+  border-radius: 12px !important;
+  border: 1px solid rgba(0, 180, 219, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+}
+.sapFCardHeader {
+  background: linear-gradient(90deg, #1e3c72 0%, #2a5298 100%) !important;
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+}
+.sapFCardHeader .sapFCardHeaderText .sapMText {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}

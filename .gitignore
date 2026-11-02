@@ -1,0 +1,13 @@
+# Binarios e instaladores temporales pesados
+btp.exe
+btp-cli-*
+*.tar.gz
+*.zip
+
+# Archivos de bloqueo de Office y temporales
+~$*
+*.tmp
+*.log
+__pycache__/
+.vscode/
+.idea/

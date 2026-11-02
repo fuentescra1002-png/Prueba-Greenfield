@@ -1,0 +1,24 @@
+{
+    "ServerURL": "https://cli.btp.cloud.sap",
+    "UserName": "",
+    "CustomIdp": "",
+    "Version": "2.116.3",
+    "TargetHierarchy": null,
+    "Favorites": null,
+    "Authentication": {
+        "Mail": "",
+        "Issuer": ""
+    },
+    "TrustedURLs": null,
+    "Autocomplete": null,
+    "Settings": {
+        "commands.experimental": "default",
+        "format": "default",
+        "login.securestore": "default",
+        "login.showglobalaccounts": "default",
+        "login.sso": "default",
+        "target.hierarchy": "default",
+        "theme": "default",
+        "verbose": "default"
+    }
+}

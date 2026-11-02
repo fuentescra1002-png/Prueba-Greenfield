@@ -1,0 +1,25 @@
+1. Verificando Sesion BTP... 
+You are currently not logged in.
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│ Tips:                                                                      │
+│     To log in to a global account of SAP BTP, use 'btp login'. For help on │
+│ login, use 'btp help login'.                                               │
+│     To display general help, use 'btp help'.                               │
+╰────────────────────────────────────────────────────────────────────────────╯
+
+✗ FAILED
+
+ 
+2. Listando Subcuentas... 
+You are currently not logged in.
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│ Tips:                                                                      │
+│     To log in to a global account of SAP BTP, use 'btp login'. For help on │
+│ login, use 'btp help login'.                                               │
+│     To display general help, use 'btp help'.                               │
+╰────────────────────────────────────────────────────────────────────────────╯
+
+✗ FAILED
+
