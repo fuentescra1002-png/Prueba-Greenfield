@@ -972,14 +972,6 @@
             document.body.removeChild(a);
             showToast("📥 Exportado reporte de tabla " + currentActiveTab.toUpperCase() + " a CSV");
         }
-            var a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "EWM_Z101_Stock_" + new Date().toISOString().split('T')[0] + ".csv";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            showToast("📥 Exportado reporte de stock EWM a CSV");
-        }
 
         // ================================================================
         // MODALES DE APLICACIONES (ME21N, VL31N, PRDI, ADHU, TO_CONF)
