@@ -244,126 +244,6 @@
             opacity: 0 !important;
             pointer-events: none !important;
         }
-    
-        
-
-    
-        /* ================= PIN SECURITY ACCESS ================= */
-        .pin-overlay-backdrop {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.94);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 99999;
-            padding: 16px;
-            animation: pinFadeIn 0.25s ease;
-        }
-        @keyframes pinFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .pin-card {
-            background: #ffffff;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.5), 0 0 0 1px rgba(0, 180, 219, 0.3);
-            overflow: hidden;
-            text-align: center;
-            animation: pinSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        @keyframes pinSlideUp { from { transform: translateY(20px) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
-        .pin-card.shake {
-            animation: pinShake 0.4s ease;
-        }
-        @keyframes pinShake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
-        .pin-header {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0e374e 100%);
-            padding: 24px 20px 20px 20px;
-            border-bottom: 3px solid #00b4db;
-            color: #ffffff;
-        }
-        .pin-logo-badge {
-            width: 52px; height: 52px; border-radius: 14px;
-            background: linear-gradient(135deg, #00b4db, #0083b0);
-            display: inline-flex; align-items: center; justify-content: center;
-            font-size: 26px; box-shadow: 0 6px 16px rgba(0, 180, 219, 0.35);
-            margin-bottom: 10px;
-        }
-        .pin-corp-pill {
-            display: block; font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
-            color: #38bdf8; text-transform: uppercase; margin-bottom: 4px;
-        }
-        .pin-card-title {
-            font-size: 1.3rem; font-weight: 700; color: #ffffff; margin: 0 0 4px 0;
-        }
-        .pin-card-sub {
-            font-size: 0.8rem; color: #cbd5e1; margin: 0;
-        }
-        .pin-body {
-            padding: 24px 24px 28px 24px;
-        }
-        .pin-prompt {
-            font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 18px;
-        }
-        .pin-display-slots {
-            display: flex; justify-content: center; gap: 14px; margin-bottom: 22px;
-        }
-        .pin-slot {
-            width: 18px; height: 18px; border-radius: 50%;
-            border: 2px solid #cbd5e1; background: #ffffff;
-            transition: all 0.2s ease;
-        }
-        .pin-slot.filled {
-            background: #0070f2; border-color: #0070f2;
-            transform: scale(1.15); box-shadow: 0 0 10px rgba(0, 112, 242, 0.4);
-        }
-        .pin-slot.error {
-            background: #ef4444; border-color: #ef4444;
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
-        }
-        .pin-pad {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-            max-width: 270px; margin: 0 auto 16px auto;
-        }
-        .pin-key {
-            height: 52px; border-radius: 12px; border: 1px solid #e2e8f0;
-            background: #f8fafc; font-size: 18px; font-weight: 700; color: #0f172a;
-            cursor: pointer; transition: all 0.15s ease; user-select: none;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .pin-key:hover {
-            background: #f0f9ff; border-color: #00b4db; color: #0284c7;
-            transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 180, 219, 0.15);
-        }
-        .pin-key:active {
-            transform: scale(0.95);
-        }
-        .pin-key-util {
-            font-size: 13px; font-weight: 600; color: #64748b; background: #f1f5f9;
-        }
-        .pin-key-util:hover {
-            background: #e2e8f0; color: #334155;
-        }
-        .pin-options {
-            margin-top: 14px; font-size: 12px; color: #64748b;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .pin-options input {
-            accent-color: #0070f2; cursor: pointer; width: 15px; height: 15px;
-        }
-        .pin-hint-box {
-            margin-top: 16px; padding: 10px 14px; border-radius: 8px;
-            background: #f0f9ff; border: 1px solid #bae6fd;
-            font-size: 12px; color: #0369a1; text-align: center;
-        }
-        .pin-feedback {
-            font-size: 12px; font-weight: 700; min-height: 18px; margin-bottom: 12px;
-            transition: all 0.2s ease;
-        }
-
     </style>
     <script>
         // Remover automáticamente marca de agua del hosting
@@ -389,64 +269,163 @@
 </head>
 <body>
 
-    <!-- ================= PIN SECURITY ACCESS OVERLAY ================= -->
-    <div id="pin-access-overlay" class="pin-overlay-backdrop">
-        <div id="pin-card-box" class="pin-card">
-            <!-- Header -->
-            <div class="pin-header">
-                <div class="pin-logo-badge">🏢</div>
-                <span class="pin-corp-pill">DISTRIBUIDORA EXPRESS S.A.</span>
-                <h2 class="pin-card-title">Acceso de Seguridad</h2>
-                <p class="pin-card-sub">Greenfield SAP S/4HANA</p>
+    <!-- HERO HEADER -->
+    <div class="hero">
+        <div class="hero-left">
+            <div class="hero-logo">🏢</div>
+            <div>
+                <div><span class="company-pill">Distribuidora Express S.A.</span><span class="partner-pill">· AVLIS Consultores</span></div>
+                <h1 class="hero-title">Centro de Mando Comercial &amp; Logístico</h1>
+                <p class="hero-sub">Estructura Greenfield S/4HANA</p>
             </div>
+        </div>
 
-            <!-- Body -->
-            <div class="pin-body">
-                <div class="pin-prompt">Ingresa el código PIN para desbloquear</div>
-
-                <!-- 4 Indicadores visuales de dígitos -->
-                <div class="pin-display-slots">
-                    <div id="pin-dot-0" class="pin-slot"></div>
-                    <div id="pin-dot-1" class="pin-slot"></div>
-                    <div id="pin-dot-2" class="pin-slot"></div>
-                    <div id="pin-dot-3" class="pin-slot"></div>
-                </div>
-
-                <!-- Mensaje de estado -->
-                <div id="pin-feedback-msg" class="pin-feedback" style="color: #64748b;">Escribe con tu teclado o usa el teclado en pantalla</div>
-
-                <!-- Teclado Numérico Interactivo -->
-                <div class="pin-pad">
-                    <button type="button" class="pin-key" onclick="pressPinKey('1')">1</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('2')">2</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('3')">3</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('4')">4</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('5')">5</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('6')">6</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('7')">7</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('8')">8</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('9')">9</button>
-                    <button type="button" class="pin-key pin-key-util" onclick="clearPinKey()" title="Limpiar">C</button>
-                    <button type="button" class="pin-key" onclick="pressPinKey('0')">0</button>
-                    <button type="button" class="pin-key pin-key-util" onclick="deletePinKey()" title="Borrar">⌫</button>
-                </div>
-
-                <!-- Opción de recordar -->
-                <label class="pin-options">
-                    <input type="checkbox" id="pin-remember-chk" checked />
-                    <span>Recordar desbloqueo en este equipo</span>
-                </label>
-
-                <!-- Tarjeta de ayuda PIN -->
-                <div class="pin-hint-box">
-                    <span>💡 <b>PIN del Proyecto:</b> <code>2026</code> o <code>1234</code></span>
-                </div>
+        <div class="hero-actions">
+            <div class="status-pill">
+                <span class="live-dot"></span>
+                <span>S/4HANA 1909 Activo (Mandante 100)</span>
             </div>
+            <button class="btn btn-primary" onclick="openAppModal('orders')">
+                ➕ Nuevo Pedido (VA01)
+            </button>
+            <button class="btn btn-outline" onclick="openAppModal('va05')">
+                📋 Lista Pedidos (VA05)
+            </button>
+            <button class="btn btn-outline" onclick="openAppModal('deliveries')">
+                🚚 Despacho (VL01N)
+            </button>
+            <button class="btn btn-ghost" onclick="refreshData()">
+                🔄 Actualizar
+            </button>
         </div>
     </div>
 
+    <!-- MAIN CONTAINER -->
+    <div class="container">
 
-    
+        <!-- SECCIÓN 1: KPIS -->
+        <div class="section-header">
+            <span class="section-title">Greenfield Distribuidora Express</span>
+        </div>
+
+        <div class="kpi-grid">
+            <!-- 1. Crear Pedido VA01 -->
+            <div class="kpi-card" onclick="openAppModal('orders')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#e0f2fe; color:#0284c7;">📑</div>
+                    <span class="badge badge-success">VA01</span>
+                </div>
+                <div class="kpi-val" id="val-orders">2,357</div>
+                <div class="kpi-lbl">Crear Pedido de Venta</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Crear Pedido (VA01) ➔</span>
+                </div>
+            </div>
+
+            <!-- 2. Lista de Pedidos VA05 -->
+            <div class="kpi-card" onclick="openAppModal('va05')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#ede9fe; color:#6366f1;">📋</div>
+                    <span class="badge badge-info">VA05</span>
+                </div>
+                <div class="kpi-val" id="val-va05">2,557</div>
+                <div class="kpi-lbl">Lista de Pedidos de Venta</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link" style="color:#6366f1;">Consultar Lista (VA05) ➔</span>
+                </div>
+            </div>
+
+            <!-- 2. Cotizaciones -->
+            <div class="kpi-card" onclick="openAppModal('quotations')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#e0e7ff; color:#4f46e5;">📝</div>
+                    <span class="badge badge-info">86% conv.</span>
+                </div>
+                <div class="kpi-val" id="val-quotations">1,288</div>
+                <div class="kpi-lbl">Cotizaciones / Ofertas</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Crear Cotización (VA21) ➔</span>
+                </div>
+            </div>
+
+            <!-- 3. Entregas -->
+            <div class="kpi-card" onclick="openAppModal('deliveries')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#cffafe; color:#0891b2;">🚚</div>
+                    <span class="badge badge-success">98% a tiempo</span>
+                </div>
+                <div class="kpi-val" id="val-deliveries">2,058</div>
+                <div class="kpi-lbl">Entregas de Salida</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Despachar Entrega (VL01N) ➔</span>
+                </div>
+            </div>
+
+            <!-- 4. Facturacion -->
+            <div class="kpi-card" onclick="openAppModal('billing')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#fef3c7; color:#d97706;">💳</div>
+                    <span class="badge badge-warning">$4.2M USD</span>
+                </div>
+                <div class="kpi-val" id="val-billing">1,969</div>
+                <div class="kpi-lbl">Documentos Facturación</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Facturar Comercial (VF01) ➔</span>
+                </div>
+            </div>
+
+            <!-- 5. Clientes BP -->
+            <div class="kpi-card" onclick="openAppModal('bp')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#f3e8ff; color:#9333ea;">👥</div>
+                    <span class="badge badge-neutral">32 Nuevos</span>
+                </div>
+                <div class="kpi-val" id="val-bp">323</div>
+                <div class="kpi-lbl">Clientes (BP)</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Maestro Clientes (BP) ➔</span>
+                </div>
+            </div>
+
+            <!-- 6. Precios -->
+            <div class="kpi-card" onclick="openAppModal('pricing')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#ffe4e6; color:#e11d48;">🏷️</div>
+                    <span class="badge badge-neutral">Vigentes</span>
+                </div>
+                <div class="kpi-val" id="val-pricing">12</div>
+                <div class="kpi-lbl">Condiciones de Precio</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Gestionar Precios (VK11) ➔</span>
+                </div>
+            </div>
+
+            <!-- 7. Stocks -->
+            <div class="kpi-card" onclick="openAppModal('stocks')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#d1fae5; color:#059669;">📦</div>
+                    <span class="badge badge-success">Stock Óptimo</span>
+                </div>
+                <div class="kpi-val" id="val-stocks">4,534</div>
+                <div class="kpi-lbl">Resumen de Stocks</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Consultar Stock (MMBE) ➔</span>
+                </div>
+            </div>
+
+            <!-- 8. Almacen EWM -->
+            <div class="kpi-card" onclick="openAppModal('ewm')">
+                <div class="kpi-top">
+                    <div class="kpi-icon" style="background:#ccfbf1; color:#0d9488;">🏭</div>
+                    <span class="badge badge-info">EWM Z101</span>
+                </div>
+                <div class="kpi-val" id="val-ewm">789</div>
+                <div class="kpi-lbl">Almacén (EWM)</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
+                    <span class="kpi-link">Monitor Almacén (EWM) ➔</span>
+                </div>
+            </div>
+        </div>
 
         <!-- SECCIÓN 2: ANALÍTICA -->
         <div class="section-header">
@@ -2061,168 +2040,5 @@
             setTimeout(function() { toast.style.display = "none"; }, 4500);
         }
     </script>
-
-    
-
-
-    <!-- ================= PIN SECURITY ACCESS SCRIPT ================= -->
-    <script>
-    (function() {
-        var PIN_SESSION_KEY = "DE_PIN_UNLOCKED";
-        var VALID_PINS = ["2026", "1234", "0000"];
-        var enteredPin = "";
-
-        function updateDots() {
-            for (var i = 0; i < 4; i++) {
-                var dot = document.getElementById("pin-dot-" + i);
-                if (dot) {
-                    if (i < enteredPin.length) {
-                        dot.classList.add("filled");
-                        dot.classList.remove("error");
-                    } else {
-                        dot.classList.remove("filled", "error");
-                    }
-                }
-            }
-        }
-
-        function setFeedback(msg, color) {
-            var fb = document.getElementById("pin-feedback-msg");
-            if (fb) {
-                fb.innerText = msg;
-                fb.style.color = color || "#64748b";
-            }
-        }
-
-        function unlockSuccess() {
-            var remember = document.getElementById("pin-remember-chk").checked;
-            if (remember) {
-                localStorage.setItem(PIN_SESSION_KEY, "true");
-            } else {
-                sessionStorage.setItem(PIN_SESSION_KEY, "true");
-            }
-
-            setFeedback("¡PIN correcto! Desbloqueando...", "#16a34a");
-            for (var i = 0; i < 4; i++) {
-                var dot = document.getElementById("pin-dot-" + i);
-                if (dot) dot.style.background = "#16a34a";
-            }
-
-            setTimeout(function() {
-                var overlay = document.getElementById("pin-access-overlay");
-                if (overlay) overlay.style.display = "none";
-                updateHeaderControls(true);
-                if (typeof showToast === "function") {
-                    showToast("Acceso de seguridad autorizado.");
-                }
-            }, 300);
-        }
-
-        function triggerError() {
-            setFeedback("PIN incorrecto. Inténtalo de nuevo.", "#dc2626");
-            for (var i = 0; i < 4; i++) {
-                var dot = document.getElementById("pin-dot-" + i);
-                if (dot) dot.classList.add("error");
-            }
-
-            var card = document.getElementById("pin-card-box");
-            if (card) {
-                card.classList.add("shake");
-                setTimeout(function() {
-                    card.classList.remove("shake");
-                }, 400);
-            }
-
-            setTimeout(function() {
-                enteredPin = "";
-                updateDots();
-                setFeedback("Escribe con tu teclado o usa el teclado en pantalla", "#64748b");
-            }, 700);
-        }
-
-        window.pressPinKey = function(digit) {
-            if (enteredPin.length >= 4) return;
-            enteredPin += String(digit);
-            updateDots();
-
-            if (enteredPin.length === 4) {
-                if (VALID_PINS.indexOf(enteredPin) !== -1) {
-                    unlockSuccess();
-                } else {
-                    triggerError();
-                }
-            }
-        };
-
-        window.deletePinKey = function() {
-            if (enteredPin.length > 0) {
-                enteredPin = enteredPin.slice(0, -1);
-                updateDots();
-            }
-        };
-
-        window.clearPinKey = function() {
-            enteredPin = "";
-            updateDots();
-            setFeedback("Escribe con tu teclado o usa el teclado en pantalla", "#64748b");
-        };
-
-        window.lockPinScreen = function() {
-            localStorage.removeItem(PIN_SESSION_KEY);
-            sessionStorage.removeItem(PIN_SESSION_KEY);
-            enteredPin = "";
-            updateDots();
-            setFeedback("Escribe con tu teclado o usa el teclado en pantalla", "#64748b");
-            updateHeaderControls(false);
-
-            var overlay = document.getElementById("pin-access-overlay");
-            if (overlay) overlay.style.display = "flex";
-            if (typeof showToast === "function") {
-                showToast("Pantalla bloqueada por seguridad.");
-            }
-        };
-
-        function updateHeaderControls(isUnlocked) {
-            var badge = document.getElementById("pin-active-badge");
-            var btn = document.getElementById("pin-lock-btn");
-            if (badge) badge.style.display = isUnlocked ? "flex" : "none";
-            if (btn) btn.style.display = isUnlocked ? "inline-flex" : "none";
-        }
-
-        // Listener para teclado físico (0-9, Backspace, Escape)
-        window.addEventListener("keydown", function(e) {
-            var overlay = document.getElementById("pin-access-overlay");
-            if (!overlay || overlay.style.display === "none") return;
-
-            if (e.key >= "0" && e.key <= "9") {
-                pressPinKey(e.key);
-            } else if (e.key === "Backspace") {
-                deletePinKey();
-            } else if (e.key === "Escape" || e.key === "c" || e.key === "C") {
-                clearPinKey();
-            }
-        });
-
-        // Verificar estado de desbloqueo al cargar
-        function checkPinStatus() {
-            var isUnlocked = localStorage.getItem(PIN_SESSION_KEY) === "true" || sessionStorage.getItem(PIN_SESSION_KEY) === "true";
-            var overlay = document.getElementById("pin-access-overlay");
-            if (isUnlocked) {
-                if (overlay) overlay.style.display = "none";
-                updateHeaderControls(true);
-            } else {
-                if (overlay) overlay.style.display = "flex";
-                updateHeaderControls(false);
-            }
-        }
-
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", checkPinStatus);
-        } else {
-            checkPinStatus();
-        }
-    })();
-    </script>
-
 </body>
 </html>
