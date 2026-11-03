@@ -11,53 +11,75 @@
         /* HERO HEADER */
         .hero {
             background: linear-gradient(135deg, #064e3b 0%, #065f46 45%, #047857 100%);
-            padding: 24px 36px;
+            padding: 20px 36px;
             color: #ffffff;
             border-bottom: 3px solid #10b981;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
+            gap: 20px;
             box-shadow: 0 10px 25px -5px rgba(6, 78, 59, 0.35);
         }
-        .hero-left { display: flex; align-items: center; gap: 16px; }
+        .hero-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
         .hero-logo {
             width: 48px; height: 48px; border-radius: 12px;
             background: linear-gradient(135deg, #10b981, #059669);
             display: flex; align-items: center; justify-content: center;
             font-size: 24px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+            flex-shrink: 0;
         }
         .company-pill { font-size: 11px; font-weight: 800; letter-spacing: 1.5px; color: #6ee7b7; text-transform: uppercase; }
         .partner-pill { font-size: 11px; font-weight: 600; color: #a7f3d0; margin-left: 8px; }
-        .hero-title { font-size: 1.55rem; font-weight: 700; margin: 4px 0 2px 0; }
-        .hero-sub { font-size: 0.85rem; color: #d1fae5; }
+        .hero-title { font-size: 1.5rem; font-weight: 700; margin: 4px 0 2px 0; white-space: nowrap; }
+        .hero-sub { font-size: 0.85rem; color: #d1fae5; white-space: nowrap; }
 
-        .hero-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-left: auto;
+            flex-shrink: 0;
+            flex-wrap: nowrap;
+        }
         .status-pill {
             background: rgba(6, 78, 59, 0.7);
             border: 1px solid rgba(110, 231, 183, 0.4);
-            padding: 7px 14px;
+            padding: 7px 13px;
             border-radius: 20px;
             display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
         .live-dot {
             width: 8px; height: 8px; border-radius: 50%; background: #34d399;
             box-shadow: 0 0 10px #34d399; animation: pulse 2s infinite;
+            flex-shrink: 0;
         }
         @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.7; } }
 
         .btn {
-            padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600;
+            padding: 7px 13px; border-radius: 8px; font-size: 12.5px; font-weight: 600;
             cursor: pointer; transition: all 0.2s ease; display: inline-flex;
-            align-items: center; gap: 8px; border: none; text-decoration: none;
+            align-items: center; gap: 6px; border: none; text-decoration: none;
+            white-space: nowrap;
         }
         .btn-primary { background: #10b981; color: #ffffff; }
-        .btn-primary:hover { background: #059669; }
-        .btn-outline { background: transparent; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.35); }
-        .btn-outline:hover { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; }
-        .btn-ghost { background: transparent; color: #a7f3d0; border: none; }
-        .btn-ghost:hover { color: #ffffff; }
+        .btn-primary:hover { background: #059669; transform: translateY(-1px); }
+        .btn-outline { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff; }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.2); }
+        .btn-ghost { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #a7f3d0; }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.15); color: #ffffff; }
+
+        @media (max-width: 1350px) {
+            .hero { flex-wrap: wrap; }
+            .hero-actions { width: 100%; justify-content: flex-end; margin-top: 4px; }
+        }
 
         /* CONTAINER */
         .container { max-width: 1380px; margin: 24px auto; padding: 0 20px; }
@@ -275,7 +297,7 @@
             <div>
                 <div><span class="company-pill">Distribuidora Express S.A.</span><span class="partner-pill">· AVLIS Consultores</span></div>
                 <h1 class="hero-title">Centro de Control Logístico &amp; Almacén EWM (Z101)</h1>
-                <p class="hero-sub">Gestión Avanzada de Almacenes S/4HANA: Almacén Z101 · Centro ZC10 · Depósitos ZR01 / ZA01</p>
+                <p class="hero-sub">Estructura Greenfield S/4HANA · Almacén Z101 (Centro ZC10)</p>
             </div>
         </div>
 
