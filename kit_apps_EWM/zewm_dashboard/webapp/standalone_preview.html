@@ -293,371 +293,187 @@
         .f4-code { font-weight: 700; color: #0284c7; font-size: 13px; }
         .f4-desc { color: #475569; font-size: 12px; }
     
-        /* ================= AUTHENTICATION OVERLAY & MODAL ================= */
-        .auth-overlay-backdrop {
+        
+
+    
+        /* ================= PIN SECURITY ACCESS ================= */
+        .pin-overlay-backdrop {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(15, 23, 42, 0.88);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             display: flex; align-items: center; justify-content: center;
             z-index: 99999;
             padding: 16px;
-            animation: authFadeIn 0.25s ease;
+            animation: pinFadeIn 0.25s ease;
         }
-        @keyframes authFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .auth-card {
+        @keyframes pinFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .pin-card {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: 20px;
             width: 100%;
-            max-width: 440px;
-            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.45), 0 0 0 1px rgba(0, 180, 219, 0.25);
+            max-width: 380px;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.5), 0 0 0 1px rgba(0, 180, 219, 0.3);
             overflow: hidden;
-            animation: authSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
+            animation: pinSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes authSlideUp { from { transform: translateY(20px) scale(0.97); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
-        .auth-header {
+        @keyframes pinSlideUp { from { transform: translateY(20px) scale(0.96); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        .pin-card.shake {
+            animation: pinShake 0.4s ease;
+        }
+        @keyframes pinShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .pin-header {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0e374e 100%);
-            padding: 24px 24px 20px 24px;
+            padding: 24px 20px 20px 20px;
             border-bottom: 3px solid #00b4db;
             color: #ffffff;
-            text-align: center;
-            position: relative;
         }
-        .auth-logo-badge {
+        .pin-logo-badge {
             width: 52px; height: 52px; border-radius: 14px;
             background: linear-gradient(135deg, #00b4db, #0083b0);
             display: inline-flex; align-items: center; justify-content: center;
             font-size: 26px; box-shadow: 0 6px 16px rgba(0, 180, 219, 0.35);
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
-        .auth-corp-name {
+        .pin-corp-pill {
             display: block; font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
             color: #38bdf8; text-transform: uppercase; margin-bottom: 4px;
         }
-        .auth-title {
-            font-size: 1.35rem; font-weight: 700; color: #ffffff; margin: 0 0 4px 0;
+        .pin-card-title {
+            font-size: 1.3rem; font-weight: 700; color: #ffffff; margin: 0 0 4px 0;
         }
-        .auth-subtitle {
+        .pin-card-sub {
             font-size: 0.8rem; color: #cbd5e1; margin: 0;
         }
-        .auth-nav-tabs {
-            display: flex; background: #f1f5f9; padding: 4px; margin: 16px 20px 0 20px;
-            border-radius: 10px; border: 1px solid #e2e8f0;
+        .pin-body {
+            padding: 24px 24px 28px 24px;
         }
-        .auth-tab-btn {
-            flex: 1; padding: 9px 12px; border: none; background: transparent;
-            font-size: 13px; font-weight: 600; color: #64748b; border-radius: 8px;
-            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;
-            justify-content: center; gap: 6px;
+        .pin-prompt {
+            font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 18px;
         }
-        .auth-tab-btn.active {
-            background: #ffffff; color: #0284c7; font-weight: 700;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        .pin-display-slots {
+            display: flex; justify-content: center; gap: 14px; margin-bottom: 22px;
         }
-        .auth-form-body {
-            padding: 20px 24px 24px 24px;
+        .pin-slot {
+            width: 18px; height: 18px; border-radius: 50%;
+            border: 2px solid #cbd5e1; background: #ffffff;
+            transition: all 0.2s ease;
         }
-        .auth-field {
-            margin-bottom: 14px;
+        .pin-slot.filled {
+            background: #0070f2; border-color: #0070f2;
+            transform: scale(1.15); box-shadow: 0 0 10px rgba(0, 112, 242, 0.4);
         }
-        .auth-label {
-            display: block; font-size: 11px; font-weight: 700; color: #475569;
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+        .pin-slot.error {
+            background: #ef4444; border-color: #ef4444;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
         }
-        .auth-input-wrapper {
-            position: relative; display: flex; align-items: center;
+        .pin-pad {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            max-width: 270px; margin: 0 auto 16px auto;
         }
-        .auth-input-icon {
-            position: absolute; left: 12px; font-size: 14px; pointer-events: none; opacity: 0.7;
+        .pin-key {
+            height: 52px; border-radius: 12px; border: 1px solid #e2e8f0;
+            background: #f8fafc; font-size: 18px; font-weight: 700; color: #0f172a;
+            cursor: pointer; transition: all 0.15s ease; user-select: none;
+            display: flex; align-items: center; justify-content: center;
         }
-        .auth-input {
-            width: 100%; padding: 10px 12px 10px 36px; border: 1.5px solid #cbd5e1;
-            border-radius: 8px; font-size: 13px; color: #0f172a; background: #ffffff;
-            outline: none; transition: all 0.2s ease; box-sizing: border-box;
+        .pin-key:hover {
+            background: #f0f9ff; border-color: #00b4db; color: #0284c7;
+            transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 180, 219, 0.15);
         }
-        .auth-input:focus {
-            border-color: #00b4db; box-shadow: 0 0 0 3px rgba(0, 180, 219, 0.18);
+        .pin-key:active {
+            transform: scale(0.95);
         }
-        .auth-eye-btn {
-            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
-            background: transparent; border: none; cursor: pointer; padding: 4px;
-            font-size: 14px; opacity: 0.6; transition: opacity 0.2s ease;
+        .pin-key-util {
+            font-size: 13px; font-weight: 600; color: #64748b; background: #f1f5f9;
         }
-        .auth-eye-btn:hover { opacity: 1; }
-        .auth-options-row {
-            display: flex; justify-content: space-between; align-items: center;
-            margin: 14px 0 18px 0; font-size: 12px; color: #64748b;
+        .pin-key-util:hover {
+            background: #e2e8f0; color: #334155;
         }
-        .auth-checkbox-label {
-            display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;
-        }
-        .auth-checkbox-label input[type="checkbox"] {
-            width: 15px; height: 15px; accent-color: #0070f2; cursor: pointer;
-        }
-        .auth-btn-primary {
-            width: 100%; padding: 11px 16px; border: none; border-radius: 8px;
-            background: #0070f2; color: #ffffff; font-size: 14px; font-weight: 700;
-            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0, 112, 242, 0.25);
+        .pin-options {
+            margin-top: 14px; font-size: 12px; color: #64748b;
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .auth-btn-primary:hover {
-            background: #0056ba; transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(0, 112, 242, 0.35);
+        .pin-options input {
+            accent-color: #0070f2; cursor: pointer; width: 15px; height: 15px;
         }
-        .auth-footer-prompt {
-            margin-top: 18px; text-align: center; font-size: 12px; color: #64748b;
+        .pin-hint-box {
+            margin-top: 16px; padding: 10px 14px; border-radius: 8px;
+            background: #f0f9ff; border: 1px solid #bae6fd;
+            font-size: 12px; color: #0369a1; text-align: center;
         }
-        .auth-footer-prompt a {
-            color: #0284c7; font-weight: 700; text-decoration: none; margin-left: 4px;
-        }
-        .auth-footer-prompt a:hover { text-decoration: underline; }
-        .auth-alert {
-            margin: 16px 20px 0 20px; padding: 10px 14px; border-radius: 8px;
-            font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 8px;
-        }
-        .auth-alert-error {
-            background: #fef2f2; border: 1px solid #fecaca; color: #dc2626;
-        }
-        .auth-alert-success {
-            background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a;
+        .pin-feedback {
+            font-size: 12px; font-weight: 700; min-height: 18px; margin-bottom: 12px;
+            transition: all 0.2s ease;
         }
 
     </style>
 </head>
 <body>
 
-    <!-- ================= AUTHENTICATION OVERLAY ================= -->
-    <div id="auth-overlay" class="auth-overlay-backdrop">
-        <div class="auth-card">
-            <!-- Header Corporativo -->
-            <div class="auth-header">
-                <div class="auth-logo-badge">🏢</div>
-                <span class="auth-corp-name">DISTRIBUIDORA EXPRESS S.A.</span>
-                <h2 class="auth-title">Acceso al Sistema</h2>
-                <p class="auth-subtitle">Estructura Greenfield SAP S/4HANA</p>
+    <!-- ================= PIN SECURITY ACCESS OVERLAY ================= -->
+    <div id="pin-access-overlay" class="pin-overlay-backdrop">
+        <div id="pin-card-box" class="pin-card">
+            <!-- Header -->
+            <div class="pin-header">
+                <div class="pin-logo-badge">🏢</div>
+                <span class="pin-corp-pill">DISTRIBUIDORA EXPRESS S.A.</span>
+                <h2 class="pin-card-title">Acceso de Seguridad</h2>
+                <p class="pin-card-sub">Greenfield SAP S/4HANA</p>
             </div>
 
-            <!-- Selector Iniciar Sesión / Registrarse -->
-            <div class="auth-nav-tabs">
-                <button type="button" id="tab-btn-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">
-                    🔑 Iniciar Sesión
-                </button>
-                <button type="button" id="tab-btn-register" class="auth-tab-btn" onclick="switchAuthTab('register')">
-                    ✨ Registrarse
-                </button>
+            <!-- Body -->
+            <div class="pin-body">
+                <div class="pin-prompt">Ingresa el código PIN para desbloquear</div>
+
+                <!-- 4 Indicadores visuales de dígitos -->
+                <div class="pin-display-slots">
+                    <div id="pin-dot-0" class="pin-slot"></div>
+                    <div id="pin-dot-1" class="pin-slot"></div>
+                    <div id="pin-dot-2" class="pin-slot"></div>
+                    <div id="pin-dot-3" class="pin-slot"></div>
+                </div>
+
+                <!-- Mensaje de estado -->
+                <div id="pin-feedback-msg" class="pin-feedback" style="color: #64748b;">Escribe con tu teclado o usa el teclado en pantalla</div>
+
+                <!-- Teclado Numérico Interactivo -->
+                <div class="pin-pad">
+                    <button type="button" class="pin-key" onclick="pressPinKey('1')">1</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('2')">2</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('3')">3</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('4')">4</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('5')">5</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('6')">6</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('7')">7</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('8')">8</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('9')">9</button>
+                    <button type="button" class="pin-key pin-key-util" onclick="clearPinKey()" title="Limpiar">C</button>
+                    <button type="button" class="pin-key" onclick="pressPinKey('0')">0</button>
+                    <button type="button" class="pin-key pin-key-util" onclick="deletePinKey()" title="Borrar">⌫</button>
+                </div>
+
+                <!-- Opción de recordar -->
+                <label class="pin-options">
+                    <input type="checkbox" id="pin-remember-chk" checked />
+                    <span>Recordar desbloqueo en este equipo</span>
+                </label>
+
+                <!-- Tarjeta de ayuda PIN -->
+                <div class="pin-hint-box">
+                    <span>💡 <b>PIN del Proyecto:</b> <code>2026</code> o <code>1234</code></span>
+                </div>
             </div>
-
-            <!-- Banner Alertas -->
-            <div id="auth-alert" class="auth-alert" style="display: none;"></div>
-
-            <!-- FORMULARIO 1: INICIAR SESIÓN -->
-            <form id="auth-form-login" onsubmit="handleAuthLogin(event)" class="auth-form-body">
-                <div class="auth-field">
-                    <label class="auth-label">Usuario</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon">👤</span>
-                        <input type="text" id="login-username" class="auth-input" placeholder="Ej: jfuentes o admin" required autocomplete="username" />
-                    </div>
-                </div>
-
-                <div class="auth-field">
-                    <label class="auth-label">Contraseña</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon">🔒</span>
-                        <input type="password" id="login-password" class="auth-input" placeholder="Tu contraseña" required autocomplete="current-password" />
-                        <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('login-password')" title="Ver u ocultar contraseña">👁️</button>
-                    </div>
-                </div>
-
-                <div class="auth-options-row">
-                    <label class="auth-checkbox-label">
-                        <input type="checkbox" id="login-remember" checked />
-                        <span>Recordar mi sesión en este equipo</span>
-                    </label>
-                </div>
-
-                <button type="submit" class="auth-btn-primary">
-                    🚀 Ingresar al Centro de Mando
-                </button>
-
-                <div class="auth-footer-prompt">
-                    <span>¿Primera vez aquí?</span>
-                    <a href="javascript:void(0)" onclick="switchAuthTab('register')">Crear una cuenta nueva</a>
-                </div>
-            </form>
-
-            <!-- FORMULARIO 2: REGISTRO -->
-            <form id="auth-form-register" onsubmit="handleAuthRegister(event)" class="auth-form-body" style="display: none;">
-                <div class="auth-field">
-                    <label class="auth-label">Nombre y Apellido</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon">📝</span>
-                        <input type="text" id="reg-fullname" class="auth-input" placeholder="Ej: Javier Fuentes" required />
-                    </div>
-                </div>
-
-                <div class="auth-field">
-                    <label class="auth-label">Nombre de Usuario (Para iniciar sesión)</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon">👤</span>
-                        <input type="text" id="reg-username" class="auth-input" placeholder="Ej: jfuentes" required autocomplete="username" />
-                    </div>
-                </div>
-
-                <div class="auth-field">
-                    <label class="auth-label">Rol o Cargo en el Proyecto</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon">🏷️</span>
-                        <select id="reg-role" class="auth-input" style="cursor: pointer;">
-                            <option value="Administrador General">Administrador General (Acceso Total)</option>
-                            <option value="Gestor Logístico EWM">Gestor Logístico & Almacén EWM (Z101)</option>
-                            <option value="Ejecutivo Comercial SD">Ejecutivo Comercial & Ventas (SD)</option>
-                            <option value="Operador de Recepción">Operador de Recepción & Ubicación</option>
-                            <option value="Consultor SAP">Consultor / Auditor SAP S/4HANA</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="auth-field">
-                    <label class="auth-label">Contraseña</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon">🔒</span>
-                        <input type="password" id="reg-password" class="auth-input" placeholder="Mínimo 4 caracteres" required autocomplete="new-password" />
-                        <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('reg-password')" title="Ver u ocultar contraseña">👁️</button>
-                    </div>
-                </div>
-
-                <div class="auth-field">
-                    <label class="auth-label">Confirmar Contraseña</label>
-                    <div class="auth-input-wrapper">
-                        <span class="auth-input-icon">🔒</span>
-                        <input type="password" id="reg-password-confirm" class="auth-input" placeholder="Repite tu contraseña" required autocomplete="new-password" />
-                        <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('reg-password-confirm')" title="Ver u ocultar contraseña">👁️</button>
-                    </div>
-                </div>
-
-                <div class="auth-options-row">
-                    <label class="auth-checkbox-label">
-                        <input type="checkbox" id="reg-remember" checked />
-                        <span>Iniciar sesión automáticamente tras registrarme</span>
-                    </label>
-                </div>
-
-                <button type="submit" class="auth-btn-primary">
-                    ✨ Crear Cuenta y Acceder
-                </button>
-
-                <div class="auth-footer-prompt">
-                    <span>¿Ya tienes cuenta?</span>
-                    <a href="javascript:void(0)" onclick="switchAuthTab('login')">Iniciar Sesión</a>
-                </div>
-            </form>
         </div>
     </div>
 
 
-    <!-- HERO HEADER -->
-    <div class="hero">
-        <div class="hero-left">
-            <div class="hero-logo">🏢</div>
-            <div>
-                <div><span class="company-pill">Distribuidora Express S.A.</span><span class="partner-pill">· AVLIS Consultores</span></div>
-                <h1 class="hero-title">Centro de Control Logístico &amp; Almacén EWM (Z101)</h1>
-                <p class="hero-sub">Estructura Greenfield S/4HANA · Almacén Z101 (Centro ZC10)</p>
-            </div>
-        </div>
-
-        <div class="hero-actions">
-            <div class="status-pill">
-                <span class="live-dot"></span>
-                <span>Almacén EWM Z101 Activo</span>
-            
-            <div id="auth-user-pill" class="status-pill" style="display:none; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.4); gap: 6px;">
-                <span style="font-size: 13px;">👤</span>
-                <span id="auth-display-user" style="color: #ffffff; font-weight: 700;">Usuario</span>
-                <span id="auth-display-role" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: 2px;">Admin</span>
-            </div>
-            <button id="auth-logout-btn" class="btn btn-ghost" onclick="appLogout()" style="display:none; border-color: rgba(255,255,255,0.25); color: #cbd5e1;" title="Cerrar Sesión Segura">
-                🚪 Salir
-            </button>
-</div>
-            <button class="btn btn-primary" onclick="openEwmApp('me21n')">
-                📥 Pedido Compra (ME21N)
-            </button>
-            <button class="btn btn-outline" onclick="openEwmApp('prdi')">
-                🚚 Recepción EWM (PRDI)
-            </button>
-            <button class="btn btn-outline" onclick="openEwmApp('adhu')">
-                📦 Tarea Ubicación (ADHU)
-            </button>
-            <button class="btn btn-outline" onclick="openEwmApp('mon')">
-                📊 Monitor EWM (/SCWM/MON)
-            </button>
-            <button class="btn btn-ghost" onclick="refreshEwmData()">
-                🔄 Actualizar
-            </button>
-        </div>
-    </div>
-
-    <!-- MAIN CONTAINER -->
-    <div class="container">
-
-        <!-- STEPPER: FLUJO ERP -> EWM -->
-        <div class="stepper-card">
-            <div class="stepper-header">
-                <div class="stepper-title">🔄 Flujo de Compra y Recepción: ERP ➡️ EWM (Almacén Z101)</div>
-                <div class="stepper-legend">Haz clic en cualquier fase para ejecutarla interactivamente</div>
-            </div>
-            <div class="stepper-grid">
-                <div class="step-item" onclick="openEwmApp('me21n')">
-                    <div class="step-num">1</div>
-                    <div class="step-tx">ME21N</div>
-                    <div class="step-sys">ERP</div>
-                    <div class="step-desc">Crear Pedido de Compra (Clase NB)</div>
-                </div>
-                <div class="step-item" onclick="openEwmApp('vl31n')">
-                    <div class="step-num">2</div>
-                    <div class="step-tx">VL31N</div>
-                    <div class="step-sys">ERP</div>
-                    <div class="step-desc">Crear Entrega Entrante (Inbound)</div>
-                </div>
-                <div class="step-item" onclick="openEwmApp('prdi')">
-                    <div class="step-num">3</div>
-                    <div class="step-tx">/SCWM/PRDI</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Verificar Entrega en EWM</div>
-                </div>
-                <div class="step-item" onclick="openEwmApp('staging')">
-                    <div class="step-num">4</div>
-                    <div class="step-tx">Puesta Disp.</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Z910 / ZS01 / GR-ZD01</div>
-                </div>
-                <div class="step-item" onclick="openEwmApp('pack')">
-                    <div class="step-num">5</div>
-                    <div class="step-tx">Embalar HU</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Pallet Madera ZPL-120</div>
-                </div>
-                <div class="step-item" onclick="openEwmApp('gr')">
-                    <div class="step-num">6</div>
-                    <div class="step-tx">Entrada Mcía.</div>
-                    <div class="step-sys">EWM ➔ ERP</div>
-                    <div class="step-desc">Mov. 101 en ZR01 vía qRFC</div>
-                </div>
-                <div class="step-item" onclick="openEwmApp('adhu')">
-                    <div class="step-num">7</div>
-                    <div class="step-tx">/SCWM/ADHU</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Tarea Ubicación Clase Z011</div>
-                </div>
-                <div class="step-item" onclick="openEwmApp('toconf')">
-                    <div class="step-num">8</div>
-                    <div class="step-tx">/SCWM/TO_CONF</div>
-                    <div class="step-sys">EWM ➔ ERP</div>
-                    <div class="step-desc">Confirmar Tarea (Traspaso 411 a ZA01)</div>
-                </div>
-            </div>
+    
         </div>
 
         <!-- SECCIÓN 1: KPIS OPERATIVOS -->
@@ -1810,249 +1626,164 @@
         });
     </script>
 
-    <!-- ================= AUTHENTICATION MANAGER SCRIPT ================= -->
+    
+
+
+    <!-- ================= PIN SECURITY ACCESS SCRIPT ================= -->
     <script>
     (function() {
-        var AUTH_USERS_KEY = "DE_AUTH_USERS";
-        var AUTH_SESSION_KEY = "DE_ACTIVE_SESSION";
+        var PIN_SESSION_KEY = "DE_PIN_UNLOCKED";
+        var VALID_PINS = ["2026", "1234", "0000"];
+        var enteredPin = "";
 
-        // Inicializar usuarios por defecto si no existen
-        function getStoredUsers() {
-            var raw = localStorage.getItem(AUTH_USERS_KEY);
-            if (!raw) {
-                var defaultUsers = [
-                    {
-                        username: "admin",
-                        fullName: "Administrador Greenfield",
-                        role: "Administrador General",
-                        password: "admin",
-                        createdAt: new Date().toISOString()
+        function updateDots() {
+            for (var i = 0; i < 4; i++) {
+                var dot = document.getElementById("pin-dot-" + i);
+                if (dot) {
+                    if (i < enteredPin.length) {
+                        dot.classList.add("filled");
+                        dot.classList.remove("error");
+                    } else {
+                        dot.classList.remove("filled", "error");
                     }
-                ];
-                localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(defaultUsers));
-                return defaultUsers;
-            }
-            try {
-                return JSON.parse(raw);
-            } catch(e) {
-                return [];
+                }
             }
         }
 
-        function saveUsers(users) {
-            localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
-        }
-
-        function getActiveSession() {
-            var session = localStorage.getItem(AUTH_SESSION_KEY) || sessionStorage.getItem(AUTH_SESSION_KEY);
-            if (!session) return null;
-            try {
-                return JSON.parse(session);
-            } catch(e) {
-                return null;
+        function setFeedback(msg, color) {
+            var fb = document.getElementById("pin-feedback-msg");
+            if (fb) {
+                fb.innerText = msg;
+                fb.style.color = color || "#64748b";
             }
         }
 
-        function setActiveSession(user, remember) {
-            var payload = JSON.stringify({
-                username: user.username,
-                fullName: user.fullName,
-                role: user.role,
-                loggedAt: new Date().toISOString()
-            });
+        function unlockSuccess() {
+            var remember = document.getElementById("pin-remember-chk").checked;
             if (remember) {
-                localStorage.setItem(AUTH_SESSION_KEY, payload);
+                localStorage.setItem(PIN_SESSION_KEY, "true");
             } else {
-                sessionStorage.setItem(AUTH_SESSION_KEY, payload);
-            }
-        }
-
-        function clearActiveSession() {
-            localStorage.removeItem(AUTH_SESSION_KEY);
-            sessionStorage.removeItem(AUTH_SESSION_KEY);
-        }
-
-        function updateHeaderUser(user) {
-            var badge = document.getElementById("auth-user-pill");
-            var logoutBtn = document.getElementById("auth-logout-btn");
-            var nameSpan = document.getElementById("auth-display-user");
-            var roleSpan = document.getElementById("auth-display-role");
-
-            if (user) {
-                if (nameSpan) nameSpan.textContent = user.fullName || user.username;
-                if (roleSpan) roleSpan.textContent = user.role || "Usuario";
-                if (badge) badge.style.display = "flex";
-                if (logoutBtn) logoutBtn.style.display = "inline-flex";
-            } else {
-                if (badge) badge.style.display = "none";
-                if (logoutBtn) logoutBtn.style.display = "none";
-            }
-        }
-
-        window.switchAuthTab = function(tab) {
-            var formLogin = document.getElementById("auth-form-login");
-            var formReg = document.getElementById("auth-form-register");
-            var btnLogin = document.getElementById("tab-btn-login");
-            var btnReg = document.getElementById("tab-btn-register");
-            var alertBox = document.getElementById("auth-alert");
-
-            if (alertBox) alertBox.style.display = "none";
-
-            if (tab === "login") {
-                if (formLogin) formLogin.style.display = "block";
-                if (formReg) formReg.style.display = "none";
-                if (btnLogin) btnLogin.classList.add("active");
-                if (btnReg) btnReg.classList.remove("active");
-                var inp = document.getElementById("login-username");
-                if (inp) inp.focus();
-            } else {
-                if (formLogin) formLogin.style.display = "none";
-                if (formReg) formReg.style.display = "block";
-                if (btnLogin) btnLogin.classList.remove("active");
-                if (btnReg) btnReg.classList.add("active");
-                var inpReg = document.getElementById("reg-fullname");
-                if (inpReg) inpReg.focus();
-            }
-        };
-
-        window.togglePasswordVisibility = function(inputId) {
-            var input = document.getElementById(inputId);
-            if (!input) return;
-            if (input.type === "password") {
-                input.type = "text";
-            } else {
-                input.type = "password";
-            }
-        };
-
-        function showAuthAlert(msg, type) {
-            var box = document.getElementById("auth-alert");
-            if (!box) return;
-            box.className = "auth-alert " + (type === "success" ? "auth-alert-success" : "auth-alert-error");
-            box.innerHTML = (type === "success" ? "✅ " : "⚠️ ") + msg;
-            box.style.display = "flex";
-        }
-
-        window.handleAuthLogin = function(e) {
-            if (e && e.preventDefault) e.preventDefault();
-            var username = (document.getElementById("login-username").value || "").trim().toLowerCase();
-            var password = (document.getElementById("login-password").value || "").trim();
-            var remember = document.getElementById("login-remember").checked;
-
-            if (!username || !password) {
-                showAuthAlert("Por favor completa tu usuario y contraseña.", "error");
-                return;
+                sessionStorage.setItem(PIN_SESSION_KEY, "true");
             }
 
-            var users = getStoredUsers();
-            var found = users.find(function(u) {
-                return (u.username.toLowerCase() === username || (u.email && u.email.toLowerCase() === username)) && u.password === password;
-            });
-
-            if (!found) {
-                showAuthAlert("Usuario o contraseña incorrectos. Si no tienes cuenta, haz clic en 'Registrarse'.", "error");
-                return;
+            setFeedback("¡PIN correcto! Desbloqueando...", "#16a34a");
+            for (var i = 0; i < 4; i++) {
+                var dot = document.getElementById("pin-dot-" + i);
+                if (dot) dot.style.background = "#16a34a";
             }
 
-            // Éxito
-            setActiveSession(found, remember);
-            updateHeaderUser(found);
-            var overlay = document.getElementById("auth-overlay");
-            if (overlay) overlay.style.display = "none";
-            if (typeof showToast === "function") {
-                showToast("¡Bienvenido/a, " + (found.fullName || found.username) + "!");
-            }
-        };
-
-        window.handleAuthRegister = function(e) {
-            if (e && e.preventDefault) e.preventDefault();
-            var fullName = (document.getElementById("reg-fullname").value || "").trim();
-            var username = (document.getElementById("reg-username").value || "").trim().toLowerCase();
-            var role = document.getElementById("reg-role").value;
-            var password = (document.getElementById("reg-password").value || "").trim();
-            var passwordConfirm = (document.getElementById("reg-password-confirm").value || "").trim();
-            var remember = document.getElementById("reg-remember").checked;
-
-            if (fullName.length < 2) {
-                showAuthAlert("Por favor ingresa tu nombre y apellido.", "error");
-                return;
-            }
-            if (username.length < 3) {
-                showAuthAlert("El nombre de usuario debe tener al menos 3 caracteres.", "error");
-                return;
-            }
-            if (password.length < 4) {
-                showAuthAlert("La contraseña debe tener al menos 4 caracteres.", "error");
-                return;
-            }
-            if (password !== passwordConfirm) {
-                showAuthAlert("Las contraseñas no coinciden. Verifícalas.", "error");
-                return;
-            }
-
-            var users = getStoredUsers();
-            var exists = users.some(function(u) {
-                return u.username.toLowerCase() === username;
-            });
-
-            if (exists) {
-                showAuthAlert("El usuario '" + username + "' ya existe. Elige otro o inicia sesión.", "error");
-                return;
-            }
-
-            var newUser = {
-                username: username,
-                fullName: fullName,
-                role: role,
-                password: password,
-                createdAt: new Date().toISOString()
-            };
-
-            users.push(newUser);
-            saveUsers(users);
-
-            // Iniciar sesión con el nuevo usuario
-            setActiveSession(newUser, remember);
-            updateHeaderUser(newUser);
-
-            var overlay = document.getElementById("auth-overlay");
-            if (overlay) overlay.style.display = "none";
-
-            if (typeof showToast === "function") {
-                showToast("¡Cuenta creada con éxito! Bienvenido/a, " + fullName);
-            }
-        };
-
-        window.appLogout = function() {
-            clearActiveSession();
-            updateHeaderUser(null);
-            var overlay = document.getElementById("auth-overlay");
-            if (overlay) {
-                overlay.style.display = "flex";
-                switchAuthTab("login");
-            }
-            if (typeof showToast === "function") {
-                showToast("Has cerrado sesión correctamente.");
-            }
-        };
-
-        // Comprobación automática de sesión al cargar la página
-        function checkInitialAuth() {
-            var session = getActiveSession();
-            var overlay = document.getElementById("auth-overlay");
-            if (session) {
-                updateHeaderUser(session);
+            setTimeout(function() {
+                var overlay = document.getElementById("pin-access-overlay");
                 if (overlay) overlay.style.display = "none";
+                updateHeaderControls(true);
+                if (typeof showToast === "function") {
+                    showToast("Acceso de seguridad autorizado.");
+                }
+            }, 300);
+        }
+
+        function triggerError() {
+            setFeedback("PIN incorrecto. Inténtalo de nuevo.", "#dc2626");
+            for (var i = 0; i < 4; i++) {
+                var dot = document.getElementById("pin-dot-" + i);
+                if (dot) dot.classList.add("error");
+            }
+
+            var card = document.getElementById("pin-card-box");
+            if (card) {
+                card.classList.add("shake");
+                setTimeout(function() {
+                    card.classList.remove("shake");
+                }, 400);
+            }
+
+            setTimeout(function() {
+                enteredPin = "";
+                updateDots();
+                setFeedback("Escribe con tu teclado o usa el teclado en pantalla", "#64748b");
+            }, 700);
+        }
+
+        window.pressPinKey = function(digit) {
+            if (enteredPin.length >= 4) return;
+            enteredPin += String(digit);
+            updateDots();
+
+            if (enteredPin.length === 4) {
+                if (VALID_PINS.indexOf(enteredPin) !== -1) {
+                    unlockSuccess();
+                } else {
+                    triggerError();
+                }
+            }
+        };
+
+        window.deletePinKey = function() {
+            if (enteredPin.length > 0) {
+                enteredPin = enteredPin.slice(0, -1);
+                updateDots();
+            }
+        };
+
+        window.clearPinKey = function() {
+            enteredPin = "";
+            updateDots();
+            setFeedback("Escribe con tu teclado o usa el teclado en pantalla", "#64748b");
+        };
+
+        window.lockPinScreen = function() {
+            localStorage.removeItem(PIN_SESSION_KEY);
+            sessionStorage.removeItem(PIN_SESSION_KEY);
+            enteredPin = "";
+            updateDots();
+            setFeedback("Escribe con tu teclado o usa el teclado en pantalla", "#64748b");
+            updateHeaderControls(false);
+
+            var overlay = document.getElementById("pin-access-overlay");
+            if (overlay) overlay.style.display = "flex";
+            if (typeof showToast === "function") {
+                showToast("Pantalla bloqueada por seguridad.");
+            }
+        };
+
+        function updateHeaderControls(isUnlocked) {
+            var badge = document.getElementById("pin-active-badge");
+            var btn = document.getElementById("pin-lock-btn");
+            if (badge) badge.style.display = isUnlocked ? "flex" : "none";
+            if (btn) btn.style.display = isUnlocked ? "inline-flex" : "none";
+        }
+
+        // Listener para teclado físico (0-9, Backspace, Escape)
+        window.addEventListener("keydown", function(e) {
+            var overlay = document.getElementById("pin-access-overlay");
+            if (!overlay || overlay.style.display === "none") return;
+
+            if (e.key >= "0" && e.key <= "9") {
+                pressPinKey(e.key);
+            } else if (e.key === "Backspace") {
+                deletePinKey();
+            } else if (e.key === "Escape" || e.key === "c" || e.key === "C") {
+                clearPinKey();
+            }
+        });
+
+        // Verificar estado de desbloqueo al cargar
+        function checkPinStatus() {
+            var isUnlocked = localStorage.getItem(PIN_SESSION_KEY) === "true" || sessionStorage.getItem(PIN_SESSION_KEY) === "true";
+            var overlay = document.getElementById("pin-access-overlay");
+            if (isUnlocked) {
+                if (overlay) overlay.style.display = "none";
+                updateHeaderControls(true);
             } else {
-                updateHeaderUser(null);
                 if (overlay) overlay.style.display = "flex";
+                updateHeaderControls(false);
             }
         }
 
         if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", checkInitialAuth);
+            document.addEventListener("DOMContentLoaded", checkPinStatus);
         } else {
-            checkInitialAuth();
+            checkPinStatus();
         }
     })();
     </script>
