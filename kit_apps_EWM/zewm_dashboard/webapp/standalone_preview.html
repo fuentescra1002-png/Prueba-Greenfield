@@ -292,9 +292,269 @@
         .f4-list-item:hover { background: #f0f9ff; }
         .f4-code { font-weight: 700; color: #0284c7; font-size: 13px; }
         .f4-desc { color: #475569; font-size: 12px; }
+    
+        /* ================= AUTHENTICATION OVERLAY & MODAL ================= */
+        .auth-overlay-backdrop {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 99999;
+            padding: 16px;
+            animation: authFadeIn 0.25s ease;
+        }
+        @keyframes authFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .auth-card {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.45), 0 0 0 1px rgba(0, 180, 219, 0.25);
+            overflow: hidden;
+            animation: authSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes authSlideUp { from { transform: translateY(20px) scale(0.97); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        .auth-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 55%, #0e374e 100%);
+            padding: 24px 24px 20px 24px;
+            border-bottom: 3px solid #00b4db;
+            color: #ffffff;
+            text-align: center;
+            position: relative;
+        }
+        .auth-logo-badge {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: linear-gradient(135deg, #00b4db, #0083b0);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 26px; box-shadow: 0 6px 16px rgba(0, 180, 219, 0.35);
+            margin-bottom: 12px;
+        }
+        .auth-corp-name {
+            display: block; font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+            color: #38bdf8; text-transform: uppercase; margin-bottom: 4px;
+        }
+        .auth-title {
+            font-size: 1.35rem; font-weight: 700; color: #ffffff; margin: 0 0 4px 0;
+        }
+        .auth-subtitle {
+            font-size: 0.8rem; color: #cbd5e1; margin: 0;
+        }
+        .auth-nav-tabs {
+            display: flex; background: #f1f5f9; padding: 4px; margin: 16px 20px 0 20px;
+            border-radius: 10px; border: 1px solid #e2e8f0;
+        }
+        .auth-tab-btn {
+            flex: 1; padding: 9px 12px; border: none; background: transparent;
+            font-size: 13px; font-weight: 600; color: #64748b; border-radius: 8px;
+            cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center;
+            justify-content: center; gap: 6px;
+        }
+        .auth-tab-btn.active {
+            background: #ffffff; color: #0284c7; font-weight: 700;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+        .auth-form-body {
+            padding: 20px 24px 24px 24px;
+        }
+        .auth-field {
+            margin-bottom: 14px;
+        }
+        .auth-label {
+            display: block; font-size: 11px; font-weight: 700; color: #475569;
+            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+        }
+        .auth-input-wrapper {
+            position: relative; display: flex; align-items: center;
+        }
+        .auth-input-icon {
+            position: absolute; left: 12px; font-size: 14px; pointer-events: none; opacity: 0.7;
+        }
+        .auth-input {
+            width: 100%; padding: 10px 12px 10px 36px; border: 1.5px solid #cbd5e1;
+            border-radius: 8px; font-size: 13px; color: #0f172a; background: #ffffff;
+            outline: none; transition: all 0.2s ease; box-sizing: border-box;
+        }
+        .auth-input:focus {
+            border-color: #00b4db; box-shadow: 0 0 0 3px rgba(0, 180, 219, 0.18);
+        }
+        .auth-eye-btn {
+            position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+            background: transparent; border: none; cursor: pointer; padding: 4px;
+            font-size: 14px; opacity: 0.6; transition: opacity 0.2s ease;
+        }
+        .auth-eye-btn:hover { opacity: 1; }
+        .auth-options-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin: 14px 0 18px 0; font-size: 12px; color: #64748b;
+        }
+        .auth-checkbox-label {
+            display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;
+        }
+        .auth-checkbox-label input[type="checkbox"] {
+            width: 15px; height: 15px; accent-color: #0070f2; cursor: pointer;
+        }
+        .auth-btn-primary {
+            width: 100%; padding: 11px 16px; border: none; border-radius: 8px;
+            background: #0070f2; color: #ffffff; font-size: 14px; font-weight: 700;
+            cursor: pointer; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0, 112, 242, 0.25);
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .auth-btn-primary:hover {
+            background: #0056ba; transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 112, 242, 0.35);
+        }
+        .auth-footer-prompt {
+            margin-top: 18px; text-align: center; font-size: 12px; color: #64748b;
+        }
+        .auth-footer-prompt a {
+            color: #0284c7; font-weight: 700; text-decoration: none; margin-left: 4px;
+        }
+        .auth-footer-prompt a:hover { text-decoration: underline; }
+        .auth-alert {
+            margin: 16px 20px 0 20px; padding: 10px 14px; border-radius: 8px;
+            font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 8px;
+        }
+        .auth-alert-error {
+            background: #fef2f2; border: 1px solid #fecaca; color: #dc2626;
+        }
+        .auth-alert-success {
+            background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a;
+        }
+
     </style>
 </head>
 <body>
+
+    <!-- ================= AUTHENTICATION OVERLAY ================= -->
+    <div id="auth-overlay" class="auth-overlay-backdrop">
+        <div class="auth-card">
+            <!-- Header Corporativo -->
+            <div class="auth-header">
+                <div class="auth-logo-badge">🏢</div>
+                <span class="auth-corp-name">DISTRIBUIDORA EXPRESS S.A.</span>
+                <h2 class="auth-title">Acceso al Sistema</h2>
+                <p class="auth-subtitle">Estructura Greenfield SAP S/4HANA</p>
+            </div>
+
+            <!-- Selector Iniciar Sesión / Registrarse -->
+            <div class="auth-nav-tabs">
+                <button type="button" id="tab-btn-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">
+                    🔑 Iniciar Sesión
+                </button>
+                <button type="button" id="tab-btn-register" class="auth-tab-btn" onclick="switchAuthTab('register')">
+                    ✨ Registrarse
+                </button>
+            </div>
+
+            <!-- Banner Alertas -->
+            <div id="auth-alert" class="auth-alert" style="display: none;"></div>
+
+            <!-- FORMULARIO 1: INICIAR SESIÓN -->
+            <form id="auth-form-login" onsubmit="handleAuthLogin(event)" class="auth-form-body">
+                <div class="auth-field">
+                    <label class="auth-label">Usuario</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">👤</span>
+                        <input type="text" id="login-username" class="auth-input" placeholder="Ej: jfuentes o admin" required autocomplete="username" />
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Contraseña</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">🔒</span>
+                        <input type="password" id="login-password" class="auth-input" placeholder="Tu contraseña" required autocomplete="current-password" />
+                        <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('login-password')" title="Ver u ocultar contraseña">👁️</button>
+                    </div>
+                </div>
+
+                <div class="auth-options-row">
+                    <label class="auth-checkbox-label">
+                        <input type="checkbox" id="login-remember" checked />
+                        <span>Recordar mi sesión en este equipo</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-btn-primary">
+                    🚀 Ingresar al Centro de Mando
+                </button>
+
+                <div class="auth-footer-prompt">
+                    <span>¿Primera vez aquí?</span>
+                    <a href="javascript:void(0)" onclick="switchAuthTab('register')">Crear una cuenta nueva</a>
+                </div>
+            </form>
+
+            <!-- FORMULARIO 2: REGISTRO -->
+            <form id="auth-form-register" onsubmit="handleAuthRegister(event)" class="auth-form-body" style="display: none;">
+                <div class="auth-field">
+                    <label class="auth-label">Nombre y Apellido</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">📝</span>
+                        <input type="text" id="reg-fullname" class="auth-input" placeholder="Ej: Javier Fuentes" required />
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Nombre de Usuario (Para iniciar sesión)</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">👤</span>
+                        <input type="text" id="reg-username" class="auth-input" placeholder="Ej: jfuentes" required autocomplete="username" />
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Rol o Cargo en el Proyecto</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">🏷️</span>
+                        <select id="reg-role" class="auth-input" style="cursor: pointer;">
+                            <option value="Administrador General">Administrador General (Acceso Total)</option>
+                            <option value="Gestor Logístico EWM">Gestor Logístico & Almacén EWM (Z101)</option>
+                            <option value="Ejecutivo Comercial SD">Ejecutivo Comercial & Ventas (SD)</option>
+                            <option value="Operador de Recepción">Operador de Recepción & Ubicación</option>
+                            <option value="Consultor SAP">Consultor / Auditor SAP S/4HANA</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Contraseña</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">🔒</span>
+                        <input type="password" id="reg-password" class="auth-input" placeholder="Mínimo 4 caracteres" required autocomplete="new-password" />
+                        <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('reg-password')" title="Ver u ocultar contraseña">👁️</button>
+                    </div>
+                </div>
+
+                <div class="auth-field">
+                    <label class="auth-label">Confirmar Contraseña</label>
+                    <div class="auth-input-wrapper">
+                        <span class="auth-input-icon">🔒</span>
+                        <input type="password" id="reg-password-confirm" class="auth-input" placeholder="Repite tu contraseña" required autocomplete="new-password" />
+                        <button type="button" class="auth-eye-btn" onclick="togglePasswordVisibility('reg-password-confirm')" title="Ver u ocultar contraseña">👁️</button>
+                    </div>
+                </div>
+
+                <div class="auth-options-row">
+                    <label class="auth-checkbox-label">
+                        <input type="checkbox" id="reg-remember" checked />
+                        <span>Iniciar sesión automáticamente tras registrarme</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-btn-primary">
+                    ✨ Crear Cuenta y Acceder
+                </button>
+
+                <div class="auth-footer-prompt">
+                    <span>¿Ya tienes cuenta?</span>
+                    <a href="javascript:void(0)" onclick="switchAuthTab('login')">Iniciar Sesión</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
 
     <!-- HERO HEADER -->
     <div class="hero">
@@ -311,7 +571,16 @@
             <div class="status-pill">
                 <span class="live-dot"></span>
                 <span>Almacén EWM Z101 Activo</span>
+            
+            <div id="auth-user-pill" class="status-pill" style="display:none; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.4); gap: 6px;">
+                <span style="font-size: 13px;">👤</span>
+                <span id="auth-display-user" style="color: #ffffff; font-weight: 700;">Usuario</span>
+                <span id="auth-display-role" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 10px; margin-left: 2px;">Admin</span>
             </div>
+            <button id="auth-logout-btn" class="btn btn-ghost" onclick="appLogout()" style="display:none; border-color: rgba(255,255,255,0.25); color: #cbd5e1;" title="Cerrar Sesión Segura">
+                🚪 Salir
+            </button>
+</div>
             <button class="btn btn-primary" onclick="openEwmApp('me21n')">
                 📥 Pedido Compra (ME21N)
             </button>
@@ -1540,5 +1809,253 @@
             renderMonTable();
         });
     </script>
+
+    <!-- ================= AUTHENTICATION MANAGER SCRIPT ================= -->
+    <script>
+    (function() {
+        var AUTH_USERS_KEY = "DE_AUTH_USERS";
+        var AUTH_SESSION_KEY = "DE_ACTIVE_SESSION";
+
+        // Inicializar usuarios por defecto si no existen
+        function getStoredUsers() {
+            var raw = localStorage.getItem(AUTH_USERS_KEY);
+            if (!raw) {
+                var defaultUsers = [
+                    {
+                        username: "admin",
+                        fullName: "Administrador Greenfield",
+                        role: "Administrador General",
+                        password: "admin",
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(defaultUsers));
+                return defaultUsers;
+            }
+            try {
+                return JSON.parse(raw);
+            } catch(e) {
+                return [];
+            }
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
+        }
+
+        function getActiveSession() {
+            var session = localStorage.getItem(AUTH_SESSION_KEY) || sessionStorage.getItem(AUTH_SESSION_KEY);
+            if (!session) return null;
+            try {
+                return JSON.parse(session);
+            } catch(e) {
+                return null;
+            }
+        }
+
+        function setActiveSession(user, remember) {
+            var payload = JSON.stringify({
+                username: user.username,
+                fullName: user.fullName,
+                role: user.role,
+                loggedAt: new Date().toISOString()
+            });
+            if (remember) {
+                localStorage.setItem(AUTH_SESSION_KEY, payload);
+            } else {
+                sessionStorage.setItem(AUTH_SESSION_KEY, payload);
+            }
+        }
+
+        function clearActiveSession() {
+            localStorage.removeItem(AUTH_SESSION_KEY);
+            sessionStorage.removeItem(AUTH_SESSION_KEY);
+        }
+
+        function updateHeaderUser(user) {
+            var badge = document.getElementById("auth-user-pill");
+            var logoutBtn = document.getElementById("auth-logout-btn");
+            var nameSpan = document.getElementById("auth-display-user");
+            var roleSpan = document.getElementById("auth-display-role");
+
+            if (user) {
+                if (nameSpan) nameSpan.textContent = user.fullName || user.username;
+                if (roleSpan) roleSpan.textContent = user.role || "Usuario";
+                if (badge) badge.style.display = "flex";
+                if (logoutBtn) logoutBtn.style.display = "inline-flex";
+            } else {
+                if (badge) badge.style.display = "none";
+                if (logoutBtn) logoutBtn.style.display = "none";
+            }
+        }
+
+        window.switchAuthTab = function(tab) {
+            var formLogin = document.getElementById("auth-form-login");
+            var formReg = document.getElementById("auth-form-register");
+            var btnLogin = document.getElementById("tab-btn-login");
+            var btnReg = document.getElementById("tab-btn-register");
+            var alertBox = document.getElementById("auth-alert");
+
+            if (alertBox) alertBox.style.display = "none";
+
+            if (tab === "login") {
+                if (formLogin) formLogin.style.display = "block";
+                if (formReg) formReg.style.display = "none";
+                if (btnLogin) btnLogin.classList.add("active");
+                if (btnReg) btnReg.classList.remove("active");
+                var inp = document.getElementById("login-username");
+                if (inp) inp.focus();
+            } else {
+                if (formLogin) formLogin.style.display = "none";
+                if (formReg) formReg.style.display = "block";
+                if (btnLogin) btnLogin.classList.remove("active");
+                if (btnReg) btnReg.classList.add("active");
+                var inpReg = document.getElementById("reg-fullname");
+                if (inpReg) inpReg.focus();
+            }
+        };
+
+        window.togglePasswordVisibility = function(inputId) {
+            var input = document.getElementById(inputId);
+            if (!input) return;
+            if (input.type === "password") {
+                input.type = "text";
+            } else {
+                input.type = "password";
+            }
+        };
+
+        function showAuthAlert(msg, type) {
+            var box = document.getElementById("auth-alert");
+            if (!box) return;
+            box.className = "auth-alert " + (type === "success" ? "auth-alert-success" : "auth-alert-error");
+            box.innerHTML = (type === "success" ? "✅ " : "⚠️ ") + msg;
+            box.style.display = "flex";
+        }
+
+        window.handleAuthLogin = function(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            var username = (document.getElementById("login-username").value || "").trim().toLowerCase();
+            var password = (document.getElementById("login-password").value || "").trim();
+            var remember = document.getElementById("login-remember").checked;
+
+            if (!username || !password) {
+                showAuthAlert("Por favor completa tu usuario y contraseña.", "error");
+                return;
+            }
+
+            var users = getStoredUsers();
+            var found = users.find(function(u) {
+                return (u.username.toLowerCase() === username || (u.email && u.email.toLowerCase() === username)) && u.password === password;
+            });
+
+            if (!found) {
+                showAuthAlert("Usuario o contraseña incorrectos. Si no tienes cuenta, haz clic en 'Registrarse'.", "error");
+                return;
+            }
+
+            // Éxito
+            setActiveSession(found, remember);
+            updateHeaderUser(found);
+            var overlay = document.getElementById("auth-overlay");
+            if (overlay) overlay.style.display = "none";
+            if (typeof showToast === "function") {
+                showToast("¡Bienvenido/a, " + (found.fullName || found.username) + "!");
+            }
+        };
+
+        window.handleAuthRegister = function(e) {
+            if (e && e.preventDefault) e.preventDefault();
+            var fullName = (document.getElementById("reg-fullname").value || "").trim();
+            var username = (document.getElementById("reg-username").value || "").trim().toLowerCase();
+            var role = document.getElementById("reg-role").value;
+            var password = (document.getElementById("reg-password").value || "").trim();
+            var passwordConfirm = (document.getElementById("reg-password-confirm").value || "").trim();
+            var remember = document.getElementById("reg-remember").checked;
+
+            if (fullName.length < 2) {
+                showAuthAlert("Por favor ingresa tu nombre y apellido.", "error");
+                return;
+            }
+            if (username.length < 3) {
+                showAuthAlert("El nombre de usuario debe tener al menos 3 caracteres.", "error");
+                return;
+            }
+            if (password.length < 4) {
+                showAuthAlert("La contraseña debe tener al menos 4 caracteres.", "error");
+                return;
+            }
+            if (password !== passwordConfirm) {
+                showAuthAlert("Las contraseñas no coinciden. Verifícalas.", "error");
+                return;
+            }
+
+            var users = getStoredUsers();
+            var exists = users.some(function(u) {
+                return u.username.toLowerCase() === username;
+            });
+
+            if (exists) {
+                showAuthAlert("El usuario '" + username + "' ya existe. Elige otro o inicia sesión.", "error");
+                return;
+            }
+
+            var newUser = {
+                username: username,
+                fullName: fullName,
+                role: role,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            saveUsers(users);
+
+            // Iniciar sesión con el nuevo usuario
+            setActiveSession(newUser, remember);
+            updateHeaderUser(newUser);
+
+            var overlay = document.getElementById("auth-overlay");
+            if (overlay) overlay.style.display = "none";
+
+            if (typeof showToast === "function") {
+                showToast("¡Cuenta creada con éxito! Bienvenido/a, " + fullName);
+            }
+        };
+
+        window.appLogout = function() {
+            clearActiveSession();
+            updateHeaderUser(null);
+            var overlay = document.getElementById("auth-overlay");
+            if (overlay) {
+                overlay.style.display = "flex";
+                switchAuthTab("login");
+            }
+            if (typeof showToast === "function") {
+                showToast("Has cerrado sesión correctamente.");
+            }
+        };
+
+        // Comprobación automática de sesión al cargar la página
+        function checkInitialAuth() {
+            var session = getActiveSession();
+            var overlay = document.getElementById("auth-overlay");
+            if (session) {
+                updateHeaderUser(session);
+                if (overlay) overlay.style.display = "none";
+            } else {
+                updateHeaderUser(null);
+                if (overlay) overlay.style.display = "flex";
+            }
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", checkInitialAuth);
+        } else {
+            checkInitialAuth();
+        }
+    })();
+    </script>
+
 </body>
 </html>
