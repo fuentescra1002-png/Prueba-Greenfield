@@ -771,68 +771,6 @@
             </div>
         </div>
 
-        <!-- ================================================================
-             HOJA DE CONTROL Y TRAZABILIDAD (PÁGINA 2 DEL SCRIPT DE PRUEBA V4)
-             ================================================================ -->
-        <div class="test-script-tracker-card" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color:#ffffff; border-radius:12px; padding:16px 20px; margin-bottom:24px; border:1px solid #334155; box-shadow:0 4px 15px rgba(0,0,0,0.12);">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div style="width:38px; height:38px; border-radius:8px; background:rgba(0,180,219,0.2); border:1px solid #00b4db; display:flex; align-items:center; justify-content:center; font-size:18px;">📋</div>
-                    <div>
-                        <div style="font-size:13px; font-weight:800; color:#38bdf8; letter-spacing:0.5px;">HOJA DE NÚMEROS Y CONTROL DE TRAZABILIDAD · SCRIPT DE PRUEBA V4</div>
-                        <div style="font-size:11px; color:#94a3b8; margin-top:2px;">Almacén EWM: <strong style="color:#f8fafc;">Z101</strong> | Centro: <strong style="color:#f8fafc;">ZC10</strong> | Sociedad: <strong style="color:#f8fafc;">ZX01</strong> | Proveedor: <strong style="color:#f8fafc;">17300096</strong> | Material: <strong style="color:#f8fafc;">ZMAT-02</strong> (60 Cajas / 1 Pallet 745 kg)</div>
-                    </div>
-                </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn btn-outline" type="button" style="font-size:11px; padding:6px 12px; border-color:#38bdf8; color:#38bdf8;" onclick="toggleTrackerDetails()">👁️ <span id="lbl-toggle-tracker">Ocultar/Ver Números</span></button>
-                    <button class="btn btn-primary" type="button" style="font-size:11px; padding:6px 12px; background:#0284c7; border-color:#0284c7;" onclick="copyTrackerReport()">📋 Copiar Registro para Informe</button>
-                </div>
-            </div>
-            
-            <div id="tracker-numbers-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:10px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.1);">
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">1. Pedido de Compras (ME21N)</div>
-                    <div id="tr-po" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">4500012895</div>
-                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Clase NB · 60 CJ</div>
-                </div>
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">2. Entrega ERP (VL31N)</div>
-                    <div id="tr-ibd" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">180000042</div>
-                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Puesto 1710 · ZR01</div>
-                </div>
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">3. Entrega EWM (/SCWM/PRDI)</div>
-                    <div id="tr-ewm-del" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">0080004521</div>
-                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Almacén Z101</div>
-                </div>
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">4. Handling Unit (HU SSCC)</div>
-                    <div id="tr-hu" style="font-size:15px; font-weight:800; color:#34d399; margin-top:3px; font-family:monospace;">1122004520</div>
-                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Pallet ZPL-120 · 745 KG</div>
-                </div>
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">5. Orden de Almacén (WO)</div>
-                    <div id="tr-wo" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">20000184</div>
-                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Proceso Z011</div>
-                </div>
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">6. Tarea de Almacén (WT)</div>
-                    <div id="tr-wt" style="font-size:15px; font-weight:800; color:#fbbf24; margin-top:3px; font-family:monospace;">10000451</div>
-                    <div style="font-size:10px; color:#fbbf24; margin-top:2px;">👤 ZOP_MON1 · Confirmada ✓</div>
-                </div>
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">7. Ubicación Destino (Z001)</div>
-                    <div id="tr-dest" style="font-size:15px; font-weight:800; color:#38bdf8; margin-top:3px; font-family:monospace;">01010101</div>
-                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">Tipo Z001 · Sección Z01 · 1 Pallet</div>
-                </div>
-                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
-                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">8. Orden de Spool (Impresión)</div>
-                    <div id="tr-spool" style="font-size:15px; font-weight:800; color:#a78bfa; margin-top:3px; font-family:monospace;">SP01-002845</div>
-                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 ZSUP_ALM1 · Dispositivo ZLBL</div>
-                </div>
-            </div>
-        </div>
-
         <!-- SECCIÓN 1: KPIS OPERATIVOS -->
         <div class="section-header">
             <span class="section-title">Greenfield Distribuidora Express · Indicadores EWM</span>
