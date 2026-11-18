@@ -93,7 +93,26 @@
         .stepper-title { font-size: 14px; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; }
         .stepper-legend { font-size: 12px; color: #64748b; }
         .stepper-grid {
-            display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px;
+            display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px;
+        }
+        @media (max-width: 1300px) {
+            .stepper-grid { grid-template-columns: repeat(6, 1fr); gap: 8px; }
+        }
+        @media (max-width: 768px) {
+            .stepper-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        }
+        .step-role-pill {
+            font-size: 8px; font-weight: 800; padding: 2px 5px; border-radius: 4px;
+            letter-spacing: 0.3px; text-transform: uppercase; white-space: nowrap;
+        }
+        .role-userewme { background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; }
+        .role-zopmon1 { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+        .role-zsupalm1 { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+        .role-user02 { background: #ede9fe; color: #6d28d9; border: 1px solid #ddd6fe; }
+        
+        .modal-user-banner {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 12px; border-radius: 6px; margin-bottom: 14px; font-size: 11px; font-weight: 700;
         }
         
         
@@ -622,57 +641,194 @@
         <!-- STEPPER: FLUJO ERP -> EWM -->
         <div class="stepper-card">
             <div class="stepper-header">
-                <div class="stepper-title">🔄 Flujo de Compra y Recepción: ERP ➡️ EWM (Almacén Z101)</div>
-                <div class="stepper-legend">Haz clic en cualquier fase para ejecutarla interactivamente</div>
+                <div class="stepper-title" style="display:flex; align-items:center; gap:8px;">
+                    <span>🔄 Flujo de Compra y Recepción: ERP ➡️ EWM (Almacén Z101 · 11 Pasos del Script v4)</span>
+                    <span class="badge badge-success" style="font-size:10px;">SCRIPT V4 VALIDADO</span>
+                </div>
+                <div class="stepper-legend">Flujo guiado con roles de usuario: USEREWME (1-7), ZOP_MON1 (8), ZSUP_ALM1 (9, 11) y USER02 (10)</div>
             </div>
             <div class="stepper-grid">
+                <!-- Paso 1 -->
                 <div class="step-item" onclick="openEwmApp('me21n')">
-                    <div class="step-num">1</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">1</div>
+                        <span class="step-role-pill role-userewme">USEREWME</span>
+                    </div>
                     <div class="step-tx">ME21N</div>
-                    <div class="step-sys">ERP</div>
-                    <div class="step-desc">Crear Pedido de Compra (Clase NB)</div>
+                    <div class="step-sys">ERP · MM</div>
+                    <div class="step-desc">Pedido Compra (60 CJ)</div>
                 </div>
+
+                <!-- Paso 2 -->
                 <div class="step-item" onclick="openEwmApp('vl31n')">
-                    <div class="step-num">2</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">2</div>
+                        <span class="step-role-pill role-userewme">USEREWME</span>
+                    </div>
                     <div class="step-tx">VL31N</div>
-                    <div class="step-sys">ERP</div>
-                    <div class="step-desc">Crear Entrega Entrante (Inbound)</div>
+                    <div class="step-sys">ERP ➔ EWM</div>
+                    <div class="step-desc">Entrega Entrante Inbound</div>
                 </div>
+
+                <!-- Paso 3 -->
                 <div class="step-item" onclick="openEwmApp('prdi')">
-                    <div class="step-num">3</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">3</div>
+                        <span class="step-role-pill role-userewme">USEREWME</span>
+                    </div>
                     <div class="step-tx">/SCWM/PRDI</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Verificar Entrega en EWM</div>
+                    <div class="step-sys">EWM Z101</div>
+                    <div class="step-desc">Comprobar Entrega EWM</div>
                 </div>
+
+                <!-- Paso 4 -->
                 <div class="step-item" onclick="openEwmApp('staging')">
-                    <div class="step-num">4</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">4</div>
+                        <span class="step-role-pill role-userewme">USEREWME</span>
+                    </div>
                     <div class="step-tx">Puesta Disp.</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Z910 / ZS01 / GR-ZD01</div>
+                    <div class="step-sys">EWM Z101</div>
+                    <div class="step-desc">ZS01 / Z910 / GR-ZD01</div>
                 </div>
+
+                <!-- Paso 5 -->
                 <div class="step-item" onclick="openEwmApp('pack')">
-                    <div class="step-num">5</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">5</div>
+                        <span class="step-role-pill role-userewme">USEREWME</span>
+                    </div>
                     <div class="step-tx">Embalar HU</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Pallet Madera ZPL-120</div>
+                    <div class="step-sys">EWM Z101</div>
+                    <div class="step-desc">Pallet ZPL-120 (60 CJ)</div>
                 </div>
+
+                <!-- Paso 6 -->
                 <div class="step-item" onclick="openEwmApp('gr')">
-                    <div class="step-num">6</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">6</div>
+                        <span class="step-role-pill role-userewme">USEREWME</span>
+                    </div>
                     <div class="step-tx">Entrada Mcía.</div>
                     <div class="step-sys">EWM ➔ ERP</div>
-                    <div class="step-desc">Mov. 101 en ZR01 vía qRFC</div>
+                    <div class="step-desc">Goods Receipt (101 ZR01)</div>
                 </div>
+
+                <!-- Paso 7 -->
                 <div class="step-item" onclick="openEwmApp('adhu')">
-                    <div class="step-num">7</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">7</div>
+                        <span class="step-role-pill role-userewme">USEREWME</span>
+                    </div>
                     <div class="step-tx">/SCWM/ADHU</div>
-                    <div class="step-sys">EWM</div>
-                    <div class="step-desc">Tarea Ubicación Clase Z011</div>
+                    <div class="step-sys">EWM Z101</div>
+                    <div class="step-desc">Tarea Ubicación (Z011)</div>
                 </div>
+
+                <!-- Paso 8 -->
                 <div class="step-item" onclick="openEwmApp('toconf')">
-                    <div class="step-num">8</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">8</div>
+                        <span class="step-role-pill role-zopmon1">ZOP_MON1</span>
+                    </div>
                     <div class="step-tx">/SCWM/TO_CONF</div>
                     <div class="step-sys">EWM ➔ ERP</div>
-                    <div class="step-desc">Confirmar Tarea (Traspaso 411 a ZA01)</div>
+                    <div class="step-desc">Confirmar Tarea (Traspaso 411)</div>
+                </div>
+
+                <!-- Paso 9 -->
+                <div class="step-item" onclick="openEwmApp('mon_audit')">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">9</div>
+                        <span class="step-role-pill role-zsupalm1">ZSUP_ALM1</span>
+                    </div>
+                    <div class="step-tx">/SCWM/MON</div>
+                    <div class="step-sys">EWM Z101</div>
+                    <div class="step-desc">Auditoría Conf. & Ocupación</div>
+                </div>
+
+                <!-- Paso 10 -->
+                <div class="step-item" onclick="openEwmApp('mmbe')">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">10</div>
+                        <span class="step-role-pill role-user02">USER02</span>
+                    </div>
+                    <div class="step-tx">MMBE</div>
+                    <div class="step-sys">ERP MM</div>
+                    <div class="step-desc">Stock ZA01 (+60 CJ) vs ZR01</div>
+                </div>
+
+                <!-- Paso 11 -->
+                <div class="step-item" onclick="openEwmApp('hu_print')">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                        <div class="step-num">11</div>
+                        <span class="step-role-pill role-zsupalm1">ZSUP_ALM1</span>
+                    </div>
+                    <div class="step-tx">Imprimir HU</div>
+                    <div class="step-sys">EWM Spool</div>
+                    <div class="step-desc">Etiqueta Pallet (ZLBL)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================
+             HOJA DE CONTROL Y TRAZABILIDAD (PÁGINA 2 DEL SCRIPT DE PRUEBA V4)
+             ================================================================ -->
+        <div class="test-script-tracker-card" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color:#ffffff; border-radius:12px; padding:16px 20px; margin-bottom:24px; border:1px solid #334155; box-shadow:0 4px 15px rgba(0,0,0,0.12);">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:38px; height:38px; border-radius:8px; background:rgba(0,180,219,0.2); border:1px solid #00b4db; display:flex; align-items:center; justify-content:center; font-size:18px;">📋</div>
+                    <div>
+                        <div style="font-size:13px; font-weight:800; color:#38bdf8; letter-spacing:0.5px;">HOJA DE NÚMEROS Y CONTROL DE TRAZABILIDAD · SCRIPT DE PRUEBA V4</div>
+                        <div style="font-size:11px; color:#94a3b8; margin-top:2px;">Almacén EWM: <strong style="color:#f8fafc;">Z101</strong> | Centro: <strong style="color:#f8fafc;">ZC10</strong> | Sociedad: <strong style="color:#f8fafc;">ZX01</strong> | Proveedor: <strong style="color:#f8fafc;">17300096</strong> | Material: <strong style="color:#f8fafc;">ZMAT-02</strong> (60 Cajas / 1 Pallet 745 kg)</div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-outline" type="button" style="font-size:11px; padding:6px 12px; border-color:#38bdf8; color:#38bdf8;" onclick="toggleTrackerDetails()">👁️ <span id="lbl-toggle-tracker">Ocultar/Ver Números</span></button>
+                    <button class="btn btn-primary" type="button" style="font-size:11px; padding:6px 12px; background:#0284c7; border-color:#0284c7;" onclick="copyTrackerReport()">📋 Copiar Registro para Informe</button>
+                </div>
+            </div>
+            
+            <div id="tracker-numbers-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:10px; margin-top:14px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.1);">
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">1. Pedido de Compras (ME21N)</div>
+                    <div id="tr-po" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">4500012895</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Clase NB · 60 CJ</div>
+                </div>
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">2. Entrega ERP (VL31N)</div>
+                    <div id="tr-ibd" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">180000042</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Puesto 1710 · ZR01</div>
+                </div>
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">3. Entrega EWM (/SCWM/PRDI)</div>
+                    <div id="tr-ewm-del" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">0080004521</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Almacén Z101</div>
+                </div>
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">4. Handling Unit (HU SSCC)</div>
+                    <div id="tr-hu" style="font-size:15px; font-weight:800; color:#34d399; margin-top:3px; font-family:monospace;">1122004520</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Pallet ZPL-120 · 745 KG</div>
+                </div>
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">5. Orden de Almacén (WO)</div>
+                    <div id="tr-wo" style="font-size:15px; font-weight:800; color:#ffffff; margin-top:3px; font-family:monospace;">20000184</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 USEREWME · Proceso Z011</div>
+                </div>
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">6. Tarea de Almacén (WT)</div>
+                    <div id="tr-wt" style="font-size:15px; font-weight:800; color:#fbbf24; margin-top:3px; font-family:monospace;">10000451</div>
+                    <div style="font-size:10px; color:#fbbf24; margin-top:2px;">👤 ZOP_MON1 · Confirmada ✓</div>
+                </div>
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">7. Ubicación Destino (Z001)</div>
+                    <div id="tr-dest" style="font-size:15px; font-weight:800; color:#38bdf8; margin-top:3px; font-family:monospace;">01010101</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">Tipo Z001 · Sección Z01 · 1 Pallet</div>
+                </div>
+                <div class="tracker-item" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:8px 12px;">
+                    <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase;">8. Orden de Spool (Impresión)</div>
+                    <div id="tr-spool" style="font-size:15px; font-weight:800; color:#a78bfa; margin-top:3px; font-family:monospace;">SP01-002845</div>
+                    <div style="font-size:10px; color:#94a3b8; margin-top:2px;">👤 ZSUP_ALM1 · Dispositivo ZLBL</div>
                 </div>
             </div>
         </div>
@@ -1301,24 +1457,32 @@
         // ================================================================
         // MODALES DE APLICACIONES (ME21N, VL31N, PRDI, ADHU, TO_CONF)
         // ================================================================
-        var ewmAppsConfig = {            me21n: {
-                badge: "SAP S/4HANA ERP · COMPRAS (MM-PUR)",
-                title: "Crear Pedido de Compra (ME21N)",
+        var ewmAppsConfig = {
+            me21n: {
+                badge: "SAP S/4HANA ERP · COMPRAS (MM-PUR) · USUARIO USEREWME",
+                title: "Crear Pedido de Compra (ME21N · Paso 1)",
                 btnAction: "💾 Crear Pedido de Compra (NB)",
                 renderHtml: function() {
                     return `
+                        <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
+                            <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Especialista Compras & EWM</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bae6fd;">PASO 1 DE 11</span>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; margin-bottom:14px; font-size:11px; color:#475569;">
+                            📌 <strong>Parámetros del Script v4:</strong> Proveedor <code>17300096</code> | Material <code>ZMAT-02</code> (Aceite vegetal premium) | Cantidad <code>60 CJ</code> (1 Pallet 745 kg) | Centro <code>ZC10</code> | Almacén <code>ZR01</code>.
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label"><span>Clase de Pedido</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('orderTypes', 'inp-po-type')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-po-type" class="form-input" placeholder="Seleccionar Clase (F4)" value="" />
+                                    <input id="inp-po-type" class="form-input" placeholder="Seleccionar Clase (F4)" value="NB - Pedido Estándar de Compra" />
                                     <button class="btn-f4" type="button" onclick="openF4('orderTypes', 'inp-po-type')">🔍</button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label"><span>Proveedor Homologado</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('vendors', 'inp-po-vendor')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-po-vendor" class="form-input" placeholder="Buscar Proveedor (F4)" value="" />
+                                    <input id="inp-po-vendor" class="form-input" placeholder="Buscar Proveedor (F4)" value="17300096 - Oleo-North Oils & Logistics LLC" />
                                     <button class="btn-f4" type="button" onclick="openF4('vendors', 'inp-po-vendor')">🔍</button>
                                 </div>
                             </div>
@@ -1327,14 +1491,14 @@
                             <div class="form-group">
                                 <label class="form-label"><span>Org. Compras</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('porgs', 'inp-po-porg')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-po-porg" class="form-input" placeholder="Org. Compras (F4)" value="" />
+                                    <input id="inp-po-porg" class="form-input" placeholder="Org. Compras (F4)" value="ZX01 - Org. Compras Distribuidora Express" />
                                     <button class="btn-f4" type="button" onclick="openF4('porgs', 'inp-po-porg')">🔍</button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label"><span>Grupo de Compras</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('pgroups', 'inp-po-pgroup')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-po-pgroup" class="form-input" placeholder="Grupo Compras (F4)" value="" />
+                                    <input id="inp-po-pgroup" class="form-input" placeholder="Grupo Compras (F4)" value="ZX1 - Grupo Compras Alimentos & Granos" />
                                     <button class="btn-f4" type="button" onclick="openF4('pgroups', 'inp-po-pgroup')">🔍</button>
                                 </div>
                             </div>
@@ -1343,170 +1507,156 @@
                             <div class="form-group">
                                 <label class="form-label"><span>Material a Comprar</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('materials', 'inp-po-mat')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-po-mat" class="form-input" placeholder="Buscar Material (F4)" value="" />
+                                    <input id="inp-po-mat" class="form-input" placeholder="Buscar Material (F4)" value="ZMAT-02 - Aceite Vegetal Premium (Caja x 12)" />
                                     <button class="btn-f4" type="button" onclick="openF4('materials', 'inp-po-mat')">🔍</button>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Cantidad a Comprar (Cajas)</label>
-                                <input id="inp-po-qty" type="number" class="form-input" placeholder="Ej: 70" value="" />
+                                <label class="form-label">Cantidad a Comprar (Cajas - Exactamente 1 Pallet)</label>
+                                <input id="inp-po-qty" type="number" class="form-input" placeholder="Ej: 60" value="60" />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label"><span>Centro Receptor</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('plants', 'inp-po-plant')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-po-plant" class="form-input" placeholder="Centro (F4)" value="" />
+                                    <input id="inp-po-plant" class="form-input" placeholder="Centro (F4)" value="ZC10 - Centro Distribución Central Greenfield" />
                                     <button class="btn-f4" type="button" onclick="openF4('plants', 'inp-po-plant')">🔍</button>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label"><span>Almacén Recepción EWM</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('slocs', 'inp-po-sloc')">🔍 F4</span></label>
+                                <label class="form-label"><span>Almacén de Recepción (Inbound)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('slocs', 'inp-po-sloc')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-po-sloc" class="form-input" placeholder="Almacén (F4)" value="" />
+                                    <input id="inp-po-sloc" class="form-input" placeholder="Almacén (F4)" value="ZR01 - Almacén Recepción EWM (Inbound)" />
                                     <button class="btn-f4" type="button" onclick="openF4('slocs', 'inp-po-sloc')">🔍</button>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Precio Neto Unitario (USD)</label>
+                                <input id="inp-po-price" type="number" step="0.01" class="form-input" value="45.00" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Fecha Prevista de Entrega</label>
+                                <input id="inp-po-delivery-date" type="date" class="form-input" value="${new Date().toISOString().split('T')[0]}" />
                             </div>
                         </div>
                     `;
                 },
                 onSave: async function() {
-                    var poType = (document.getElementById("inp-po-type").value || "NB").split(" - ")[0].trim() || "NB";
-                    var vendorRaw = document.getElementById("inp-po-vendor").value || "17300096";
-                    var vendorCode = vendorRaw.split(" - ")[0].trim() || "17300096";
-                    var vendorName = vendorRaw.includes("-") ? vendorRaw.split(" - ")[1].trim() : "Oleo-North Oils & Logistics";
-                    
-                    var porg = (document.getElementById("inp-po-porg").value || "ZX01").split(" - ")[0].trim() || "ZX01";
-                    var pgroup = (document.getElementById("inp-po-pgroup").value || "ZX1").split(" - ")[0].trim() || "ZX1";
-                    
-                    var matRaw = document.getElementById("inp-po-mat").value || "ZMAT-02";
-                    var matCode = matRaw.split(" - ")[0].trim() || "ZMAT-02";
-                    var matDesc = matRaw.includes("-") ? matRaw.split(" - ")[1].trim() : "Aceite Vegetal Premium (Caja x 12)";
-                    
-                    var poQty = parseInt(document.getElementById("inp-po-qty").value, 10) || 70;
-                    var plant = (document.getElementById("inp-po-plant").value || "ZC10").split(" - ")[0].trim() || "ZC10";
-                    var sloc = (document.getElementById("inp-po-sloc").value || "ZR01").split(" - ")[0].trim() || "ZR01";
+                    var poType = "NB";
+                    var rawVendor = (document.getElementById("inp-po-vendor").value || "17300096").trim();
+                    var vendorCode = rawVendor.split(" - ")[0].trim();
+                    var porg = (document.getElementById("inp-po-porg").value || "ZX01").split(" - ")[0].trim();
+                    var pgroup = (document.getElementById("inp-po-pgroup").value || "ZX1").split(" - ")[0].trim();
+                    var rawMat = (document.getElementById("inp-po-mat").value || "ZMAT-02").trim();
+                    var matCode = rawMat.split(" - ")[0].trim();
+                    var poQty = parseInt(document.getElementById("inp-po-qty").value, 10) || 60;
+                    var plant = (document.getElementById("inp-po-plant").value || "ZC10").split(" - ")[0].trim();
+                    var sloc = (document.getElementById("inp-po-sloc").value || "ZR01").split(" - ")[0].trim();
+                    var netPrice = parseFloat(document.getElementById("inp-po-price").value) || 45.00;
+                    var delDate = document.getElementById("inp-po-delivery-date").value || new Date().toISOString().split('T')[0];
 
-                    var unitPrice = 45.0;
-                    if (matCode === "ZMAT-01") unitPrice = 28.0;
-                    else if (matCode === "ZMAT-03") unitPrice = 36.0;
+                    var payload = {
+                        PurchaseOrderType: poType,
+                        Supplier: vendorCode,
+                        PurchasingOrganization: porg,
+                        PurchasingGroup: pgroup,
+                        CompanyCode: "ZX01",
+                        Material: matCode,
+                        OrderQuantity: poQty,
+                        PurchaseOrderQuantityUnit: "CJ",
+                        Plant: plant,
+                        StorageLocation: sloc,
+                        NetPriceAmount: netPrice,
+                        DocumentCurrency: "USD",
+                        ScheduleLineDeliveryDate: delDate
+                    };
 
-                    var poNumber = "";
+                    var poNumber = Math.floor(4500012890 + Math.random() * 20);
                     var isRealSap = false;
 
-                    // 1. Intentar registrar FÍSICAMENTE en SAP S/4HANA (Mandante 100) vía Puente OData
-                    var bridgeUrls = ["/api/create-po", "http://localhost:8086/api/create-po"];
-                    for (var i = 0; i < bridgeUrls.length; i++) {
-                        try {
-                            var resp = await fetch(bridgeUrls[i], {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify({
-                                    orderType: poType,
-                                    supplier: vendorCode,
-                                    purchOrg: porg,
-                                    purchGrp: pgroup,
-                                    material: matCode,
-                                    quantity: poQty,
-                                    plant: plant,
-                                    sloc: sloc,
-                                    netPrice: unitPrice
-                                })
-                            });
-                            if (resp.ok) {
-                                var resJson = await resp.json();
-                                if (resJson.success && resJson.poNumber) {
-                                    poNumber = String(resJson.poNumber);
-                                    isRealSap = true;
-                                    break;
-                                }
+                    try {
+                        var bridgeUrl = (window.location.protocol === "https:" ? "" : "http://localhost:8086") + "/api/create_purchase_order";
+                        var response = await fetch(bridgeUrl, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(payload)
+                        });
+                        if (response.ok) {
+                            var resData = await response.json();
+                            if (resData && resData.PurchaseOrder) {
+                                poNumber = resData.PurchaseOrder;
+                                isRealSap = true;
                             }
-                        } catch (e) {
-                            // Puente no disponible en esta URL
                         }
+                    } catch (netErr) {
+                        console.warn("SAP Bridge no disponible o llamada offline:", netErr);
                     }
 
-                    // 2. Si no hay conexión al puente local (ej. navegando directo en la nube), usar consecutivo real consecutivo
-                    if (!poNumber) {
-                        var maxPo = 4500002171;
-                        if (window.ewmMasterData && window.ewmMasterData.ekkoEkpoTable) {
-                            window.ewmMasterData.ekkoEkpoTable.forEach(function(item) {
-                                var n = parseInt(String(item.ebeln).replace(/\D/g, ""), 10);
-                                if (!isNaN(n) && n > maxPo) maxPo = n;
-                            });
-                        }
-                        poNumber = String(maxPo + 1);
+                    window.currentPoNumber = String(poNumber);
+                    if (typeof updateTrackerNumber === "function") {
+                        updateTrackerNumber("po", String(poNumber));
                     }
 
-                    // 3. Crear registro completo para el Monitor EWM
-                    var now = new Date();
-                    var day = String(now.getDate()).padStart(2, "0");
-                    var month = String(now.getMonth() + 1).padStart(2, "0");
-                    var year = now.getFullYear();
-                    var dateStr = day + "." + month + "." + year;
-
+                    var dateStr = new Date().toLocaleDateString("es-ES");
                     var newPo = {
-                        ebeln: poNumber,
+                        ebeln: String(poNumber),
                         ebelp: "10",
-                        bsart: poType,
                         lifnr: vendorCode,
-                        vendorName: vendorName,
-                        ekorg: porg,
-                        ekgrp: pgroup,
-                        bukrs: "ZX01",
+                        vendorName: rawVendor.includes(" - ") ? rawVendor.split(" - ")[1] : "Oleo-North Oils & Logistics LLC",
                         matnr: matCode,
-                        txz01: matDesc,
-                        werks: plant,
-                        lgort: sloc,
+                        txz01: rawMat.includes(" - ") ? rawMat.split(" - ")[1] : "Aceite Vegetal Premium (Caja x 12)",
                         menge: poQty,
                         meins: "CJ",
-                        netpr: unitPrice,
-                        netwr: poQty * unitPrice,
+                        netpr: netPrice.toFixed(2),
                         waers: "USD",
+                        werks: plant,
+                        lgort: sloc,
                         aedat: dateStr,
                         status: "Pendiente Entrega Inbound (VL31N)"
                     };
 
-                    // 4. Insertar inmediatamente al inicio de la lista
                     if (!window.ewmMasterData) window.ewmMasterData = {};
                     if (!window.ewmMasterData.ekkoEkpoTable) window.ewmMasterData.ekkoEkpoTable = [];
                     window.ewmMasterData.ekkoEkpoTable.unshift(newPo);
 
-                    // 5. Actualizar KPI
                     var valPo = document.getElementById("val-po");
                     if (valPo) {
                         var currentCount = parseInt(valPo.innerText, 10) || 18;
                         valPo.innerText = currentCount + 1;
                     }
 
-                    // 6. Activar pestaña de Pedidos de Compra y refrescar tabla ALV
                     if (typeof switchMonTab === "function") switchMonTab("po");
                     if (typeof renderMonTable === "function") renderMonTable();
 
-                    // Scroll hacia la tabla
-                    setTimeout(function() {
-                        var alvTable = document.querySelector(".alv-card") || document.getElementById("mon-table-body");
-                        if (alvTable) alvTable.scrollIntoView({ behavior: "smooth", block: "nearest" });
-                    }, 100);
-
                     if (isRealSap) {
-                        return "✅ ¡Pedido de Compra #" + poNumber + " Creado Exitosamente!\nGrabado FÍSICAMENTE en SAP S/4HANA (Mandante 100 · Tablas EKKO / EKPO).\nClase " + poType + " | " + matCode + " (" + poQty + " Cajas) | Centro " + plant + " | Almacén " + sloc + ".\n¡Ya disponible para consultar en SAP GUI (ME23N / SE16N)!";
+                        return "✅ ¡Pedido de Compra #" + poNumber + " Creado Exitosamente!\nGrabado FÍSICAMENTE en SAP S/4HANA (Mandante 100 · Tablas EKKO / EKPO).\nClase " + poType + " | " + matCode + " (" + poQty + " Cajas) | Centro " + plant + " | Almacén " + sloc + ".\n¡Número actualizado en la Hoja de Control!";
                     } else {
-                        return "✅ ¡Pedido de Compra #" + poNumber + " Creado y Registrado!\nAgregado a la lista de Pedidos de Compra (EKKO/EKPO) en el Monitor EWM.\nClase " + poType + " | " + matCode + " (" + poQty + " Cajas) | Centro " + plant + " | Almacén " + sloc + ".";
+                        return "✅ ¡Pedido de Compra #" + poNumber + " Creado y Registrado!\nAgregado al Monitor EWM (EKKO/EKPO) y Hoja de Control.\nClase " + poType + " | " + matCode + " (" + poQty + " Cajas) | Centro " + plant + " | Almacén " + sloc + ".";
                     }
                 }
             },
 
             vl31n: {
-                badge: "SAP S/4HANA ERP · LOGÍSTICA DE ENTRADA (LE)",
-                title: "Crear Entrega Entrante (VL31N)",
-                btnAction: "🚚 Crear y Distribuir a EWM",
+                badge: "SAP S/4HANA ERP · LOGÍSTICA DE ENTRADA (LE) · USUARIO USEREWME",
+                title: "Crear Entrega Entrante (VL31N · Paso 2)",
+                btnAction: "🚚 Crear y Distribuir Entrega a EWM",
                 renderHtml: function() {
+                    var refPo = window.currentPoNumber || (window.trackingSheetData ? window.trackingSheetData.po : "4500012895");
                     return `
+                        <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
+                            <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Logistics Execution</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bae6fd;">PASO 2 DE 11</span>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; margin-bottom:14px; font-size:11px; color:#475569;">
+                            📌 <strong>Parámetros del Script v4:</strong> Se crea la Entrega Entrante ERP (18...) y se transfiere automáticamente a EWM Z101 por la cola qRFC.
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">N° Pedido de Compra de Referencia</label>
-                                <input id="inp-ibd-po" class="form-input" placeholder="Ej: 4500002171" value="" />
+                                <label class="form-label">N° Pedido de Compra de Referencia (Paso 1)</label>
+                                <input id="inp-ibd-po" class="form-input" placeholder="Ej: 4500012895" value="${refPo}" />
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Puesto de Expedición (Heredado ZC10)</label>
@@ -1516,19 +1666,24 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Fecha Prevista de Entrega</label>
-                                <input id="inp-ibd-date" type="date" class="form-input" value="" />
+                                <input id="inp-ibd-date" type="date" class="form-input" value="${new Date().toISOString().split('T')[0]}" />
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Nota de Entrega / Remito Proveedor</label>
-                                <input id="inp-ibd-ref" class="form-input" placeholder="Ej: REM-2026-904" value="" />
+                                <input id="inp-ibd-ref" class="form-input" placeholder="Ej: ALB-17300096-01" value="ALB-17300096-01" />
                             </div>
                         </div>
                     `;
                 },
                 onSave: function() {
-                    var poRef = (document.getElementById("inp-ibd-po").value || "4500002171").trim();
-                    var ibdNum = Math.floor(180000035 + Math.random() * 20);
+                    var poRef = (document.getElementById("inp-ibd-po").value || "4500012895").trim();
+                    var ibdNum = Math.floor(180000040 + Math.random() * 20);
                     var dateStr = new Date().toLocaleDateString("es-ES");
+
+                    window.currentIbdNumber = String(ibdNum);
+                    if (typeof updateTrackerNumber === "function") {
+                        updateTrackerNumber("ibd", String(ibdNum));
+                    }
                     
                     var newIbd = {
                         vbeln: String(ibdNum),
@@ -1539,7 +1694,7 @@
                         lgort: "ZR01",
                         matnr: "ZMAT-02",
                         arktx: "Aceite Vegetal Premium (Caja x 12)",
-                        lfimg: 70,
+                        lfimg: 60,
                         meins: "CJ",
                         staging: "GR-ZD01",
                         erdat: dateStr,
@@ -1556,29 +1711,33 @@
                     if (typeof switchMonTab === "function") switchMonTab("inbound");
                     if (typeof renderMonTable === "function") renderMonTable();
 
-                    return "🚚 ¡Entrega Entrante #" + ibdNum + " Creada y Distribuida a EWM!\nReferencia Pedido " + poRef + " transmitida automáticamente al Almacén EWM Z101 vía cola qRFC.";
+                    return "🚚 ¡Entrega Entrante #" + ibdNum + " Creada y Distribuida a EWM!\nReferencia Pedido " + poRef + " transmitida automáticamente al Almacén EWM Z101 vía cola qRFC.\nRegistrado en la Hoja de Control.";
                 }
             },
 
             prdi: {
-                badge: "SAP EXTENDED WAREHOUSE MANAGEMENT (EWM)",
-                title: "Mantener Entrega Entrante (/SCWM/PRDI)",
-                btnAction: "📦 Procesar Puesta a Disposición & Entrada",
+                badge: "SAP EXTENDED WAREHOUSE MANAGEMENT (EWM) · USUARIO USEREWME",
+                title: "Comprobar Entrega Entrante (/SCWM/PRDI · Paso 3)",
+                btnAction: "📦 Verificar Entrega EWM y Asignar Puesta a Disposición",
                 renderHtml: function() {
+                    var refIbd = window.currentIbdNumber || (window.trackingSheetData ? window.trackingSheetData.ibd : "180000042");
                     return `
-                        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:12px; margin-bottom:16px;">
-                            <div style="font-size:11px; font-weight:800; color:#0369a1; text-transform:uppercase;">ℹ️ Procedimiento Validado en Almacén Z101</div>
-                            <div style="font-size:12px; color:#0284c7; margin-top:2px;">Completar manualmente zona de puesta a disposición (Paso 4) y embalar en HU ZPL-120 antes de contabilizar entrada.</div>
+                        <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
+                            <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · EWM Inbound Delivery</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bae6fd;">PASO 3 DE 11</span>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; margin-bottom:14px; font-size:11px; color:#475569;">
+                            📌 <strong>Parámetros del Script v4:</strong> Se busca la entrega ERP anterior. En EWM se asigna número de entrega logística <code>00...</code>, zona de puesta a disposición <code>ZS01 / Z910 / GR-ZD01</code> y embalaje en pallet <code>ZPL-120</code>.
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">N° Entrega EWM (Logistics Delivery)</label>
-                                <input id="inp-prdi-del" class="form-input" placeholder="Ej: 180004521" value="" />
+                                <label class="form-label">N° Entrega ERP / EWM de Referencia</label>
+                                <input id="inp-prdi-del" class="form-input" placeholder="Ej: 180000042" value="${refIbd}" />
                             </div>
                             <div class="form-group">
                                 <label class="form-label"><span>Zona Puesta a Disposición</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('stagingBins', 'inp-prdi-stage')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-prdi-stage" class="form-input" placeholder="Z910 / ZS01 / GR-ZD01 (F4)" value="" />
+                                    <input id="inp-prdi-stage" class="form-input" placeholder="GR-ZD01 (F4)" value="GR-ZD01 - Muelle 01 Puesta a Disposición (ZS01)" />
                                     <button class="btn-f4" type="button" onclick="openF4('stagingBins', 'inp-prdi-stage')">🔍</button>
                                 </div>
                             </div>
@@ -1587,34 +1746,39 @@
                             <div class="form-group">
                                 <label class="form-label"><span>Material de Embalaje (HU)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('packMats', 'inp-prdi-pack')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-prdi-pack" class="form-input" placeholder="ZPL-120 Pallet Madera (F4)" value="" />
+                                    <input id="inp-prdi-pack" class="form-input" placeholder="ZPL-120 Pallet Madera (F4)" value="ZPL-120 - Pallet Estándar Europeo 1200x800mm" />
                                     <button class="btn-f4" type="button" onclick="openF4('packMats', 'inp-prdi-pack')">🔍</button>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Cantidad por Pallet HU (Cajas)</label>
-                                <input id="inp-prdi-qty" type="number" class="form-input" placeholder="Ej: 50" value="" />
+                                <input id="inp-prdi-qty" type="number" class="form-input" placeholder="Ej: 60" value="60" />
                             </div>
                         </div>
                     `;
                 },
                 onSave: function() {
-                    var huNum = Math.floor(1000845930 + Math.random() * 50);
-                    var stage = document.getElementById("inp-prdi-stage").value || "GR-ZD01";
+                    var huNum = "112200" + Math.floor(4520 + Math.random() * 30);
+                    var stage = (document.getElementById("inp-prdi-stage").value || "GR-ZD01").split(" - ")[0].trim();
+                    var ewmDelNum = "008000" + Math.floor(4520 + Math.random() * 30);
 
-                    // Registrar nueva HU
+                    if (typeof updateTrackerNumber === "function") {
+                        updateTrackerNumber("ewmDel", ewmDelNum);
+                        updateTrackerNumber("hu", String(huNum));
+                    }
+
                     window.ewmMasterData.handlingUnits.unshift({
                         huId: String(huNum),
                         packMat: "ZPL-120",
                         mat: "ZMAT-02",
                         matDesc: "Aceite Vegetal Premium (Caja x 12)",
-                        qty: 50,
+                        qty: 60,
                         uom: "CJ",
-                        weight: "575 KG",
+                        weight: "745 KG",
                         bin: stage,
                         status: "En Muelle (Pte. Ubicar)",
-                        poRef: "4500012895",
-                        ibdRef: "180004525"
+                        poRef: window.currentPoNumber || "4500012895",
+                        ibdRef: window.currentIbdNumber || "180000042"
                     });
 
                     var valHu = document.getElementById("val-hu");
@@ -1623,108 +1787,142 @@
                     renderWarehouseMap();
                     renderMonTable();
 
-                    return "📦 ¡Entrega Verificada y Embalada en EWM!\nSe ha generado la Unidad de Manipulación (HU) #" + huNum + " en ubicación de puesta a disposición '" + stage + "'.";
+                    return "📦 ¡Entrega EWM #" + ewmDelNum + " Validada y HU #" + huNum + " Generada!\nPallet ZPL-120 (60 CJ · 745 KG) asignado al muelle " + stage + ".\nNúmeros actualizados en la Hoja de Control.";
                 }
             },
 
             staging: {
-                badge: "SAP EWM · RECEPCIÓN",
+                badge: "SAP EWM Z101 · RECEPCIÓN · USUARIO USEREWME",
                 title: "Asignar Puesta a Disposición (Paso 4)",
-                btnAction: "📍 Fijar Ubicación de Descarga",
+                btnAction: "📍 Fijar Ubicación de Descarga GR-ZD01",
                 renderHtml: function() {
                     return `
+                        <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
+                            <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Staging Bay Assignment</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bae6fd;">PASO 4 DE 11</span>
+                        </div>
                         <div class="form-group">
-                            <label class="form-label"><span>Ubicación Muelle de Entrada</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('stagingBins', 'inp-stg-bin')">🔍 F4</span></label>
+                            <label class="form-label"><span>Ubicación Muelle de Entrada (Zona ZS01 / Grupo Z910)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('stagingBins', 'inp-stage-bin')">🔍 F4</span></label>
                             <div class="form-input-container">
-                                <input id="inp-stg-bin" class="form-input" placeholder="Seleccionar Muelle (F4)" value="" />
-                                <button class="btn-f4" type="button" onclick="openF4('stagingBins', 'inp-stg-bin')">🔍</button>
+                                <input id="inp-stage-bin" class="form-input" value="GR-ZD01 - Muelle 01 Puesta a Disposición (ZS01)" />
+                                <button class="btn-f4" type="button" onclick="openF4('stagingBins', 'inp-stage-bin')">🔍</button>
                             </div>
+                        </div>
+                        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:12px; margin-top:14px;">
+                            <div style="font-size:11px; font-weight:800; color:#0369a1; text-transform:uppercase;">📍 Muelle Asignado para Descarga</div>
+                            <div style="font-size:12px; color:#0284c7; margin-top:2px;">Zona Staging <strong>ZS01</strong> · Grupo <strong>Z910</strong> · Muelle <strong>GR-ZD01</strong>. Listo para descarga de camión y embalaje en pallet.</div>
                         </div>
                     `;
                 },
                 onSave: function() {
-                    return "📍 ¡Puesta a disposición fijada en Z910 / ZS01 / GR-ZD01!";
+                    var bin = (document.getElementById("inp-stage-bin").value || "GR-ZD01").split(" - ")[0].trim();
+                    return "📍 Muelle de Descarga '" + bin + "' fijado correctamente en EWM Z101 para la Entrega Entrante.";
                 }
             },
 
             pack: {
-                badge: "SAP EWM · PACKING WORK CENTER",
-                title: "Puesto de Embalaje de Entrada (/SCWM/PACK)",
-                btnAction: "📦 Cerrar y Pesar Pallet HU",
+                badge: "SAP EWM · PUESTO DE EMBALAJE (/SCWM/PACK) · USUARIO USEREWME",
+                title: "Puesto de Embalaje de Entrada (/SCWM/PACK · Paso 5)",
+                btnAction: "📦 Cerrar y Pesar Pallet HU (745 KG)",
                 renderHtml: function() {
                     return `
+                        <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
+                            <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Packing Work Center</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bae6fd;">PASO 5 DE 11</span>
+                        </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label"><span>Material de Embalaje</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('packMats', 'inp-pk-mat')">🔍 F4</span></label>
+                                <label class="form-label"><span>Material de Embalaje Homologado</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('packMats', 'inp-pack-mat')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-pk-mat" class="form-input" placeholder="Seleccionar Pallet (F4)" value="" />
-                                    <button class="btn-f4" type="button" onclick="openF4('packMats', 'inp-pk-mat')">🔍</button>
+                                    <input id="inp-pack-mat" class="form-input" value="ZPL-120 - Pallet Estándar Europeo 1200x800mm" />
+                                    <button class="btn-f4" type="button" onclick="openF4('packMats', 'inp-pack-mat')">🔍</button>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Peso Bruto Verificado</label>
-                                <input class="form-input" placeholder="Ej: 575 KG" value="" />
+                                <label class="form-label">Tipo de Unidad de Manipulación</label>
+                                <input class="form-input" value="ZPL1 - Pallet Europeo Madera Estándar" readonly style="background:#f8fafc;" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Cajas Embaladas en Pallet</label>
+                                <input id="inp-pack-qty" type="number" class="form-input" value="60" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Peso Bruto Calculado (Material + Pallet)</label>
+                                <input class="form-input" value="745 KG (Neto 720 KG + Tara 25 KG)" readonly style="background:#f8fafc;" />
                             </div>
                         </div>
                     `;
                 },
                 onSave: function() {
-                    return "📦 ¡Pallet HU embalado exitosamente con material ZPL-120!";
+                    var huNum = "112200" + Math.floor(4520 + Math.random() * 30);
+                    if (typeof updateTrackerNumber === "function") {
+                        updateTrackerNumber("hu", huNum);
+                    }
+                    return "📦 ¡Handling Unit #" + huNum + " Embalada y Cerrada!\nPallet ZPL-120 con 60 cajas de ZMAT-02 (745 KG bruto) listo en muelle GR-ZD01.";
                 }
             },
 
             gr: {
-                badge: "SAP EWM ➔ ERP · INTEGRACIÓN qRFC",
-                title: "Contabilizar Entrada de Mercancías (Mov. 101)",
-                btnAction: "🏷️ Contabilizar 101 en S/4HANA",
+                badge: "SAP EWM ➔ ERP · GOODS RECEIPT · USUARIO USEREWME",
+                title: "Contabilizar Entrada de Mercancías (Mov. 101 · Paso 6)",
+                btnAction: "🏷️ Contabilizar Goods Receipt en S/4HANA",
                 renderHtml: function() {
                     return `
-                        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px; margin-bottom:16px;">
-                            <div style="font-size:11px; font-weight:800; color:#1e40af; text-transform:uppercase;">⚡ Transmisión qRFC a S/4HANA</div>
-                            <div style="font-size:12px; color:#1d4ed8; margin-top:2px;">Al presionar contabilizar, EWM transmite el mensaje a la cola qRFC SMQ2 generando el documento de material 101 en el almacén ERP ZR01.</div>
+                        <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
+                            <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Goods Receipt Specialist</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bae6fd;">PASO 6 DE 11</span>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">N° Entrega Entrante a Contabilizar</label>
-                            <input id="inp-gr-del" class="form-input" placeholder="Ej: 180004521" value="" />
+                        <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:12px; margin-bottom:16px;">
+                            <div style="font-size:11px; font-weight:800; color:#1d4ed8; text-transform:uppercase;">🔄 Transmisión qRFC a S/4HANA Mandante 100</div>
+                            <div style="font-size:12px; color:#1e40af; margin-top:2px;">Al pulsar Contabilizar, EWM comunica la Entrada de Mercancía (Goods Receipt) al ERP vía cola qRFC, generando el movimiento de material <strong>101</strong> en el almacén de recepción <strong>ZR01</strong>.</div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Clase de Movimiento ERP</label>
+                                <input class="form-input" value="101 - Entrada de Mercancías de Pedido" readonly style="background:#f8fafc;" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Almacén ERP Receptor Inicial</label>
+                                <input class="form-input" value="ZR01 - Almacén Recepción EWM Inbound" readonly style="background:#f8fafc;" />
+                            </div>
                         </div>
                     `;
                 },
                 onSave: function() {
-                    var matDoc = Math.floor(5000048120 + Math.random() * 30);
                     var valZr01 = document.getElementById("val-zr01");
-                    if (valZr01) valZr01.innerText = "290 CJ";
-                    return "🏷️ ¡Entrada de Mercancías Contabilizada!\nDocumento de material #" + matDoc + " (Movimiento 101) generado en S/4HANA en almacén de recepción ZR01 vía cola SMQ2.";
+                    if (valZr01) valZr01.innerText = "250 CJ";
+                    showToast("🏷️ Movimiento 101 contabilizado en ERP: 60 cajas recibidas en ZR01");
+                    return "🏷️ ¡Entrada de Mercancías (GR) Contabilizada con Éxito!\nMovimiento 101 generado en S/4HANA Mandante 100. Stock asentado temporalmente en almacén ZR01.";
                 }
             },
 
             adhu: {
-                badge: "SAP EWM · TAREAS DE ALMACÉN",
-                title: "Crear Tareas de Almacén – HU (/SCWM/ADHU)",
-                btnAction: "📋 Generar Tarea de Ubicación (Z011)",
+                badge: "SAP EWM · TAREAS DE ALMACÉN (/SCWM/ADHU) · USUARIO USEREWME",
+                title: "Crear Tareas de Almacén – HU (/SCWM/ADHU · Paso 7)",
+                btnAction: "📋 Generar Orden y Tarea de Ubicación (Z011)",
                 renderHtml: function() {
                     return `
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label class="form-label">N° Handling Unit (HU)</label>
-                                <input id="inp-adhu-hu" class="form-input" placeholder="Ej: 1000845920" value="" />
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label"><span>Clase de Proceso de Almacén</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('procTypes', 'inp-adhu-wpt')">🔍 F4</span></label>
-                                <div class="form-input-container">
-                                    <input id="inp-adhu-wpt" class="form-input" placeholder="Z011 - Entrada Pallet (F4)" value="" />
-                                    <button class="btn-f4" type="button" onclick="openF4('procTypes', 'inp-adhu-wpt')">🔍</button>
-                                </div>
-                            </div>
+                        <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
+                            <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Warehouse Task Planner</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bae6fd;">PASO 7 DE 11</span>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; margin-bottom:14px; font-size:11px; color:#475569;">
+                            📌 <strong>Parámetros del Script v4:</strong> Crear tarea de ubicación para la HU con clase de proceso <code>Z011</code> y destino en almacén de racks <code>Z001</code> / sección <code>Z01</code> / ubicación <code>01010101</code>.
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label">Ubicación Origen</label>
-                                <input class="form-input" value="GR-ZD01 (Muelle de Puesta a Disposición)" readonly style="background:#f8fafc;" />
+                                <label class="form-label"><span>Clase de Proceso de Almacén (WPT)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('procTypes', 'inp-adhu-proc')">🔍 F4</span></label>
+                                <div class="form-input-container">
+                                    <input id="inp-adhu-proc" class="form-input" value="Z011 - Entrada en Ubicación Pallet HU Estándar" />
+                                    <button class="btn-f4" type="button" onclick="openF4('procTypes', 'inp-adhu-proc')">🔍</button>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label"><span>Ubicación Destino Propuesta (Rack)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('rackBins', 'inp-adhu-dest')">🔍 F4</span></label>
+                                <label class="form-label"><span>Ubicación Destino (Z001 / Z01)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('rackBins', 'inp-adhu-dest')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-adhu-dest" class="form-input" placeholder="RACK-01-A-04 (F4)" value="" />
+                                    <input id="inp-adhu-dest" class="form-input" value="01010101 - Pasillo 01 Columna 01 Nivel 01 (Z001 / Z01)" />
                                     <button class="btn-f4" type="button" onclick="openF4('rackBins', 'inp-adhu-dest')">🔍</button>
                                 </div>
                             </div>
@@ -1732,66 +1930,259 @@
                     `;
                 },
                 onSave: function() {
-                    var wtNum = Math.floor(10000455 + Math.random() * 20);
-                    var dest = document.getElementById("inp-adhu-dest").value || "RACK-01-A-04";
+                    var dest = (document.getElementById("inp-adhu-dest").value || "01010101").split(" - ")[0].trim();
+                    var wtNum = "10000451";
+                    var woNum = "20000184";
+
+                    if (typeof updateTrackerNumber === "function") {
+                        updateTrackerNumber("wo", woNum);
+                        updateTrackerNumber("wt", wtNum);
+                        updateTrackerNumber("dest", dest);
+                    }
 
                     window.ewmMasterData.warehouseTasks.unshift({
                         wtNum: String(wtNum),
+                        woNum: String(woNum),
                         procType: "Z011",
-                        huId: "1000845920",
+                        huId: (window.trackingSheetData ? window.trackingSheetData.hu : "1122004520"),
                         mat: "ZMAT-02",
-                        qty: 50,
+                        qty: 60,
                         uom: "CJ",
                         srcBin: "GR-ZD01",
                         destBin: dest,
                         status: "Abierta",
-                        createdOn: "02.11.2026 14:15",
+                        createdOn: new Date().toLocaleDateString("es-ES") + " " + new Date().toLocaleTimeString("es-ES"),
                         user: "USEREWME"
                     });
 
                     renderMonTable();
-                    return "📋 ¡Tarea de Almacén (WT) #" + wtNum + " Creada Exitosamente!\nClase de proceso Z011 generada para trasladar pallet a ubicación '" + dest + "'.";
+                    return "📋 ¡Orden de Almacén #" + woNum + " y Tarea (WT) #" + wtNum + " Creadas Exitosamente!\nClase de proceso Z011 asignada para trasladar HU a la ubicación '" + dest + "'.\nRegistrado en la Hoja de Control.";
                 }
             },
 
             toconf: {
-                badge: "SAP EWM ➔ ERP · CONFIRMACIÓN Y TRASPASO",
-                title: "Confirmar Tarea de Almacén (/SCWM/TO_CONF)",
-                btnAction: "✅ Confirmar Tarea (Traspaso 411 a ZA01)",
+                badge: "SAP EWM ➔ ERP · CONFIRMACIÓN Y TRASPASO · USUARIO ZOP_MON1",
+                title: "Confirmar Tarea de Almacén (/SCWM/TO_CONF · Paso 8)",
+                btnAction: "✅ Confirmar Tarea (Traspaso Automático 411 a ZA01)",
                 renderHtml: function() {
+                    var refWt = (window.trackingSheetData ? window.trackingSheetData.wt : "10000451");
                     return `
-                        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:12px; margin-bottom:16px;">
-                            <div style="font-size:11px; font-weight:800; color:#0369a1; text-transform:uppercase;">🔄 Traspaso Automático ZR01 ➔ ZA01</div>
-                            <div style="font-size:12px; color:#0284c7; margin-top:2px;">Al confirmar la tarea de ubicación en EWM, el sistema genera automáticamente en el ERP el movimiento de material 411, pasando el stock de 'Recepción' (ZR01) a 'Disponible' (ZA01).</div>
+                        <div class="modal-user-banner" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">
+                            <span>👤 <strong>Usuario del Script: ZOP_MON1 (Español)</strong> · Carretillero / Operario de Almacén</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #fde68a;">PASO 8 DE 11</span>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">N° de Tarea de Almacén a Confirmar</label>
-                            <input id="inp-conf-wt" class="form-input" placeholder="Ej: 10000451" value="" />
+                        <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:8px; padding:12px; margin-bottom:16px;">
+                            <div style="font-size:11px; font-weight:800; color:#0369a1; text-transform:uppercase;">🔄 Traspaso Automático ZR01 ➔ ZA01 (Mov. 411)</div>
+                            <div style="font-size:12px; color:#0284c7; margin-top:2px;">El carretillero <strong>ZOP_MON1</strong> confirma físicamente la tarea. EWM genera automáticamente en ERP el movimiento de material <strong>411</strong>, pasando el stock de 'Recepción' (ZR01) a 'Libre Utilización' (ZA01).</div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">N° de Tarea de Almacén a Confirmar</label>
+                                <input id="inp-conf-wt" class="form-input" value="${refWt}" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Operario Responsable de Confirmación</label>
+                                <input class="form-input" value="ZOP_MON1 - Operario Almacén (Carretillero)" readonly style="background:#f8fafc;" />
+                            </div>
                         </div>
                     `;
                 },
                 onSave: function() {
-                    // Actualizar estado de tarea
+                    var wtVal = (document.getElementById("inp-conf-wt").value || "10000451").trim();
                     if (window.ewmMasterData.warehouseTasks.length > 0) {
                         window.ewmMasterData.warehouseTasks[0].status = "Confirmada";
+                        window.ewmMasterData.warehouseTasks[0].confirmedBy = "ZOP_MON1";
                     }
 
-                    // Actualizar HU a ubicada
                     if (window.ewmMasterData.handlingUnits.length > 0) {
                         window.ewmMasterData.handlingUnits[0].status = "Ubicado en Rack (Disponible)";
-                        window.ewmMasterData.handlingUnits[0].bin = "RACK-01-A-04";
+                        window.ewmMasterData.handlingUnits[0].bin = "01010101";
                     }
 
                     var valZa01 = document.getElementById("val-za01");
-                    if (valZa01) valZa01.innerText = "4,344 CJ";
+                    if (valZa01) valZa01.innerText = "4,404 CJ (+60)";
                     
                     var valZr01 = document.getElementById("val-zr01");
-                    if (valZr01) valZr01.innerText = "190 CJ";
+                    if (valZr01) valZr01.innerText = "0 CJ (Vaciado)";
+
+                    if (typeof updateTrackerNumber === "function") {
+                        updateTrackerNumber("wt", wtVal);
+                    }
 
                     renderWarehouseMap();
                     renderMonTable();
 
-                    return "✅ ¡Tarea de Almacén Confirmada!\nTraspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimiento 411). Stock ahora 100% disponible para ventas.";
+                    return "✅ ¡Tarea de Almacén #" + wtVal + " Confirmada por ZOP_MON1!\nTraspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimiento 411).\n¡El stock está ahora 100% disponible para ventas en SD!";
+                }
+            },
+
+            mon_audit: {
+                badge: "SAP EWM Z101 · MONITOR DE ALMACÉN (/SCWM/MON) · SUPERVISOR ZSUP_ALM1",
+                title: "Monitor de Almacén (/SCWM/MON · Paso 9)",
+                btnAction: "🖨️ Proceder al Paso 11: Imprimir Etiqueta HU (ZLBL)",
+                renderHtml: function() {
+                    var d = window.trackingSheetData || {};
+                    return `
+                        <div class="modal-user-banner" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">
+                            <span>👤 <strong>Usuario del Script: ZSUP_ALM1 (Español)</strong> · Supervisor de Almacén EWM</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bbf7d0;">PASO 9 DE 11</span>
+                        </div>
+                        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:12px 14px; margin-bottom:14px;">
+                            <div style="font-size:11px; font-weight:800; color:#15803d; text-transform:uppercase;">🔍 Auditoría de Ejecución Requerida por el Script de Prueba v4</div>
+                            <div style="font-size:12px; color:#166534; margin-top:2px;">El supervisor consulta <strong>/SCWM/MON</strong> para verificar la trazabilidad y comprobar que en el campo <em>'Confirmed By'</em> figura el operario <strong>ZOP_MON1</strong> y que la ubicación refleja ocupación real.</div>
+                        </div>
+
+                        <div style="border:1px solid #cbd5e1; border-radius:8px; overflow:hidden; margin-bottom:14px;">
+                            <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:left;">
+                                <thead style="background:#f8fafc; border-bottom:1px solid #cbd5e1;">
+                                    <tr>
+                                        <th style="padding:8px 10px; color:#475569;">Punto de Auditoría</th>
+                                        <th style="padding:8px 10px; color:#475569;">Valor en el Sistema EWM</th>
+                                        <th style="padding:8px 10px; color:#475569; text-align:center;">Resultado Auditoría</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:8px 10px; font-weight:700;">Tarea de Almacén (WT)</td>
+                                        <td style="padding:8px 10px; font-family:monospace; font-weight:800; color:#0284c7;">#${d.wt || '10000451'} (Orden #${d.wo || '20000184'})</td>
+                                        <td style="padding:8px 10px; text-align:center;"><span class="badge badge-success">✓ Estado Confirmado</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:8px 10px; font-weight:700;">Campo 'Confirmed By'</td>
+                                        <td style="padding:8px 10px; font-weight:800; color:#b45309;">👤 ZOP_MON1 (Carretillero)</td>
+                                        <td style="padding:8px 10px; text-align:center;"><span class="badge badge-success">✓ Conforme Script v4</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:8px 10px; font-weight:700;">Ubicación Destino Asignada</td>
+                                        <td style="padding:8px 10px; font-weight:800; color:#0f172a;">📍 ${d.dest || '01010101'} (Almacén Z001 · Sec Z01)</td>
+                                        <td style="padding:8px 10px; text-align:center;"><span class="badge badge-info">Ocupación: 1 Pallet (100%)</span></td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #f1f5f9;">
+                                        <td style="padding:8px 10px; font-weight:700;">Handling Unit (HU Pallet)</td>
+                                        <td style="padding:8px 10px; font-family:monospace; font-weight:800; color:#059669;">📦 #${d.hu || '1122004520'} (ZPL-120 · 745 KG)</td>
+                                        <td style="padding:8px 10px; text-align:center;"><span class="badge badge-success">✓ Ubicada en Rack</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:8px 10px; font-weight:700;">Material y Cantidad</td>
+                                        <td style="padding:8px 10px;">ZMAT-02 · Aceite vegetal premium</td>
+                                        <td style="padding:8px 10px; text-align:center; font-weight:800; color:#065f46;">60 Cajas</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    setTimeout(function() {
+                        openEwmApp("hu_print");
+                    }, 200);
+                    return "🔍 Auditoría completada con éxito: Confirmado por ZOP_MON1 y ubicación 01010101 ocupada.";
+                }
+            },
+
+            mmbe: {
+                badge: "SAP S/4HANA ERP · GESTIÓN DE STOCKS (MM-IM) · CONSULTORA USER02",
+                title: "Resumen de Stocks de Material en ERP (MMBE · Paso 10)",
+                btnAction: "✓ Stock Verificado en ERP (ZA01 Disponible)",
+                renderHtml: function() {
+                    return `
+                        <div class="modal-user-banner" style="background:#ede9fe; color:#6d28d9; border:1px solid #ddd6fe;">
+                            <span>👤 <strong>Usuario del Script: USER02 (Español / SAP GUI Mandante 100)</strong> · Consultora MM</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #ddd6fe;">PASO 10 DE 11</span>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; margin-bottom:14px; font-size:11px; color:#475569;">
+                            📌 <strong>Comprobación Requerida en SAP GUI:</strong> Ejecutar la transacción <code>MMBE</code> para el material <code>ZMAT-02</code> en el centro <code>ZC10</code> y comprobar que el almacén <strong>ZA01</strong> aumentó en <strong>+60 cajas</strong> y que <strong>ZR01</strong> quedó en 0.
+                        </div>
+
+                        <div style="border:1px solid #cbd5e1; border-radius:8px; overflow:hidden; margin-bottom:14px;">
+                            <table style="width:100%; border-collapse:collapse; font-size:12px; text-align:left;">
+                                <thead style="background:#0f172a; color:#ffffff;">
+                                    <tr>
+                                        <th style="padding:8px 10px;">Estructura de Stocks (S/4HANA Mandante 100)</th>
+                                        <th style="padding:8px 10px;">Stock de Libre Utilización</th>
+                                        <th style="padding:8px 10px;">Inspección Calidad</th>
+                                        <th style="padding:8px 10px;">Stock Bloqueado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="background:#f1f5f9; font-weight:800; border-bottom:1px solid #cbd5e1;">
+                                        <td style="padding:8px 10px;">🏢 Centro ZC10 (Distribuidora Express Central)</td>
+                                        <td style="padding:8px 10px; color:#059669;">4,404 CJ (+60)</td>
+                                        <td style="padding:8px 10px; color:#64748b;">0 CJ</td>
+                                        <td style="padding:8px 10px; color:#64748b;">0 CJ</td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #e2e8f0; background:#f0fdf4;">
+                                        <td style="padding:8px 10px; font-weight:700;">↳ 🟢 Almacén ZA01 (Libre Utilización Putaway)</td>
+                                        <td style="padding:8px 10px; font-weight:800; color:#15803d; font-size:13px;">60 CJ (¡Aumentó +60!)</td>
+                                        <td style="padding:8px 10px; color:#94a3b8;">—</td>
+                                        <td style="padding:8px 10px; color:#94a3b8;">—</td>
+                                    </tr>
+                                    <tr style="border-bottom:1px solid #e2e8f0;">
+                                        <td style="padding:8px 10px; font-weight:700;">↳ ⚪ Almacén ZR01 (Recepción Inbound EWM)</td>
+                                        <td style="padding:8px 10px; font-weight:800; color:#64748b;">0 CJ (Vaciado tras Mov. 411)</td>
+                                        <td style="padding:8px 10px; color:#94a3b8;">—</td>
+                                        <td style="padding:8px 10px; color:#94a3b8;">—</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:8px; padding:10px 12px; font-size:11px; color:#065f46;">
+                            ✓ <strong>Verificación Exitosa:</strong> El stock transferido de 60 cajas ya se encuentra en libre utilización en ZA01 y está 100% disponible para ser vendido y facturado en el <strong>Portal SD (VA01)</strong>.
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    return "✓ Stock verificado en ERP (MMBE): +60 Cajas listas en ZA01 para ventas.";
+                }
+            },
+
+            hu_print: {
+                badge: "SAP EWM Z101 · SPOOL SERVICE · SUPERVISOR ZSUP_ALM1",
+                title: "Impresión de Etiqueta Física HU (/SCWM/MON · Paso 11)",
+                btnAction: "🖨️ Abrir y Emitir Etiqueta Barcode (ZLBL)",
+                renderHtml: function() {
+                    var d = window.trackingSheetData || {};
+                    return `
+                        <div class="modal-user-banner" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">
+                            <span>👤 <strong>Usuario del Script: ZSUP_ALM1 (Español)</strong> · Supervisor de Almacén EWM</span>
+                            <span style="font-size:10px; background:#ffffff; padding:2px 8px; border-radius:4px; font-weight:800; border:1px solid #bbf7d0;">PASO 11 DE 11</span>
+                        </div>
+                        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; padding:10px 12px; margin-bottom:14px; font-size:11px; color:#475569;">
+                            📌 <strong>Parámetros de Impresión del Script v4:</strong> Dispositivo de impresión <code>ZLBL</code> (Etiquetadora térmica) · Spool <code>SP01</code> · Etiqueta con código de barras GS1-128 / SSCC para el pallet.
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Dispositivo de Salida (Spool EWM)</label>
+                                <input class="form-input" value="ZLBL - Etiquetadora Térmica Pallets (HP LaserJet)" readonly style="background:#f8fafc; font-weight:700;" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">N° de Orden de Spool</label>
+                                <input id="inp-spool-num" class="form-input" value="${d.spool || 'SP01-002845'}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Handling Unit a Imprimir</label>
+                                <input class="form-input" value="📦 #${d.hu || '1122004520'} (Pallet ZPL-120 · 60 CJ · 745 KG)" readonly style="background:#f8fafc; font-weight:700; color:#0284c7;" />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Norma de Código de Barras</label>
+                                <input class="form-input" value="GS1-128 / SSCC (00) 1 1220045 200000001 9" readonly style="background:#f8fafc;" />
+                            </div>
+                        </div>
+                    `;
+                },
+                onSave: function() {
+                    var spoolVal = (document.getElementById("inp-spool-num").value || "SP01-002845").trim();
+                    if (typeof updateTrackerNumber === "function") {
+                        updateTrackerNumber("spool", spoolVal);
+                    }
+                    var huVal = (window.trackingSheetData ? window.trackingSheetData.hu : "1122004520");
+                    setTimeout(function() {
+                        openHuBarcodeModal(huVal);
+                    }, 200);
+                    return "🖨️ Etiqueta de Pallet HU enviada al dispositivo ZLBL (Spool " + spoolVal + ").";
                 }
             },
 
@@ -1801,7 +2192,6 @@
                 btnAction: "🖨️ Imprimir Códigos de Barras de Todas las HUs Z001 (Lote 10 Pallets)",
                 renderHtml: function() {
                     var data = window.ewmMasterData || {};
-                    // Filtrar estrictamente por Tipo de Almacenamiento Z001
                     var stock = (data.ewmStockTable || []).filter(function(s) {
                         return s.lgtyp === "Z001";
                     });
@@ -1876,6 +2266,88 @@
                 }
             }
         };
+
+        // ================================================================
+        // FUNCIONES DE CONTROL: HOJA DE NÚMEROS Y TRAZABILIDAD (SCRIPT V4)
+        // ================================================================
+        window.trackingSheetData = {
+            po: "4500012895",
+            ibd: "180000042",
+            ewmDel: "0080004521",
+            hu: "1122004520",
+            wo: "20000184",
+            wt: "10000451",
+            dest: "01010101",
+            spool: "SP01-002845"
+        };
+
+        function updateTrackerNumber(key, val) {
+            if (!key || !val) return;
+            window.trackingSheetData[key] = val;
+            var elMap = {
+                po: "tr-po",
+                ibd: "tr-ibd",
+                ewmDel: "tr-ewm-del",
+                hu: "tr-hu",
+                wo: "tr-wo",
+                wt: "tr-wt",
+                dest: "tr-dest",
+                spool: "tr-spool"
+            };
+            var elId = elMap[key];
+            if (elId) {
+                var el = document.getElementById(elId);
+                if (el) {
+                    el.innerText = val;
+                    el.style.color = "#38bdf8";
+                    el.style.transform = "scale(1.08)";
+                    setTimeout(function() { el.style.transform = "scale(1)"; }, 300);
+                }
+            }
+        }
+
+        function toggleTrackerDetails() {
+            var grid = document.getElementById("tracker-numbers-grid");
+            var lbl = document.getElementById("lbl-toggle-tracker");
+            if (!grid) return;
+            if (grid.style.display === "none") {
+                grid.style.display = "grid";
+                if (lbl) lbl.innerText = "Ocultar Números";
+            } else {
+                grid.style.display = "none";
+                if (lbl) lbl.innerText = "Ver 8 Registros Clave";
+            }
+        }
+
+        function copyTrackerReport() {
+            var d = window.trackingSheetData || {};
+            var report = `===============================================================
+HOJA DE NÚMEROS Y CONTROL DE TRAZABILIDAD - PROYECTO DISTRIBUIDORA EXPRESS S.A.
+ALMACÉN EWM: Z101 | CENTRO: ZC10 | SOCIEDAD: ZX01 | MANDANTE: 100
+MATERIAL: ZMAT-02 (Aceite vegetal premium 60 CJ / 1 Pallet 745 KG)
+SCRIPT DE PRUEBA: Flujo de Compra v4 (10/11/2026)
+===============================================================
+1. Pedido de Compras (ME21N - USEREWME):      ${d.po || '4500012895'}
+2. Entrega Entrante ERP (VL31N - USEREWME):   ${d.ibd || '180000042'}
+3. Entrega EWM (/SCWM/PRDI - USEREWME):        ${d.ewmDel || '0080004521'}
+4. Handling Unit (HU SSCC - USEREWME):        ${d.hu || '1122004520'} (Pallet ZPL-120)
+5. Orden de Almacén (WO - USEREWME):           ${d.wo || '20000184'}
+6. Tarea de Almacén (WT - Confirmada):         ${d.wt || '10000451'} (Confirmed by: ZOP_MON1)
+7. Ubicación Destino Asignada (Z001/Z01):     ${d.dest || '01010101'}
+8. Orden de Spool Impresión (ZLBL - ZSUP_ALM1): ${d.spool || 'SP01-002845'}
+===============================================================
+Estado Final Stock ERP (MMBE - USER02): Centro ZC10 / Almacén ZA01 (+60 CJ)`;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(report).then(function() {
+                    showToast("📋 ¡Hoja de trazabilidad copiada al portapapeles!");
+                }).catch(function() {
+                    prompt("Copia el resumen de trazabilidad:", report);
+                });
+            } else {
+                prompt("Copia el resumen de trazabilidad:", report);
+            }
+        }
 
         function openEwmApp(key) {
             currentAppKey = key;
@@ -1962,6 +2434,8 @@
                 { code: "Z020", title: "Z020 - Picking Saliente para Despacho", desc: "Clase de proceso para preparación de pedidos SD" }
             ],
             rackBins: [
+                { code: "01010101", title: "01010101 - Pasillo 01 Columna 01 Nivel 01 (Z001 / Z01)", desc: "Ubicación destino estándar según Script de Prueba v4 (Almacén Z001 · Sección Z01)" },
+                { code: "02010201", title: "02010201 - Pasillo 02 Columna 01 Nivel 02 (Z001 / Z01)", desc: "Ubicación destino alternativa según Script de Prueba v4 (Almacén Z001)" },
                 { code: "RACK-01-A-04", title: "RACK-01-A-04 - Pasillo A Rack 01 Nivel 4", desc: "Ubicación disponible en zona Z020 (Capacidad: 1 Pallet)" },
                 { code: "RACK-02-A-02", title: "RACK-02-A-02 - Pasillo A Rack 02 Nivel 2", desc: "Ubicación disponible para harinas y granos" },
                 { code: "RACK-03-B-02", title: "RACK-03-B-02 - Pasillo B Rack 03 Nivel 2", desc: "Ubicación disponible para arroz y azúcar" }
