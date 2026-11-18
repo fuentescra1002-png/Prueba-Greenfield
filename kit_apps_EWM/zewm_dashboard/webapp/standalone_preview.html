@@ -1144,6 +1144,7 @@
                         <th>Entrega Entrante (VBELN)</th>
                         <th>Pos. (POSNR)</th>
                         <th>Pedido Ref. (VGBEL)</th>
+                        <th>Unidad Manipulación (HU)</th>
                         <th>Puesto Exp. (VSTEL)</th>
                         <th>Centro</th>
                         <th>Almacén</th>
@@ -1158,15 +1159,18 @@
                 `;
                 var list = data.likpLipsTable || [];
                 var filtered = list.filter(function(r) {
-                    return !query || (r.vbeln.includes(query) || r.vgbel.includes(query) || r.matnr.toLowerCase().includes(query) || r.arktx.toLowerCase().includes(query));
+                    var q = query.toLowerCase();
+                    return !query || (String(r.vbeln).includes(q) || String(r.vgbel).includes(q) || String(r.huident || '').includes(q) || String(r.matnr).toLowerCase().includes(q) || String(r.arktx).toLowerCase().includes(q));
                 });
                 var html = "";
                 filtered.forEach(function(r) {
+                    var huDisplay = r.huident ? `<span class="badge badge-info" style="font-weight:800; cursor:pointer;" onclick="switchMonTab('hu')" title="Ver detalle en pestaña HU">📦 #${r.huident}</span>` : '<span style="color:#94a3b8; font-size:11px;">Pte. Embalar (Paso 3-5)</span>';
                     html += `
                         <tr>
                             <td style="font-weight:700; color:#065f46;">🚚 #${r.vbeln}</td>
                             <td style="text-align:center;">${r.posnr}</td>
                             <td style="font-weight:700; color:#0284c7;">#${r.vgbel}</td>
+                            <td>${huDisplay}</td>
                             <td><span class="badge badge-neutral">${r.vstel}</span></td>
                             <td>${r.werks}</td>
                             <td><span class="badge badge-info">${r.lgort}</span></td>
@@ -1174,13 +1178,13 @@
                             <td>${r.arktx}</td>
                             <td style="font-weight:800; color:#0f172a;">${r.lfimg}</td>
                             <td>${r.meins}</td>
-                            <td><span class="badge badge-info" style="font-size:10px;">${r.stagArea}</span></td>
-                            <td>${r.wadat}</td>
+                            <td><span class="badge badge-info" style="font-size:10px;">${r.stagArea || r.staging || 'GR-ZD01'}</span></td>
+                            <td>${r.wadat || r.erdat || ''}</td>
                             <td><span class="badge badge-success">${r.status}</span></td>
                         </tr>
                     `;
                 });
-                tbody.innerHTML = html || "<tr><td colspan='13' style='text-align:center; padding:20px;'>Sin registros en tablas LIKP / LIPS.</td></tr>";
+                tbody.innerHTML = html || "<tr><td colspan='14' style='text-align:center; padding:20px;'>Sin registros en tablas LIKP / LIPS.</td></tr>";
 
             // 3. TABLA /SCWM/ORDIM_O & ORDIM_C (TAREAS DE ALMACÉN WT)
             } else if (currentActiveTab === "wt") {
@@ -1266,7 +1270,66 @@
                 });
                 tbody.innerHTML = html || "<tr><td colspan='11' style='text-align:center; padding:20px;'>Sin registros en tablas /SCWM/LAGP & AQUA.</td></tr>";
 
-            // 5. TABLA MKPF / MSEG (DOCUMENTOS DE MATERIAL ERP - 101 Y 411)
+            // 5. TABLA HANDLING UNITS (/SCWM/HUHDR & /SCWM/HUREF)
+            } else if (currentActiveTab === "hu") {
+                thead.innerHTML = `
+                    <tr>
+                        <th>Handling Unit (HUIDENT)</th>
+                        <th>Material Embalaje</th>
+                        <th>Tipo UM</th>
+                        <th>Material (MATNR)</th>
+                        <th>Texto Breve Material</th>
+                        <th>Cantidad</th>
+                        <th>UM</th>
+                        <th>Peso Bruto</th>
+                        <th>Ubicación Actual (LGPLA)</th>
+                        <th>Tipo Almacén</th>
+                        <th>Pedido Ref. (EBELN)</th>
+                        <th>Entrega Ref. (VBELN)</th>
+                        <th>Estado Logístico</th>
+                        <th>Acción Spool</th>
+                    </tr>
+                `;
+                var list = data.handlingUnits || [];
+                var filtered = list.filter(function(r) {
+                    var q = query.toLowerCase();
+                    var hu = String(r.huId || '').toLowerCase();
+                    var mat = String(r.mat || '').toLowerCase();
+                    var bin = String(r.bin || '').toLowerCase();
+                    var po = String(r.poRef || '').toLowerCase();
+                    var ibd = String(r.ibdRef || '').toLowerCase();
+                    return !query || (hu.includes(q) || mat.includes(q) || bin.includes(q) || po.includes(q) || ibd.includes(q));
+                });
+                var html = "";
+                filtered.forEach(function(r) {
+                    var isAvailable = (r.status || '').includes("Disponible") || (r.status || '').includes("Rack");
+                    var statusColor = isAvailable ? "badge badge-success" : ((r.status || '').includes("Muelle") ? "badge badge-warning" : "badge badge-info");
+                    var poDisplay = r.poRef ? "#" + r.poRef : "—";
+                    var ibdDisplay = r.ibdRef ? "#" + r.ibdRef : "—";
+                    html += `
+                        <tr>
+                            <td style="font-weight:800; color:#0284c7;">📦 #${r.huId}</td>
+                            <td><span class="badge badge-neutral">${r.packMat || 'ZPL-120'}</span></td>
+                            <td style="text-align:center;">${r.huType || 'ZPL1'}</td>
+                            <td style="font-weight:700; color:#0f172a;">${r.mat}</td>
+                            <td>${r.matDesc}</td>
+                            <td style="font-weight:800; color:#065f46;">${r.qty}</td>
+                            <td>${r.uom}</td>
+                            <td style="font-weight:700;">${r.weight || '745 KG'}</td>
+                            <td style="font-weight:700; color:#065f46;">📍 ${r.bin || 'GR-ZD01'}</td>
+                            <td><span class="badge badge-neutral">${r.storageType || 'Z910'}</span></td>
+                            <td style="font-weight:700; color:#0284c7;">${poDisplay}</td>
+                            <td style="font-weight:700; color:#059669;">${ibdDisplay}</td>
+                            <td><span class="${statusColor}">${r.status}</span></td>
+                            <td style="text-align:center;">
+                                <button class="btn btn-primary" type="button" style="background:#0284c7; border-color:#0284c7; padding:4px 10px; font-size:11px; font-weight:800;" onclick="openHuBarcodeModal('${r.huId}')">🖨️ Imprimir</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html || "<tr><td colspan='14' style='text-align:center; padding:20px;'>Sin registros de Unidades de Manipulación (HU).</td></tr>";
+
+            // 6. TABLA MKPF / MSEG (DOCUMENTOS DE MATERIAL ERP - 101 Y 411)
             } else if (currentActiveTab === "mseg") {
                 thead.innerHTML = `
                     <tr>
@@ -1570,9 +1633,13 @@
                     if (typeof renderMonTable === "function") renderMonTable();
 
                     if (isRealSap) {
-                        return "✅ ¡Pedido de Compra #" + poNumber + " Creado Exitosamente!\nGrabado FÍSICAMENTE en SAP S/4HANA (Mandante 100 · Tablas EKKO / EKPO).\nClase " + poType + " | " + matCode + " (" + poQty + " Cajas) | Centro " + plant + " | Almacén " + sloc + ".\n¡Número actualizado en la Hoja de Control!";
+                        return `✅ ¡Pedido de Compra #${poNumber} Creado Exitosamente!
+Grabado FÍSICAMENTE en SAP S/4HANA (Mandante 100 · Tablas EKKO / EKPO).
+Clase ${poType} | ${matCode} (${poQty} Cajas) | Centro ${plant} | Almacén ${sloc}.`;
                     } else {
-                        return "✅ ¡Pedido de Compra #" + poNumber + " Creado y Registrado!\nAgregado al Monitor EWM (EKKO/EKPO) y Hoja de Control.\nClase " + poType + " | " + matCode + " (" + poQty + " Cajas) | Centro " + plant + " | Almacén " + sloc + ".";
+                        return `✅ ¡Pedido de Compra #${poNumber} Creado y Registrado!
+Agregado al Monitor EWM (EKKO/EKPO).
+Clase ${poType} | ${matCode} (${poQty} Cajas) | Centro ${plant} | Almacén ${sloc}.`;
                     }
                 }
             },
@@ -1614,7 +1681,7 @@
                     `;
                 },
                 onSave: function() {
-                    var poRef = (document.getElementById("inp-ibd-po").value || "4500012895").trim();
+                    var poRef = (document.getElementById("inp-ibd-po").value || window.currentPoNumber || "4500012895").trim();
                     var ibdNum = Math.floor(180000040 + Math.random() * 20);
                     var dateStr = new Date().toLocaleDateString("es-ES");
 
@@ -1627,6 +1694,7 @@
                         vbeln: String(ibdNum),
                         posnr: "10",
                         vgbel: poRef,
+                        huident: window.currentHuNumber || "",
                         vstel: "1710",
                         werks: "ZC10",
                         lgort: "ZR01",
@@ -1634,14 +1702,22 @@
                         arktx: "Aceite Vegetal Premium (Caja x 12)",
                         lfimg: 60,
                         meins: "CJ",
+                        stagArea: "Z910/ZS01/GR-ZD01",
                         staging: "GR-ZD01",
+                        wadat: dateStr,
                         erdat: dateStr,
-                        status: "Distribuida a EWM Z101"
+                        status: "Distribuida a EWM Z101 (Pte. Embalar)"
                     };
 
                     if (!window.ewmMasterData) window.ewmMasterData = {};
                     if (!window.ewmMasterData.likpLipsTable) window.ewmMasterData.likpLipsTable = [];
                     window.ewmMasterData.likpLipsTable.unshift(newIbd);
+
+                    // Actualizar estado en la tabla de pedidos EKKO
+                    if (window.ewmMasterData.ekkoEkpoTable && window.ewmMasterData.ekkoEkpoTable.length > 0) {
+                        var poMatch = window.ewmMasterData.ekkoEkpoTable.find(p => p.ebeln === poRef);
+                        if (poMatch) poMatch.status = "Entrega Entrante #" + ibdNum + " Creada";
+                    }
 
                     var valIbd = document.getElementById("val-ibd");
                     if (valIbd) valIbd.innerText = (parseInt(valIbd.innerText, 10) + 1);
@@ -1649,7 +1725,8 @@
                     if (typeof switchMonTab === "function") switchMonTab("inbound");
                     if (typeof renderMonTable === "function") renderMonTable();
 
-                    return "🚚 ¡Entrega Entrante #" + ibdNum + " Creada y Distribuida a EWM!\nReferencia Pedido " + poRef + " transmitida automáticamente al Almacén EWM Z101 vía cola qRFC.\nRegistrado en la Hoja de Control.";
+                    return `🚚 ¡Entrega Entrante #${ibdNum} Creada y Distribuida a EWM!
+Referencia Pedido #${poRef} transmitida automáticamente al Almacén EWM Z101 vía cola qRFC.`;
                 }
             },
 
@@ -1659,6 +1736,7 @@
                 btnAction: "📦 Verificar Entrega EWM y Asignar Puesta a Disposición",
                 renderHtml: function() {
                     var refIbd = window.currentIbdNumber || (window.trackingSheetData ? window.trackingSheetData.ibd : "180000042");
+                    var preHu = window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
                     return `
                         <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
                             <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · EWM Inbound Delivery</span>
@@ -1693,39 +1771,77 @@
                                 <input id="inp-prdi-qty" type="number" class="form-input" placeholder="Ej: 60" value="60" />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="form-label">N° de Handling Unit (HU SSCC Asignada)</label>
+                            <input id="inp-prdi-hu" class="form-input" value="${preHu}" style="font-weight:700; color:#0284c7;" />
+                        </div>
                     `;
                 },
                 onSave: function() {
-                    var huNum = "112200" + Math.floor(4520 + Math.random() * 30);
+                    var huInput = (document.getElementById("inp-prdi-hu") ? document.getElementById("inp-prdi-hu").value : "").trim();
+                    var huNum = huInput || window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
+                    window.currentHuNumber = String(huNum);
+
                     var stage = (document.getElementById("inp-prdi-stage").value || "GR-ZD01").split(" - ")[0].trim();
                     var ewmDelNum = "008000" + Math.floor(4520 + Math.random() * 30);
+                    window.currentEwmDelivery = ewmDelNum;
 
                     if (typeof updateTrackerNumber === "function") {
                         updateTrackerNumber("ewmDel", ewmDelNum);
                         updateTrackerNumber("hu", String(huNum));
                     }
 
-                    window.ewmMasterData.handlingUnits.unshift({
+                    var dateStr = new Date().toLocaleDateString("es-ES");
+                    var timeStr = new Date().toLocaleTimeString("es-ES");
+
+                    var huObj = {
                         huId: String(huNum),
+                        shortHu: String(huNum).slice(-9),
                         packMat: "ZPL-120",
+                        huType: "ZPL1",
                         mat: "ZMAT-02",
                         matDesc: "Aceite Vegetal Premium (Caja x 12)",
                         qty: 60,
                         uom: "CJ",
                         weight: "745 KG",
                         bin: stage,
-                        status: "En Muelle (Pte. Ubicar)",
-                        poRef: window.currentPoNumber || "4500012895",
+                        storageType: "Z910",
+                        section: "ZS01",
+                        binType: "ZPAL",
+                        status: "En Muelle Recepción (Pte. Ubicar)",
+                        user: "USEREWME",
+                        createdOn: dateStr,
+                        createdAt: timeStr,
+                        poRef: window.currentPoNumber || "4500012891",
                         ibdRef: window.currentIbdNumber || "180000042"
-                    });
+                    };
+
+                    if (!window.ewmMasterData) window.ewmMasterData = {};
+                    if (!window.ewmMasterData.handlingUnits) window.ewmMasterData.handlingUnits = [];
+
+                    var existingIdx = window.ewmMasterData.handlingUnits.findIndex(h => h.huId === String(huNum));
+                    if (existingIdx >= 0) {
+                        window.ewmMasterData.handlingUnits[existingIdx] = huObj;
+                    } else {
+                        window.ewmMasterData.handlingUnits.unshift(huObj);
+                    }
+
+                    // Actualizar entrega entrante con la HU vinculada
+                    if (window.ewmMasterData.likpLipsTable && window.ewmMasterData.likpLipsTable.length > 0) {
+                        window.ewmMasterData.likpLipsTable[0].huident = String(huNum);
+                        window.ewmMasterData.likpLipsTable[0].status = "Embalada en HU #" + huNum;
+                    }
 
                     var valHu = document.getElementById("val-hu");
                     if (valHu) valHu.innerText = (parseInt(valHu.innerText, 10) + 1);
 
                     renderWarehouseMap();
-                    renderMonTable();
+                    if (typeof switchMonTab === "function") switchMonTab("hu");
+                    if (typeof renderMonTable === "function") renderMonTable();
 
-                    return "📦 ¡Entrega EWM #" + ewmDelNum + " Validada y HU #" + huNum + " Generada!\nPallet ZPL-120 (60 CJ · 745 KG) asignado al muelle " + stage + ".\nNúmeros actualizados en la Hoja de Control.";
+                    return `📦 ¡Entrega EWM #${ewmDelNum} Validada y HU #${huNum} Generada!
+Pallet ZPL-120 (60 CJ · 745 KG) asignado al muelle ${stage}.
+Vinculado al Pedido #${window.currentPoNumber || '4500012891'} y Entrega #${window.currentIbdNumber || '180000042'}.`;
                 }
             },
 
@@ -1754,6 +1870,11 @@
                 },
                 onSave: function() {
                     var bin = (document.getElementById("inp-stage-bin").value || "GR-ZD01").split(" - ")[0].trim();
+                    if (window.ewmMasterData && window.ewmMasterData.handlingUnits && window.ewmMasterData.handlingUnits.length > 0) {
+                        window.ewmMasterData.handlingUnits[0].bin = bin;
+                    }
+                    if (typeof switchMonTab === "function") switchMonTab("hu");
+                    if (typeof renderMonTable === "function") renderMonTable();
                     return "📍 Muelle de Descarga '" + bin + "' fijado correctamente en EWM Z101 para la Entrega Entrante.";
                 }
             },
@@ -1763,6 +1884,7 @@
                 title: "Puesto de Embalaje de Entrada (/SCWM/PACK · Paso 5)",
                 btnAction: "📦 Cerrar y Pesar Pallet HU (745 KG)",
                 renderHtml: function() {
+                    var huVal = window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
                     return `
                         <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
                             <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Packing Work Center</span>
@@ -1770,15 +1892,15 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group">
+                                <label class="form-label">Handling Unit (HU SSCC)</label>
+                                <input id="inp-pack-hu" class="form-input" value="${huVal}" readonly style="background:#f8fafc; font-weight:700; color:#0284c7;" />
+                            </div>
+                            <div class="form-group">
                                 <label class="form-label"><span>Material de Embalaje Homologado</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4('packMats', 'inp-pack-mat')">🔍 F4</span></label>
                                 <div class="form-input-container">
                                     <input id="inp-pack-mat" class="form-input" value="ZPL-120 - Pallet Estándar Europeo 1200x800mm" />
                                     <button class="btn-f4" type="button" onclick="openF4('packMats', 'inp-pack-mat')">🔍</button>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Tipo de Unidad de Manipulación</label>
-                                <input class="form-input" value="ZPL1 - Pallet Europeo Madera Estándar" readonly style="background:#f8fafc;" />
                             </div>
                         </div>
                         <div class="form-row">
@@ -1788,17 +1910,63 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Peso Bruto Calculado (Material + Pallet)</label>
-                                <input class="form-input" value="745 KG (Neto 720 KG + Tara 25 KG)" readonly style="background:#f8fafc;" />
+                                <input class="form-input" value="745 KG (Neto 720 KG + Tara 25 KG)" readonly style="background:#f8fafc; font-weight:700;" />
                             </div>
                         </div>
                     `;
                 },
                 onSave: function() {
-                    var huNum = "112200" + Math.floor(4520 + Math.random() * 30);
+                    var huNum = (document.getElementById("inp-pack-hu") ? document.getElementById("inp-pack-hu").value : "") || window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
+                    window.currentHuNumber = String(huNum);
+
                     if (typeof updateTrackerNumber === "function") {
                         updateTrackerNumber("hu", huNum);
                     }
-                    return "📦 ¡Handling Unit #" + huNum + " Embalada y Cerrada!\nPallet ZPL-120 con 60 cajas de ZMAT-02 (745 KG bruto) listo en muelle GR-ZD01.";
+
+                    if (!window.ewmMasterData) window.ewmMasterData = {};
+                    if (!window.ewmMasterData.handlingUnits) window.ewmMasterData.handlingUnits = [];
+
+                    var existingIdx = window.ewmMasterData.handlingUnits.findIndex(h => h.huId === String(huNum));
+                    if (existingIdx >= 0) {
+                        window.ewmMasterData.handlingUnits[existingIdx].weight = "745 KG";
+                        window.ewmMasterData.handlingUnits[existingIdx].status = "Pallet Embalado y Cerrado (745 KG)";
+                        window.ewmMasterData.handlingUnits[existingIdx].packMat = "ZPL-120";
+                    } else {
+                        window.ewmMasterData.handlingUnits.unshift({
+                            huId: String(huNum),
+                            shortHu: String(huNum).slice(-9),
+                            packMat: "ZPL-120",
+                            huType: "ZPL1",
+                            mat: "ZMAT-02",
+                            matDesc: "Aceite Vegetal Premium (Caja x 12)",
+                            qty: 60,
+                            uom: "CJ",
+                            weight: "745 KG",
+                            bin: "GR-ZD01",
+                            storageType: "Z910",
+                            section: "ZS01",
+                            binType: "ZPAL",
+                            status: "Pallet Embalado y Cerrado (745 KG)",
+                            user: "USEREWME",
+                            createdOn: new Date().toLocaleDateString("es-ES"),
+                            createdAt: new Date().toLocaleTimeString("es-ES"),
+                            poRef: window.currentPoNumber || "4500012891",
+                            ibdRef: window.currentIbdNumber || "180000042"
+                        });
+                    }
+
+                    // Actualizar entrega entrante con la HU
+                    if (window.ewmMasterData.likpLipsTable && window.ewmMasterData.likpLipsTable.length > 0) {
+                        window.ewmMasterData.likpLipsTable[0].huident = String(huNum);
+                        window.ewmMasterData.likpLipsTable[0].status = "Embalada en HU #" + huNum;
+                    }
+
+                    if (typeof switchMonTab === "function") switchMonTab("hu");
+                    if (typeof renderMonTable === "function") renderMonTable();
+
+                    return `📦 ¡Handling Unit #${huNum} Embalada y Cerrada!
+Pallet ZPL-120 con 60 cajas de ZMAT-02 (745 KG bruto) listo en muelle GR-ZD01.
+Vinculado al Pedido #${window.currentPoNumber || '4500012891'} y Entrega #${window.currentIbdNumber || '180000042'}.`;
                 }
             },
 
@@ -1829,10 +1997,45 @@
                     `;
                 },
                 onSave: function() {
+                    var mblnr101 = "500000" + Math.floor(1890 + Math.random() * 20);
+                    var dateStr = new Date().toLocaleDateString("es-ES");
+
+                    if (!window.ewmMasterData) window.ewmMasterData = {};
+                    if (!window.ewmMasterData.msegTable) window.ewmMasterData.msegTable = [];
+
+                    window.ewmMasterData.msegTable.unshift({
+                        mblnr: mblnr101,
+                        mjahr: "2026",
+                        zeile: "1",
+                        bwart: "101",
+                        bwartDesc: "Entrada Mercancías Pedido (EWM Inbound)",
+                        matnr: "ZMAT-02",
+                        werks: "ZC10",
+                        lgort: "ZR01",
+                        umlgo: "-",
+                        menge: 60,
+                        meins: "CJ",
+                        ebeln: window.currentPoNumber || "4500012891",
+                        budat: dateStr,
+                        usnam: "USEREWME"
+                    });
+
+                    if (window.ewmMasterData.handlingUnits && window.ewmMasterData.handlingUnits.length > 0) {
+                        window.ewmMasterData.handlingUnits[0].status = "Recibida en Almacén ZR01 (GR 101)";
+                    }
+                    if (window.ewmMasterData.likpLipsTable && window.ewmMasterData.likpLipsTable.length > 0) {
+                        window.ewmMasterData.likpLipsTable[0].status = "Entrada 101 Contabilizada";
+                    }
+
                     var valZr01 = document.getElementById("val-zr01");
                     if (valZr01) valZr01.innerText = "250 CJ";
-                    showToast("🏷️ Movimiento 101 contabilizado en ERP: 60 cajas recibidas en ZR01");
-                    return "🏷️ ¡Entrada de Mercancías (GR) Contabilizada con Éxito!\nMovimiento 101 generado en S/4HANA Mandante 100. Stock asentado temporalmente en almacén ZR01.";
+
+                    if (typeof switchMonTab === "function") switchMonTab("mseg");
+                    if (typeof renderMonTable === "function") renderMonTable();
+
+                    showToast("🏷️ Movimiento 101 contabilizado en ERP: Doc. #" + mblnr101);
+                    return `🏷️ ¡Entrada de Mercancías (GR) Contabilizada con Éxito!
+Movimiento 101 generado en S/4HANA (Doc. #${mblnr101}). Stock recibido temporalmente en ZR01.`;
                 }
             },
 
@@ -1871,6 +2074,9 @@
                     var dest = (document.getElementById("inp-adhu-dest").value || "01010101").split(" - ")[0].trim();
                     var wtNum = "10000451";
                     var woNum = "20000184";
+                    window.currentWoNumber = woNum;
+                    window.currentWtNumber = wtNum;
+                    window.currentDestBin = dest;
 
                     if (typeof updateTrackerNumber === "function") {
                         updateTrackerNumber("wo", woNum);
@@ -1878,23 +2084,39 @@
                         updateTrackerNumber("dest", dest);
                     }
 
-                    window.ewmMasterData.warehouseTasks.unshift({
-                        wtNum: String(wtNum),
-                        woNum: String(woNum),
-                        procType: "Z011",
-                        huId: (window.trackingSheetData ? window.trackingSheetData.hu : "1122004520"),
-                        mat: "ZMAT-02",
-                        qty: 60,
-                        uom: "CJ",
-                        srcBin: "GR-ZD01",
-                        destBin: dest,
-                        status: "Abierta",
-                        createdOn: new Date().toLocaleDateString("es-ES") + " " + new Date().toLocaleTimeString("es-ES"),
-                        user: "USEREWME"
-                    });
+                    var dateStr = new Date().toLocaleDateString("es-ES");
+                    var timeStr = new Date().toLocaleTimeString("es-ES");
 
-                    renderMonTable();
-                    return "📋 ¡Orden de Almacén #" + woNum + " y Tarea (WT) #" + wtNum + " Creadas Exitosamente!\nClase de proceso Z011 asignada para trasladar HU a la ubicación '" + dest + "'.\nRegistrado en la Hoja de Control.";
+                    var taskObj = {
+                        tanum: String(wtNum),
+                        proctype: "Z011",
+                        huident: window.currentHuNumber || "1122004541",
+                        matnr: "ZMAT-02",
+                        vsola: 60,
+                        meins: "CJ",
+                        vltyp: "Z910",
+                        vlpla: "GR-ZD01",
+                        nltyp: "Z001",
+                        nlpla: dest,
+                        status: "Abierta (En /SCWM/ORDIM_O)",
+                        creadat: dateStr + " " + timeStr,
+                        uname: "USEREWME"
+                    };
+
+                    if (!window.ewmMasterData) window.ewmMasterData = {};
+                    if (!window.ewmMasterData.ewmTasksTable) window.ewmMasterData.ewmTasksTable = [];
+                    window.ewmMasterData.ewmTasksTable.unshift(taskObj);
+
+                    if (window.ewmMasterData.handlingUnits && window.ewmMasterData.handlingUnits.length > 0) {
+                        window.ewmMasterData.handlingUnits[0].status = "Tarea Ubicación Z011 (Pte. Confirmar)";
+                        window.ewmMasterData.handlingUnits[0].bin = dest;
+                    }
+
+                    if (typeof switchMonTab === "function") switchMonTab("wt");
+                    if (typeof renderMonTable === "function") renderMonTable();
+
+                    return `📋 ¡Orden de Almacén #${woNum} y Tarea (WT) #${wtNum} Creadas Exitosamente!
+Clase de proceso Z011 asignada para trasladar HU #${window.currentHuNumber || '1122004541'} a la ubicación '${dest}'.`;
                 }
             },
 
@@ -1903,7 +2125,7 @@
                 title: "Confirmar Tarea de Almacén (/SCWM/TO_CONF · Paso 8)",
                 btnAction: "✅ Confirmar Tarea (Traspaso Automático 411 a ZA01)",
                 renderHtml: function() {
-                    var refWt = (window.trackingSheetData ? window.trackingSheetData.wt : "10000451");
+                    var refWt = window.currentWtNumber || (window.trackingSheetData ? window.trackingSheetData.wt : "10000451");
                     return `
                         <div class="modal-user-banner" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;">
                             <span>👤 <strong>Usuario del Script: ZOP_MON1 (Español)</strong> · Carretillero / Operario de Almacén</span>
@@ -1926,16 +2148,59 @@
                     `;
                 },
                 onSave: function() {
-                    var wtVal = (document.getElementById("inp-conf-wt").value || "10000451").trim();
-                    if (window.ewmMasterData.warehouseTasks.length > 0) {
-                        window.ewmMasterData.warehouseTasks[0].status = "Confirmada";
-                        window.ewmMasterData.warehouseTasks[0].confirmedBy = "ZOP_MON1";
+                    var wtVal = (document.getElementById("inp-conf-wt").value || window.currentWtNumber || "10000451").trim();
+                    var dateStr = new Date().toLocaleDateString("es-ES");
+
+                    if (window.ewmMasterData && window.ewmMasterData.ewmTasksTable && window.ewmMasterData.ewmTasksTable.length > 0) {
+                        window.ewmMasterData.ewmTasksTable[0].status = "Confirmada (En /SCWM/ORDIM_C)";
+                        window.ewmMasterData.ewmTasksTable[0].uname = "ZOP_MON1";
                     }
 
-                    if (window.ewmMasterData.handlingUnits.length > 0) {
-                        window.ewmMasterData.handlingUnits[0].status = "Ubicado en Rack (Disponible)";
-                        window.ewmMasterData.handlingUnits[0].bin = "01010101";
+                    if (window.ewmMasterData && window.ewmMasterData.handlingUnits && window.ewmMasterData.handlingUnits.length > 0) {
+                        window.ewmMasterData.handlingUnits[0].status = "Disponible en Rack Z001 (Putaway 411)";
+                        window.ewmMasterData.handlingUnits[0].bin = window.currentDestBin || "01010101";
+                        window.ewmMasterData.handlingUnits[0].storageType = "Z001";
+                        window.ewmMasterData.handlingUnits[0].changedBy = "ZOP_MON1";
+                        window.ewmMasterData.handlingUnits[0].changedOn = dateStr;
                     }
+
+                    // Registrar movimiento 411 en MSEG
+                    var mblnr411 = "500000" + Math.floor(1900 + Math.random() * 20);
+                    if (!window.ewmMasterData.msegTable) window.ewmMasterData.msegTable = [];
+                    window.ewmMasterData.msegTable.unshift({
+                        mblnr: mblnr411,
+                        mjahr: "2026",
+                        zeile: "1",
+                        bwart: "411",
+                        bwartDesc: "Traspaso Almacén a Almacén (ZR01 -> ZA01)",
+                        matnr: "ZMAT-02",
+                        werks: "ZC10",
+                        lgort: "ZR01",
+                        umlgo: "ZA01",
+                        menge: 60,
+                        meins: "CJ",
+                        ebeln: window.currentPoNumber || "4500012891",
+                        budat: dateStr,
+                        usnam: "ZOP_MON1"
+                    });
+
+                    // Registrar stock en ubicación destino
+                    if (!window.ewmMasterData.ewmStockTable) window.ewmMasterData.ewmStockTable = [];
+                    window.ewmMasterData.ewmStockTable.unshift({
+                        lgnum: "Z101",
+                        lgtyp: "Z001",
+                        lgpla: window.currentDestBin || "01010101",
+                        huident: window.currentHuNumber || "1122004541",
+                        matnr: "ZMAT-02",
+                        maktx: "Aceite Vegetal Premium (Caja x 12)",
+                        quan: 60,
+                        meins: "CJ",
+                        cat: "F",
+                        lgort: "ZA01",
+                        sec: "Z01",
+                        bt: "ZPAL",
+                        status: "Disponible (Libre Utilización ZA01)"
+                    });
 
                     var valZa01 = document.getElementById("val-za01");
                     if (valZa01) valZa01.innerText = "4,404 CJ (+60)";
@@ -1948,9 +2213,12 @@
                     }
 
                     renderWarehouseMap();
-                    renderMonTable();
+                    if (typeof switchMonTab === "function") switchMonTab("hu");
+                    if (typeof renderMonTable === "function") renderMonTable();
 
-                    return "✅ ¡Tarea de Almacén #" + wtVal + " Confirmada por ZOP_MON1!\nTraspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimiento 411).\n¡El stock está ahora 100% disponible para ventas en SD!";
+                    return `✅ ¡Tarea de Almacén #${wtVal} Confirmada por ZOP_MON1!
+Traspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimiento 411 - Doc. #${mblnr411}).
+¡El pallet HU #${window.currentHuNumber || '1122004541'} está ahora disponible para ventas en SD!`;
                 }
             },
 
@@ -1959,7 +2227,10 @@
                 title: "Monitor de Almacén (/SCWM/MON · Paso 9)",
                 btnAction: "🖨️ Proceder al Paso 11: Imprimir Etiqueta HU (ZLBL)",
                 renderHtml: function() {
-                    var d = window.trackingSheetData || {};
+                    var huVal = window.currentHuNumber || (window.trackingSheetData ? window.trackingSheetData.hu : "1122004541");
+                    var wtVal = window.currentWtNumber || (window.trackingSheetData ? window.trackingSheetData.wt : "10000451");
+                    var woVal = window.currentWoNumber || (window.trackingSheetData ? window.trackingSheetData.wo : "20000184");
+                    var destVal = window.currentDestBin || (window.trackingSheetData ? window.trackingSheetData.dest : "01010101");
                     return `
                         <div class="modal-user-banner" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">
                             <span>👤 <strong>Usuario del Script: ZSUP_ALM1 (Español)</strong> · Supervisor de Almacén EWM</span>
@@ -1982,7 +2253,7 @@
                                 <tbody>
                                     <tr style="border-bottom:1px solid #f1f5f9;">
                                         <td style="padding:8px 10px; font-weight:700;">Tarea de Almacén (WT)</td>
-                                        <td style="padding:8px 10px; font-family:monospace; font-weight:800; color:#0284c7;">#${d.wt || '10000451'} (Orden #${d.wo || '20000184'})</td>
+                                        <td style="padding:8px 10px; font-family:monospace; font-weight:800; color:#0284c7;">#${wtVal} (Orden #${woVal})</td>
                                         <td style="padding:8px 10px; text-align:center;"><span class="badge badge-success">✓ Estado Confirmado</span></td>
                                     </tr>
                                     <tr style="border-bottom:1px solid #f1f5f9;">
@@ -1992,12 +2263,12 @@
                                     </tr>
                                     <tr style="border-bottom:1px solid #f1f5f9;">
                                         <td style="padding:8px 10px; font-weight:700;">Ubicación Destino Asignada</td>
-                                        <td style="padding:8px 10px; font-weight:800; color:#0f172a;">📍 ${d.dest || '01010101'} (Almacén Z001 · Sec Z01)</td>
+                                        <td style="padding:8px 10px; font-weight:800; color:#0f172a;">📍 ${destVal} (Almacén Z001 · Sec Z01)</td>
                                         <td style="padding:8px 10px; text-align:center;"><span class="badge badge-info">Ocupación: 1 Pallet (100%)</span></td>
                                     </tr>
                                     <tr style="border-bottom:1px solid #f1f5f9;">
                                         <td style="padding:8px 10px; font-weight:700;">Handling Unit (HU Pallet)</td>
-                                        <td style="padding:8px 10px; font-family:monospace; font-weight:800; color:#059669;">📦 #${d.hu || '1122004520'} (ZPL-120 · 745 KG)</td>
+                                        <td style="padding:8px 10px; font-family:monospace; font-weight:800; color:#059669;">📦 #${huVal} (ZPL-120 · 745 KG)</td>
                                         <td style="padding:8px 10px; text-align:center;"><span class="badge badge-success">✓ Ubicada en Rack</span></td>
                                     </tr>
                                     <tr>
@@ -2014,7 +2285,7 @@
                     setTimeout(function() {
                         openEwmApp("hu_print");
                     }, 200);
-                    return "🔍 Auditoría completada con éxito: Confirmado por ZOP_MON1 y ubicación 01010101 ocupada.";
+                    return "🔍 Auditoría completada con éxito: Confirmado por ZOP_MON1 y ubicación " + (window.currentDestBin || '01010101') + " ocupada.";
                 }
             },
 
@@ -2080,7 +2351,8 @@
                 title: "Impresión de Etiqueta Física HU (/SCWM/MON · Paso 11)",
                 btnAction: "🖨️ Abrir y Emitir Etiqueta Barcode (ZLBL)",
                 renderHtml: function() {
-                    var d = window.trackingSheetData || {};
+                    var huVal = window.currentHuNumber || (window.trackingSheetData ? window.trackingSheetData.hu : "1122004541");
+                    var spoolVal = (window.trackingSheetData ? window.trackingSheetData.spool : "SP01-002845");
                     return `
                         <div class="modal-user-banner" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">
                             <span>👤 <strong>Usuario del Script: ZSUP_ALM1 (Español)</strong> · Supervisor de Almacén EWM</span>
@@ -2096,13 +2368,13 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">N° de Orden de Spool</label>
-                                <input id="inp-spool-num" class="form-input" value="${d.spool || 'SP01-002845'}" />
+                                <input id="inp-spool-num" class="form-input" value="${spoolVal}" />
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label class="form-label">Handling Unit a Imprimir</label>
-                                <input class="form-input" value="📦 #${d.hu || '1122004520'} (Pallet ZPL-120 · 60 CJ · 745 KG)" readonly style="background:#f8fafc; font-weight:700; color:#0284c7;" />
+                                <input class="form-input" value="📦 #${huVal} (Pallet ZPL-120 · 60 CJ · 745 KG)" readonly style="background:#f8fafc; font-weight:700; color:#0284c7;" />
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Norma de Código de Barras</label>
@@ -2116,11 +2388,11 @@
                     if (typeof updateTrackerNumber === "function") {
                         updateTrackerNumber("spool", spoolVal);
                     }
-                    var huVal = (window.trackingSheetData ? window.trackingSheetData.hu : "1122004520");
+                    var huVal = window.currentHuNumber || "1122004541";
                     setTimeout(function() {
                         openHuBarcodeModal(huVal);
                     }, 200);
-                    return "🖨️ Etiqueta de Pallet HU enviada al dispositivo ZLBL (Spool " + spoolVal + ").";
+                    return "🖨️ Etiqueta de Pallet HU #" + huVal + " enviada al dispositivo ZLBL (Spool " + spoolVal + ").";
                 }
             },
 
