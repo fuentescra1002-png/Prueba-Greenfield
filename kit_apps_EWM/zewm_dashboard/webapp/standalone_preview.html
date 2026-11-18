@@ -1458,6 +1458,24 @@
         // ================================================================
         // MODALES DE APLICACIONES (ME21N, VL31N, PRDI, ADHU, TO_CONF)
         // ================================================================
+        window.generateNextS4HanaHu = function() {
+            var prefix = "777123400000000";
+            var maxSeq = 175;
+            if (window.ewmMasterData && window.ewmMasterData.handlingUnits && window.ewmMasterData.handlingUnits.length > 0) {
+                window.ewmMasterData.handlingUnits.forEach(function(h) {
+                    var id = String(h.huId || h.huident || "");
+                    if (id.startsWith(prefix)) {
+                        var seqPart = parseInt(id.slice(prefix.length), 10);
+                        if (!isNaN(seqPart) && seqPart > maxSeq) {
+                            maxSeq = seqPart;
+                        }
+                    }
+                });
+            }
+            var nextSeq = maxSeq + 7;
+            return prefix + String(nextSeq).padStart(3, "0");
+        };
+
         var ewmAppsConfig = {
             me21n: {
                 badge: "SAP S/4HANA ERP · COMPRAS (MM-PUR) · USUARIO USEREWME",
@@ -1736,7 +1754,8 @@ Referencia Pedido #${poRef} transmitida automáticamente al Almacén EWM Z101 v�
                 btnAction: "📦 Verificar Entrega EWM y Asignar Puesta a Disposición",
                 renderHtml: function() {
                     var refIbd = window.currentIbdNumber || (window.trackingSheetData ? window.trackingSheetData.ibd : "180000042");
-                    var preHu = window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
+                    var preHu = (window.currentHuNumber && window.currentHuNumber.startsWith("777123400000000")) ? window.currentHuNumber : window.generateNextS4HanaHu();
+                    window.currentHuNumber = preHu;
                     return `
                         <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
                             <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · EWM Inbound Delivery</span>
@@ -1779,7 +1798,7 @@ Referencia Pedido #${poRef} transmitida automáticamente al Almacén EWM Z101 v�
                 },
                 onSave: function() {
                     var huInput = (document.getElementById("inp-prdi-hu") ? document.getElementById("inp-prdi-hu").value : "").trim();
-                    var huNum = huInput || window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
+                    var huNum = huInput || window.currentHuNumber || window.generateNextS4HanaHu();
                     window.currentHuNumber = String(huNum);
 
                     var stage = (document.getElementById("inp-prdi-stage").value || "GR-ZD01").split(" - ")[0].trim();
@@ -1884,7 +1903,7 @@ Vinculado al Pedido #${window.currentPoNumber || '4500012891'} y Entrega #${wind
                 title: "Puesto de Embalaje de Entrada (/SCWM/PACK · Paso 5)",
                 btnAction: "📦 Cerrar y Pesar Pallet HU (745 KG)",
                 renderHtml: function() {
-                    var huVal = window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
+                    var huVal = (window.currentHuNumber && window.currentHuNumber.startsWith("777123400000000")) ? window.currentHuNumber : (window.trackingSheetData && window.trackingSheetData.hu && window.trackingSheetData.hu.startsWith("777123400000000") ? window.trackingSheetData.hu : window.generateNextS4HanaHu());
                     return `
                         <div class="modal-user-banner" style="background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd;">
                             <span>👤 <strong>Usuario del Script: USEREWME (Inglés)</strong> · Packing Work Center</span>
@@ -1916,7 +1935,7 @@ Vinculado al Pedido #${window.currentPoNumber || '4500012891'} y Entrega #${wind
                     `;
                 },
                 onSave: function() {
-                    var huNum = (document.getElementById("inp-pack-hu") ? document.getElementById("inp-pack-hu").value : "") || window.currentHuNumber || ("112200" + Math.floor(4520 + Math.random() * 30));
+                    var huNum = (document.getElementById("inp-pack-hu") ? document.getElementById("inp-pack-hu").value : "").trim() || window.currentHuNumber || window.generateNextS4HanaHu();
                     window.currentHuNumber = String(huNum);
 
                     if (typeof updateTrackerNumber === "function") {
@@ -2090,7 +2109,7 @@ Movimiento 101 generado en S/4HANA (Doc. #${mblnr101}). Stock recibido temporalm
                     var taskObj = {
                         tanum: String(wtNum),
                         proctype: "Z011",
-                        huident: window.currentHuNumber || "1122004541",
+                        huident: window.currentHuNumber || "777123400000000182",
                         matnr: "ZMAT-02",
                         vsola: 60,
                         meins: "CJ",
@@ -2116,7 +2135,7 @@ Movimiento 101 generado en S/4HANA (Doc. #${mblnr101}). Stock recibido temporalm
                     if (typeof renderMonTable === "function") renderMonTable();
 
                     return `📋 ¡Orden de Almacén #${woNum} y Tarea (WT) #${wtNum} Creadas Exitosamente!
-Clase de proceso Z011 asignada para trasladar HU #${window.currentHuNumber || '1122004541'} a la ubicación '${dest}'.`;
+Clase de proceso Z011 asignada para trasladar HU #${window.currentHuNumber || '777123400000000182'} a la ubicación '${dest}'.`;
                 }
             },
 
@@ -2190,7 +2209,7 @@ Clase de proceso Z011 asignada para trasladar HU #${window.currentHuNumber || '1
                         lgnum: "Z101",
                         lgtyp: "Z001",
                         lgpla: window.currentDestBin || "01010101",
-                        huident: window.currentHuNumber || "1122004541",
+                        huident: window.currentHuNumber || "777123400000000182",
                         matnr: "ZMAT-02",
                         maktx: "Aceite Vegetal Premium (Caja x 12)",
                         quan: 60,
@@ -2218,7 +2237,7 @@ Clase de proceso Z011 asignada para trasladar HU #${window.currentHuNumber || '1
 
                     return `✅ ¡Tarea de Almacén #${wtVal} Confirmada por ZOP_MON1!
 Traspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimiento 411 - Doc. #${mblnr411}).
-¡El pallet HU #${window.currentHuNumber || '1122004541'} está ahora disponible para ventas en SD!`;
+¡El pallet HU #${window.currentHuNumber || '777123400000000182'} está ahora disponible para ventas en SD!`;
                 }
             },
 
@@ -2227,7 +2246,7 @@ Traspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimient
                 title: "Monitor de Almacén (/SCWM/MON · Paso 9)",
                 btnAction: "🖨️ Proceder al Paso 11: Imprimir Etiqueta HU (ZLBL)",
                 renderHtml: function() {
-                    var huVal = window.currentHuNumber || (window.trackingSheetData ? window.trackingSheetData.hu : "1122004541");
+                    var huVal = window.currentHuNumber || (window.trackingSheetData ? window.trackingSheetData.hu : "777123400000000182");
                     var wtVal = window.currentWtNumber || (window.trackingSheetData ? window.trackingSheetData.wt : "10000451");
                     var woVal = window.currentWoNumber || (window.trackingSheetData ? window.trackingSheetData.wo : "20000184");
                     var destVal = window.currentDestBin || (window.trackingSheetData ? window.trackingSheetData.dest : "01010101");
@@ -2351,7 +2370,7 @@ Traspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimient
                 title: "Impresión de Etiqueta Física HU (/SCWM/MON · Paso 11)",
                 btnAction: "🖨️ Abrir y Emitir Etiqueta Barcode (ZLBL)",
                 renderHtml: function() {
-                    var huVal = window.currentHuNumber || (window.trackingSheetData ? window.trackingSheetData.hu : "1122004541");
+                    var huVal = window.currentHuNumber || (window.trackingSheetData ? window.trackingSheetData.hu : "777123400000000182");
                     var spoolVal = (window.trackingSheetData ? window.trackingSheetData.spool : "SP01-002845");
                     return `
                         <div class="modal-user-banner" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;">
@@ -2388,7 +2407,7 @@ Traspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimient
                     if (typeof updateTrackerNumber === "function") {
                         updateTrackerNumber("spool", spoolVal);
                     }
-                    var huVal = window.currentHuNumber || "1122004541";
+                    var huVal = window.currentHuNumber || "777123400000000182";
                     setTimeout(function() {
                         openHuBarcodeModal(huVal);
                     }, 200);
@@ -2484,7 +2503,7 @@ Traspaso de almacén ERP ZR01 ➔ ZA01 contabilizado automáticamente (Movimient
             po: "4500012895",
             ibd: "180000042",
             ewmDel: "0080004521",
-            hu: "1122004520",
+            hu: "777123400000000182",
             wo: "20000184",
             wt: "10000451",
             dest: "01010101",
@@ -2540,7 +2559,7 @@ SCRIPT DE PRUEBA: Flujo de Compra v4 (10/11/2026)
 1. Pedido de Compras (ME21N - USEREWME):      ${d.po || '4500012895'}
 2. Entrega Entrante ERP (VL31N - USEREWME):   ${d.ibd || '180000042'}
 3. Entrega EWM (/SCWM/PRDI - USEREWME):        ${d.ewmDel || '0080004521'}
-4. Handling Unit (HU SSCC - USEREWME):        ${d.hu || '1122004520'} (Pallet ZPL-120)
+4. Handling Unit (HU SSCC - USEREWME):        ${d.hu || '777123400000000182'} (Pallet ZPL-120)
 5. Orden de Almacén (WO - USEREWME):           ${d.wo || '20000184'}
 6. Tarea de Almacén (WT - Confirmada):         ${d.wt || '10000451'} (Confirmed by: ZOP_MON1)
 7. Ubicación Destino Asignada (Z001/Z01):     ${d.dest || '01010101'}
@@ -2869,11 +2888,7 @@ Estado Final Stock ERP (MMBE - USER02): Centro ZC10 / Almacén ZA01 (+60 CJ)`;
 
         window.openHuBarcodeModal = function(huId) {
             var data = window.ewmMasterData || {};
-            // Filtrar las HUs del almacenamiento Z001
-            var hus = (data.handlingUnits || []).filter(function(h) {
-                return h.storageType === "Z001";
-            });
-            if (hus.length === 0) hus = data.handlingUnits || [];
+            var hus = data.handlingUnits || [];
 
             var dropdown = document.getElementById("barcode-select-hu");
 
@@ -2882,12 +2897,12 @@ Estado Final Stock ERP (MMBE - USER02): Centro ZC10 / Almacén ZA01 (+60 CJ)`;
                 hus.forEach(function(h) {
                     var opt = document.createElement("option");
                     opt.value = h.huId;
-                    opt.innerText = "📍 " + (h.bin || 'Z001') + " (Z001) · HU #" + h.huId + " · " + h.mat + " (" + h.qty + " " + (h.uom || 'CJ') + ")";
+                    opt.innerText = "📍 " + (h.bin || 'Z101') + " · HU #" + h.huId + " · " + h.mat + " (" + h.qty + " " + (h.uom || 'CJ') + ")";
                     dropdown.appendChild(opt);
                 });
                 var optAll = document.createElement("option");
                 optAll.value = "ALL";
-                optAll.innerText = "⭐ [TODAS] Imprimir Códigos de Barras de Todas las HUs de Z001 (" + hus.length + " Pallets)";
+                optAll.innerText = "⭐ [TODAS] Imprimir Códigos de Barras de Todas las HUs (" + hus.length + " Pallets)";
                 dropdown.appendChild(optAll);
 
                 if (huId && huId !== 'ALL') {
@@ -2910,10 +2925,7 @@ Estado Final Stock ERP (MMBE - USER02): Centro ZC10 / Almacén ZA01 (+60 CJ)`;
 
             var val = dropdown.value;
             var data = window.ewmMasterData || {};
-            var hus = (data.handlingUnits || []).filter(function(h) {
-                return h.storageType === "Z001";
-            });
-            if (hus.length === 0) hus = data.handlingUnits || [];
+            var hus = data.handlingUnits || [];
 
             if (val === "ALL") {
                 var allHtml = "";
@@ -2921,7 +2933,7 @@ Estado Final Stock ERP (MMBE - USER02): Centro ZC10 / Almacén ZA01 (+60 CJ)`;
                     allHtml += window.buildHuBarcodeLabelHtml(h, true);
                 });
                 container.innerHTML = allHtml;
-                if (btn) btn.innerText = "🖨️ Imprimir Todas (" + hus.length + " HUs de Z001) en HP LaserJet";
+                if (btn) btn.innerText = "🖨️ Imprimir Todas (" + hus.length + " HUs) en HP LaserJet";
             } else {
                 var selected = hus.find(function(h) { return h.huId === val; }) || hus[0];
                 if (selected) {
