@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Distribuidora Express S.A. · Portales SAP S/4HANA (SD &amp; EWM)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body { background: #f1f5f9; color: #0f172a; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); color: #fff; padding: 24px 32px; box-shadow: 0 4px 20px rgba(15,23,42,0.18); }
+        .hdr-inner { max-width: 1040px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .brand-tag { font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase; color: #38bdf8; font-weight: 700; }
+        h1 { font-size: 22px; font-weight: 800; margin-top: 4px; }
+        .sub { font-size: 13px; color: #cbd5e1; margin-top: 2px; }
+        .pill { background: rgba(16,185,129,0.18); border: 1px solid rgba(52,211,153,0.45); color: #6ee7b7; padding: 6px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+        main { flex: 1; max-width: 1040px; width: 100%; margin: 36px auto; padding: 0 20px; }
+        .section-title { font-size: 13px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 18px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 26px; text-decoration: none; color: inherit; box-shadow: 0 4px 14px rgba(15,23,42,0.05); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; display: flex; flex-direction: column; justify-content: space-between; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(2,132,199,0.14); border-color: #38bdf8; }
+        .card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .icon-sd { background: #e0f2fe; }
+        .icon-ewm { background: #dcfce7; }
+        .badge { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
+        .badge-sd { background: #e0f2fe; color: #0369a1; }
+        .badge-ewm { background: #dcfce7; color: #15803d; }
+        .card h2 { font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 8px; }
+        .card p { font-size: 13.5px; color: #475569; line-height: 1.55; margin-bottom: 20px; }
+        .cta { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #0284c7; }
+        footer { text-align: center; padding: 20px; font-size: 12px; color: #64748b; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hdr-inner">
+            <div>
+                <div class="brand-tag">Distribuidora Express S.A. · AVLIS Consultores</div>
+                <h1>Centro de Portales SAP S/4HANA &amp; Work Zone</h1>
+                <div class="sub">Implementación Greenfield · Mandante 100 · Integración OData &amp; SAP BTP</div>
+            </div>
+            <div class="pill">● Publicación Permanente GitHub Pages</div>
+        </div>
+    </header>
+    <main>
+        <div class="section-title">Aplicaciones Operativas Disponibles</div>
+        <div class="grid">
+            <a class="card" href="./sd/">
+                <div>
+                    <div class="card-top">
+                        <div class="icon icon-sd">💼</div>
+                        <span class="badge badge-sd">SD · SOCIEDAD Z200</span>
+                    </div>
+                    <h2>Centro de Mando Comercial SD</h2>
+                    <p>Creación de Pedidos de Venta (ZPED), consulta en vivo VA05, impresión corporativa de pedidos y sincronización OData con SAP S/4HANA (API_SALES_ORDER_SRV).</p>
+                </div>
+                <span class="cta">Abrir Portal Comercial SD &rarr;</span>
+            </a>
+            <a class="card" href="./ewm/">
+                <div>
+                    <div class="card-top">
+                        <div class="icon icon-ewm">📦</div>
+                        <span class="badge badge-ewm">EWM · ALMACÉN Z101</span>
+                    </div>
+                    <h2>Centro de Control Logístico EWM</h2>
+                    <p>Flujo completo de compras y recepción (11 pasos Script v4), Pedidos de Compra ME21N, Monitor /SCWM/MON, Handling Units SSCC-18 e impresión de códigos de barra ZLBL.</p>
+                </div>
+                <span class="cta">Abrir Portal Logístico EWM &rarr;</span>
+            </a>
+        </div>
+    </main>
+    <footer>Proyecto Greenfield SAP S/4HANA 1909 · Distribuidora Express S.A. · AVLIS Consultores</footer>
+</body>
+</html>
