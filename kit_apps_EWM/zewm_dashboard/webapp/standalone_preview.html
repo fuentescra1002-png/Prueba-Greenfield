@@ -1578,6 +1578,16 @@
                     var delDate = document.getElementById("inp-po-delivery-date").value || new Date().toISOString().split('T')[0];
 
                     var payload = {
+                        orderType: poType,
+                        supplier: vendorCode,
+                        purchOrg: porg,
+                        purchGrp: pgroup,
+                        compCode: "ZX01",
+                        material: matCode,
+                        quantity: poQty,
+                        plant: plant,
+                        sloc: sloc,
+                        netPrice: netPrice,
                         PurchaseOrderType: poType,
                         Supplier: vendorCode,
                         PurchasingOrganization: porg,
@@ -1585,33 +1595,37 @@
                         CompanyCode: "ZX01",
                         Material: matCode,
                         OrderQuantity: poQty,
-                        PurchaseOrderQuantityUnit: "CJ",
                         Plant: plant,
                         StorageLocation: sloc,
                         NetPriceAmount: netPrice,
-                        DocumentCurrency: "USD",
                         ScheduleLineDeliveryDate: delDate
                     };
 
                     var poNumber = Math.floor(4500012890 + Math.random() * 20);
                     var isRealSap = false;
+                    var sapRecord = null;
+                    var bridgeErrorMsg = "";
 
                     try {
-                        var bridgeUrl = (window.location.protocol === "https:" ? "" : "http://localhost:8086") + "/api/create_purchase_order";
+                        var bridgeUrl = (window.location.origin && window.location.origin.indexOf("localhost:8086") !== -1)
+                            ? "/api/create-po"
+                            : "http://localhost:8086/api/create-po";
                         var response = await fetch(bridgeUrl, {
                             method: "POST",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify(payload)
                         });
-                        if (response.ok) {
-                            var resData = await response.json();
-                            if (resData && resData.PurchaseOrder) {
-                                poNumber = resData.PurchaseOrder;
-                                isRealSap = true;
-                            }
+                        var resData = await response.json();
+                        if (response.ok && resData && (resData.poNumber || resData.PurchaseOrder)) {
+                            poNumber = resData.poNumber || resData.PurchaseOrder;
+                            isRealSap = true;
+                            sapRecord = resData.record || null;
+                        } else if (resData && resData.error) {
+                            bridgeErrorMsg = resData.error;
                         }
                     } catch (netErr) {
-                        console.warn("SAP Bridge no disponible o llamada offline:", netErr);
+                        console.warn("SAP EWM Bridge no disponible o llamada offline:", netErr);
+                        bridgeErrorMsg = "Puente local http://localhost:8086 no accesible";
                     }
 
                     window.currentPoNumber = String(poNumber);
@@ -1620,31 +1634,38 @@
                     }
 
                     var dateStr = new Date().toLocaleDateString("es-ES");
-                    var newPo = {
+                    var totalVal = Number((poQty * netPrice).toFixed(2));
+                    var newPo = sapRecord || {
                         ebeln: String(poNumber),
                         ebelp: "10",
+                        bsart: poType,
                         lifnr: vendorCode,
                         vendorName: rawVendor.includes(" - ") ? rawVendor.split(" - ")[1] : "Oleo-North Oils & Logistics LLC",
                         matnr: matCode,
                         txz01: rawMat.includes(" - ") ? rawMat.split(" - ")[1] : "Aceite Vegetal Premium (Caja x 12)",
                         menge: poQty,
                         meins: "CJ",
-                        netpr: netPrice.toFixed(2),
+                        netpr: netPrice,
+                        netwr: totalVal,
                         waers: "USD",
                         werks: plant,
                         lgort: sloc,
                         aedat: dateStr,
-                        status: "Pendiente Entrega Inbound (VL31N)"
+                        status: isRealSap ? "Grabado en SAP S/4HANA (Pte. VL31N)" : "Simulación Local (Pte. Puente 8086)"
                     };
 
                     if (!window.ewmMasterData) window.ewmMasterData = {};
                     if (!window.ewmMasterData.ekkoEkpoTable) window.ewmMasterData.ekkoEkpoTable = [];
-                    window.ewmMasterData.ekkoEkpoTable.unshift(newPo);
+                    var dupIdx = window.ewmMasterData.ekkoEkpoTable.findIndex(function(x) { return String(x.ebeln) === String(poNumber); });
+                    if (dupIdx >= 0) {
+                        window.ewmMasterData.ekkoEkpoTable[dupIdx] = newPo;
+                    } else {
+                        window.ewmMasterData.ekkoEkpoTable.unshift(newPo);
+                    }
 
                     var valPo = document.getElementById("val-po");
                     if (valPo) {
-                        var currentCount = parseInt(valPo.innerText, 10) || 18;
-                        valPo.innerText = currentCount + 1;
+                        valPo.innerText = window.ewmMasterData.ekkoEkpoTable.length;
                     }
 
                     if (typeof switchMonTab === "function") switchMonTab("po");
@@ -1653,11 +1674,10 @@
                     if (isRealSap) {
                         return `✅ ¡Pedido de Compra #${poNumber} Creado Exitosamente!
 Grabado FÍSICAMENTE en SAP S/4HANA (Mandante 100 · Tablas EKKO / EKPO).
-Clase ${poType} | ${matCode} (${poQty} Cajas) | Centro ${plant} | Almacén ${sloc}.`;
+Clase ${poType} | ${matCode} (${poQty} Cajas · $${totalVal.toFixed(2)} USD) | Centro ${plant} | Almacén ${sloc}.`;
                     } else {
-                        return `✅ ¡Pedido de Compra #${poNumber} Creado y Registrado!
-Agregado al Monitor EWM (EKKO/EKPO).
-Clase ${poType} | ${matCode} (${poQty} Cajas) | Centro ${plant} | Almacén ${sloc}.`;
+                        return `⚠️ Pedido #${poNumber} registrado en MODO SIMULACIÓN LOCAL (${bridgeErrorMsg || 'offline'}).
+Para grabar en SAP GUI, asegúrate de tener activo ewm_bridge_server.py (puerto 8086) y permitir acceso a red local.`;
                     }
                 }
             },
@@ -2734,10 +2754,43 @@ Estado Final Stock ERP (MMBE - USER02): Centro ZC10 / Almacén ZA01 (+60 CJ)`;
             }, 4500);
         }
 
+        function syncPosFromSap(silent) {
+            var url = (window.location.origin && window.location.origin.indexOf("localhost:8086") !== -1)
+                ? "/api/get-pos"
+                : "http://localhost:8086/api/get-pos";
+            fetch(url)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data && data.success && Array.isArray(data.pos) && data.pos.length > 0) {
+                        if (!window.ewmMasterData) window.ewmMasterData = {};
+                        var existing = window.ewmMasterData.ekkoEkpoTable || [];
+                        var byId = {};
+                        existing.forEach(function(item) { byId[String(item.ebeln)] = item; });
+                        data.pos.forEach(function(sapPo) {
+                            var k = String(sapPo.ebeln);
+                            if (!byId[k]) {
+                                byId[k] = sapPo;
+                            }
+                        });
+                        var merged = Object.values(byId).sort(function(a, b) {
+                            return String(b.ebeln).localeCompare(String(a.ebeln));
+                        });
+                        window.ewmMasterData.ekkoEkpoTable = merged;
+                        var valPo = document.getElementById("val-po");
+                        if (valPo) valPo.innerText = merged.length;
+                        renderMonTable();
+                        if (!silent) showToast("✅ S/4HANA EKKO/EKPO sincronizado (" + data.pos.length + " pedidos reales).");
+                    }
+                })
+                .catch(function() {
+                    if (!silent) showToast("🔄 Almacén EWM Z101 actualizado (vista local)");
+                });
+        }
+
         function refreshEwmData() {
             renderWarehouseMap();
             renderMonTable();
-            showToast("🔄 Almacén EWM Z101 sincronizado con S/4HANA");
+            syncPosFromSap(false);
         }
 
         // Inicialización al cargar la página
@@ -2750,6 +2803,7 @@ Estado Final Stock ERP (MMBE - USER02): Centro ZC10 / Almacén ZA01 (+60 CJ)`;
             }
             renderWarehouseMap();
             renderMonTable();
+            syncPosFromSap(true);
         });
     
         // =========================================================================

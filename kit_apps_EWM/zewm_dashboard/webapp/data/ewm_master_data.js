@@ -332,6 +332,27 @@ window.ewmMasterData = {
     ],
     "ekkoEkpoTable": [
         {
+            "ebeln": "4500002182",
+            "ebelp": "10",
+            "bsart": "NB",
+            "lifnr": "17300096",
+            "vendorName": "Oleo-North Oils & Logistics",
+            "ekorg": "ZX01",
+            "ekgrp": "ZX1",
+            "bukrs": "ZX01",
+            "matnr": "ZMAT-02",
+            "txz01": "Aceite Vegetal Premium (Caja x 12)",
+            "werks": "ZC10",
+            "lgort": "ZR01",
+            "menge": 60,
+            "meins": "CJ",
+            "netpr": 45.0,
+            "netwr": 2700.0,
+            "waers": "USD",
+            "aedat": "24.11.2026",
+            "status": "Pendiente Entrega Inbound (VL31N)"
+        },
+        {
             "ebeln": "4500002171",
             "ebelp": "10",
             "bsart": "NB",

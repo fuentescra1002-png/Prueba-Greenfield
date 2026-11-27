@@ -1,0 +1,325 @@
+<mvc:View
+    controllerName="com.avlis.distribuidora.dashboard.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page showHeader="false" enableScrolling="true" class="dashboardPage">
+        <content>
+            <!-- ======================================================== -->
+            <!-- HERO BANNER SUPERIOR CON ESTILO EJECUTIVO MODERNO        -->
+            <!-- ======================================================== -->
+            <VBox class="heroBanner sapUiMediumMarginBottom">
+                <HBox justifyContent="SpaceBetween" alignItems="Center" wrap="Wrap" class="heroHeaderInner">
+                    <!-- Informacion de la Empresa y Titulo -->
+                    <HBox alignItems="Center">
+                        <Avatar
+                            src="sap-icon://retail-store"
+                            displayShape="Square"
+                            displaySize="M"
+                            class="sapUiSmallMarginEnd heroAvatar" />
+                        <VBox>
+                            <HBox alignItems="Center">
+                                <Text text="DISTRIBUIDORA EXPRESS S.A." class="companyBadge" />
+                                <Text text="· AVLIS Consultores" class="partnerBadge sapUiTinyMarginBegin" />
+                            </HBox>
+                            <Title text="Centro de Mando Comercial &amp; Logístico" level="H1" titleStyle="H2" class="heroTitle" />
+                            <Text text="Gestión del ciclo Order-to-Cash (O2C) y Almacén en vivo desde S/4HANA" class="heroSubtitle" />
+                        </VBox>
+                    </HBox>
+
+                    <!-- Acciones Rapidas y Status en Vivo -->
+                    <HBox alignItems="Center" wrap="Wrap" class="heroActions">
+                        <!-- Pill de Estado S/4HANA -->
+                        <HBox alignItems="Center" class="s4StatusPill sapUiSmallMarginEnd sapUiTinyMarginBottom">
+                            <core:Icon src="sap-icon://circle-task-2" class="liveDotIcon sapUiTinyMarginEnd" />
+                            <Text text="S/4HANA 1909 Activo (Mandante 100)" class="s4StatusText" />
+                        </HBox>
+
+                        <!-- Botones de Operacion Directa -->
+                        <Button
+                            text="Nuevo Pedido (VA01)"
+                            icon="sap-icon://add-document"
+                            type="Emphasized"
+                            press=".onQuickActionPress('SalesOrder', 'create')"
+                            class="sapUiTinyMarginEnd sapUiTinyMarginBottom quickBtnPrimary" />
+
+                        <Button
+                            text="Despacho (VL01N)"
+                            icon="sap-icon://shipping-status"
+                            press=".onQuickActionPress('OutboundDelivery', 'create')"
+                            class="sapUiTinyMarginEnd sapUiTinyMarginBottom quickBtnSecondary" />
+
+                        <Button
+                            icon="sap-icon://refresh"
+                            text="Actualizar"
+                            press=".onRefresh"
+                            tooltip="Refrescar métricas en vivo desde S/4HANA"
+                            class="refreshBtn sapUiTinyMarginBottom" />
+                    </HBox>
+                </HBox>
+            </VBox>
+
+            <!-- ======================================================== -->
+            <!-- SECCION DE METRICAS CLAVE / KPIS INTERACTIVOS (8 CARDS) -->
+            <!-- ======================================================== -->
+            <VBox class="sapUiResponsiveMargin">
+                <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                    <Title text="Indicadores Operativos en Tiempo Real" level="H2" titleStyle="H4" class="sectionHeaderTitle" />
+                    <Text text="Haz clic en cualquier tarjeta para abrir su transacción en S/4HANA" class="sectionHeaderHint" />
+                </HBox>
+
+                <!-- Grilla de KPIs -->
+                <HBox wrap="Wrap" class="kpiGridContainer">
+                    <!-- 1. Pedidos de Venta -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('SalesOrder', 'create', 'VA01 - Crear Pedido de Ventas')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconBlue" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://sales-order" class="kpiIcon" />
+                            </HBox>
+                            <Text text="+14% mes" class="kpiBadge badgeSuccess" />
+                        </HBox>
+                        <Text text="{/kpi/salesOrders}" class="kpiValue" />
+                        <Text text="Pedidos de Venta" class="kpiLabel" />
+                        <Text text="Abrir VA01 / VA05 ➔" class="kpiTargetAction" />
+                    </VBox>
+
+                    <!-- 2. Cotizaciones -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('SalesQuotation', 'manage', 'VA21 / VA23 - Cotizaciones')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconIndigo" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://sales-quote" class="kpiIcon" />
+                            </HBox>
+                            <Text text="86% conv." class="kpiBadge badgeInfo" />
+                        </HBox>
+                        <Text text="{/kpi/quotations}" class="kpiValue" />
+                        <Text text="Cotizaciones" class="kpiLabel" />
+                        <Text text="Abrir VA23 ➔" class="kpiTargetAction" />
+                    </VBox>
+
+                    <!-- 3. Entregas de Salida -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('OutboundDelivery', 'create', 'VL01N - Crear Entrega de Salida')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconCyan" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://shipping-status" class="kpiIcon" />
+                            </HBox>
+                            <Text text="98% a tiempo" class="kpiBadge badgeSuccess" />
+                        </HBox>
+                        <Text text="{/kpi/deliveries}" class="kpiValue" />
+                        <Text text="Entregas de Salida" class="kpiLabel" />
+                        <Text text="Abrir VL01N ➔" class="kpiTargetAction" />
+                    </VBox>
+
+                    <!-- 4. Documentos de Facturacion -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('BillingDocument', 'create', 'VF01 - Facturación Comercial')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconAmber" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://receipt" class="kpiIcon" />
+                            </HBox>
+                            <Text text="$4.2M USD" class="kpiBadge badgeWarning" />
+                        </HBox>
+                        <Text text="{/kpi/billingDocs}" class="kpiValue" />
+                        <Text text="Documentos Facturación" class="kpiLabel" />
+                        <Text text="Abrir VF01 ➔" class="kpiTargetAction" />
+                    </VBox>
+
+                    <!-- 5. Clientes BP -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('BusinessPartner', 'manage', 'BP - Maestro de Clientes')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconPurple" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://customer" class="kpiIcon" />
+                            </HBox>
+                            <Text text="32 Nuevos" class="kpiBadge badgeNeutral" />
+                        </HBox>
+                        <Text text="{/kpi/partners}" class="kpiValue" />
+                        <Text text="Clientes (BP)" class="kpiLabel" />
+                        <Text text="Abrir BP ➔" class="kpiTargetAction" />
+                    </VBox>
+
+                    <!-- 6. Condiciones de Precio -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('PriceCondition', 'manage', 'VK11 / VK13 - Condiciones de Precio')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconRose" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://money-bills" class="kpiIcon" />
+                            </HBox>
+                            <Text text="Vigentes" class="kpiBadge badgeNeutral" />
+                        </HBox>
+                        <Text text="{/kpi/priceConditions}" class="kpiValue" />
+                        <Text text="Condiciones de Precio" class="kpiLabel" />
+                        <Text text="Abrir VK13 ➔" class="kpiTargetAction" />
+                    </VBox>
+
+                    <!-- 7. Documentos de Material -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('Material', 'displayStockOverview', 'MMBE - Resumen de Stocks')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconEmerald" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://inventory" class="kpiIcon" />
+                            </HBox>
+                            <Text text="Stock Óptimo" class="kpiBadge badgeSuccess" />
+                        </HBox>
+                        <Text text="{/kpi/materialDocs}" class="kpiValue" />
+                        <Text text="Resumen de Stocks" class="kpiLabel" />
+                        <Text text="Abrir MMBE ➔" class="kpiTargetAction" />
+                    </VBox>
+
+                    <!-- 8. Ordenes de Almacen (EWM) -->
+                    <VBox class="kpiCard" press=".onKpiCardPress('WarehouseTask', 'manage', '/SCWM/MON - Monitor EWM')">
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="kpiCardTop">
+                            <HBox class="kpiIconWrapper iconTeal" alignItems="Center" justifyContent="Center">
+                                <core:Icon src="sap-icon://product" class="kpiIcon" />
+                            </HBox>
+                            <Text text="EWM Activo" class="kpiBadge badgeInfo" />
+                        </HBox>
+                        <Text text="{/kpi/warehouseOrders}" class="kpiValue" />
+                        <Text text="Almacén (EWM)" class="kpiLabel" />
+                        <Text text="Abrir Monitor ➔" class="kpiTargetAction" />
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- ======================================================== -->
+            <!-- SECCION DE GRAFICOS ANALITICOS (4 GRAFICOS MODERNOS)     -->
+            <!-- ======================================================== -->
+            <VBox class="sapUiResponsiveMargin">
+                <HBox justifyContent="SpaceBetween" alignItems="Center" class="sapUiTinyMarginBottom">
+                    <Title text="Comportamiento del Negocio y Análisis O2C" level="H2" titleStyle="H4" class="sectionHeaderTitle" />
+                    <Text text="Muestra: Últimos 1.000 registros procesados en S/4HANA" class="sectionHeaderHint" />
+                </HBox>
+
+                <HBox wrap="Wrap" class="analyticsGrid">
+                    <!-- Grafico 1: Pedidos por Mes -->
+                    <VBox class="chartCard">
+                        <VBox class="chartHeader">
+                            <Text text="Evolución de Pedidos por Mes" class="chartTitle" />
+                            <Text text="Volumen mensual registrado en SD" class="chartSubtitle" />
+                        </VBox>
+                        <HBox alignItems="End" justifyContent="SpaceBetween" class="barChartContainer">
+                            <VBox alignItems="Center" class="barColumn"><VBox class="barFill" height="38%"><Text text="6" class="barVal"/></VBox><Text text="08/25" class="barLabel"/></VBox>
+                            <VBox alignItems="Center" class="barColumn"><VBox class="barFill" height="44%"><Text text="7" class="barVal"/></VBox><Text text="12/25" class="barLabel"/></VBox>
+                            <VBox alignItems="Center" class="barColumn"><VBox class="barFill" height="25%"><Text text="4" class="barVal"/></VBox><Text text="01/26" class="barLabel"/></VBox>
+                            <VBox alignItems="Center" class="barColumn"><VBox class="barFill" height="56%"><Text text="9" class="barVal"/></VBox><Text text="02/26" class="barLabel"/></VBox>
+                            <VBox alignItems="Center" class="barColumn"><VBox class="barFill" height="25%"><Text text="4" class="barVal"/></VBox><Text text="04/26" class="barLabel"/></VBox>
+                            <VBox alignItems="Center" class="barColumn"><VBox class="barFill" height="56%"><Text text="9" class="barVal"/></VBox><Text text="05/26" class="barLabel"/></VBox>
+                            <VBox alignItems="Center" class="barColumn"><VBox class="barFill" height="31%"><Text text="5" class="barVal"/></VBox><Text text="09/26" class="barLabel"/></VBox>
+                            <VBox alignItems="Center" class="barColumn highlightedBar"><VBox class="barFill" height="100%"><Text text="16" class="barVal"/></VBox><Text text="10/26" class="barLabel"/></VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Grafico 2: Pedidos por Clase -->
+                    <VBox class="chartCard">
+                        <VBox class="chartHeader">
+                            <Text text="Pedidos por Clase de Documento" class="chartTitle" />
+                            <Text text="Distribución por tipo de pedido comercial" class="chartSubtitle" />
+                        </VBox>
+                        <VBox class="horizontalBarList">
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Pedido Estándar (OR / TA)" class="hBarName" />
+                                    <Text text="967 (96.7%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="96.7%" class="hBarFill fillCyan" /></HBox>
+                            </VBox>
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Pedido Express (ZB01)" class="hBarName" />
+                                    <Text text="13 (1.3%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="15%" class="hBarFill fillIndigo" /></HBox>
+                            </VBox>
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Pedido Urgente (OR1)" class="hBarName" />
+                                    <Text text="11 (1.1%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="12%" class="hBarFill fillBlue" /></HBox>
+                            </VBox>
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Muestras / Consignación (ZK01)" class="hBarName" />
+                                    <Text text="4 (0.4%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="6%" class="hBarFill fillPurple" /></HBox>
+                            </VBox>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Grafico 3: Entregas por Estado -->
+                    <VBox class="chartCard">
+                        <VBox class="chartHeader">
+                            <Text text="Estatus de Entregas de Salida" class="chartTitle" />
+                            <Text text="Ciclo de Picking y Salida de Mercancías" class="chartSubtitle" />
+                        </VBox>
+                        <VBox alignItems="Center" justifyContent="Center" class="donutCardBox">
+                            <Text text="1.000" class="donutCenterBig" />
+                            <Text text="Entregas de Salida" class="donutCenterSmall sapUiTinyMarginBottom" />
+                        </VBox>
+                        <VBox class="legendBox">
+                            <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                                <core:Icon src="sap-icon://circle-task-2" class="colorDotCyan sapUiTinyMarginEnd" />
+                                <Text text="Concluidas / SM Contabilizada: 962 (96.2%)" class="legendItemText" />
+                            </HBox>
+                            <HBox alignItems="Center" class="sapUiTinyMarginBottom">
+                                <core:Icon src="sap-icon://circle-task-2" class="colorDotAmber sapUiTinyMarginEnd" />
+                                <Text text="Pendiente de Picking: 19 (1.9%)" class="legendItemText" />
+                            </HBox>
+                            <HBox alignItems="Center">
+                                <core:Icon src="sap-icon://circle-task-2" class="colorDotEmerald sapUiTinyMarginEnd" />
+                                <Text text="En Tratamiento / Carga: 18 (1.8%)" class="legendItemText" />
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <!-- Grafico 4: Facturacion por Tipo -->
+                    <VBox class="chartCard">
+                        <VBox class="chartHeader">
+                            <Text text="Facturación por Tipo de Documento" class="chartTitle" />
+                            <Text text="Documentos generados en SD Billing" class="chartSubtitle" />
+                        </VBox>
+                        <VBox class="horizontalBarList">
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Factura Estándar (F2)" class="hBarName" />
+                                    <Text text="936 (93.6%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="93.6%" class="hBarFill fillCyan" /></HBox>
+                            </VBox>
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Solicitud de Anticipo (FAAZ)" class="hBarName" />
+                                    <Text text="17 (1.7%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="17%" class="hBarFill fillAmber" /></HBox>
+                            </VBox>
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Factura Proforma (F8)" class="hBarName" />
+                                    <Text text="12 (1.2%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="14%" class="hBarFill fillIndigo" /></HBox>
+                            </VBox>
+                            <VBox class="hBarItem">
+                                <HBox justifyContent="SpaceBetween" class="hBarHeader">
+                                    <Text text="Notas de Crédito (G2)" class="hBarName" />
+                                    <Text text="12 (1.2%)" class="hBarCount" />
+                                </HBox>
+                                <HBox class="hBarTrack"><VBox width="14%" class="hBarFill fillRose" /></HBox>
+                            </VBox>
+                        </VBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- ======================================================== -->
+            <!-- PIE DE PAGINA CON ESTATUS DE CONEXION                    -->
+            <!-- ======================================================== -->
+            <HBox justifyContent="SpaceBetween" alignItems="Center" class="dashboardFooter sapUiResponsiveMargin">
+                <HBox alignItems="Center">
+                    <core:Icon src="sap-icon://database" class="sapUiTinyMarginEnd footerIcon" />
+                    <Text text="Conexión en vivo: SAP S/4HANA 1909 (Cliente 100) vía Destino 's4hana1909'" class="footerText" />
+                </HBox>
+                <Text text="{/meta/lastUpdatedText}" class="footerTimestamp" />
+            </HBox>
+        </content>
+    </Page>
+</mvc:View>

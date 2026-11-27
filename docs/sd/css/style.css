@@ -1,0 +1,381 @@
+/* ==========================================================================
+   PANEL DE CONTROL - DISTRIBUIDORA EXPRESS S.A.
+   Diseño Moderno Ejecutivo (SD & Logística O2C)
+   ========================================================================== */
+
+/* Fondo general de la página */
+.dashboardPage {
+    background-color: #f1f5f9 !important;
+}
+
+/* ==========================================================================
+   1. HERO BANNER SUPERIOR
+   ========================================================================== */
+.heroBanner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0e374e 100%);
+    padding: 24px 32px;
+    border-bottom: 3px solid #00b4db;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
+    color: #ffffff;
+}
+
+.heroAvatar {
+    background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%) !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 180, 219, 0.35);
+}
+
+.companyBadge {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    letter-spacing: 1.5px;
+    color: #38bdf8 !important;
+    text-transform: uppercase;
+}
+
+.partnerBadge {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+}
+
+.heroTitle {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    margin: 4px 0 !important;
+    font-size: 1.5rem !important;
+}
+
+.heroSubtitle {
+    color: #cbd5e1 !important;
+    font-size: 0.85rem !important;
+}
+
+/* Status Pill S/4HANA */
+.s4StatusPill {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 6px 14px;
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+}
+
+.liveDotIcon {
+    color: #10b981 !important;
+    font-size: 0.75rem !important;
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.2); opacity: 1; text-shadow: 0 0 8px #10b981; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+.s4StatusText {
+    color: #f1f5f9 !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+}
+
+.quickBtnPrimary {
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
+
+.quickBtnSecondary {
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+.refreshBtn {
+    border-radius: 8px !important;
+}
+
+/* ==========================================================================
+   2. SECCIÓN TITULOS
+   ========================================================================== */
+.sectionHeaderTitle {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+}
+
+.sectionHeaderHint {
+    color: #64748b !important;
+    font-size: 12px !important;
+}
+
+/* ==========================================================================
+   3. GRILLA DE CARDS KPI (8 TARJETAS INTERACTIVAS)
+   ========================================================================== */
+.kpiGridContainer {
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpiCard {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.05);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    flex: 1 1 180px;
+    min-width: 170px;
+}
+
+.kpiCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px -4px rgba(0, 180, 219, 0.2);
+    border-color: #00b4db;
+}
+
+.kpiCardTop {
+    margin-bottom: 12px;
+}
+
+.kpiIconWrapper {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+}
+
+.kpiIcon {
+    font-size: 1.15rem;
+}
+
+.iconBlue { background: #e0f2fe; color: #0284c7 !important; }
+.iconIndigo { background: #e0e7ff; color: #4f46e5 !important; }
+.iconCyan { background: #cffafe; color: #0891b2 !important; }
+.iconAmber { background: #fef3c7; color: #d97706 !important; }
+.iconPurple { background: #f3e8ff; color: #9333ea !important; }
+.iconRose { background: #ffe4e6; color: #e11d48 !important; }
+.iconEmerald { background: #d1fae5; color: #059669 !important; }
+.iconTeal { background: #ccfbf1; color: #0d9488 !important; }
+
+.kpiBadge {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.badgeSuccess { background: #dcfce7; color: #15803d !important; }
+.badgeInfo { background: #e0f2fe; color: #0369a1 !important; }
+.badgeWarning { background: #fef3c7; color: #b45309 !important; }
+.badgeNeutral { background: #f1f5f9; color: #475569 !important; }
+
+.kpiValue {
+    font-size: 1.85rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    line-height: 1.1;
+    margin-bottom: 4px;
+}
+
+.kpiLabel {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    margin-bottom: 8px;
+}
+
+.kpiTargetAction {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #00b4db !important;
+    opacity: 0.85;
+}
+
+.kpiCard:hover .kpiTargetAction {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   4. GRILLA DE ANALÍTICA (4 GRÁFICOS)
+   ========================================================================== */
+.analyticsGrid {
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.chartCard {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 15px -2px rgba(15, 23, 42, 0.05);
+    flex: 1 1 280px;
+    min-width: 260px;
+}
+
+.chartHeader {
+    margin-bottom: 18px;
+}
+
+.chartTitle {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+}
+
+.chartSubtitle {
+    font-size: 11px !important;
+    color: #64748b !important;
+    margin-top: 2px;
+}
+
+/* Gráfico 1: Barras Verticales */
+.barChartContainer {
+    height: 160px;
+    padding-top: 20px;
+    border-bottom: 1px dashed #cbd5e1;
+}
+
+.barColumn {
+    height: 100%;
+    margin: 0 3px;
+    flex: 1;
+}
+
+.barFill {
+    width: 100%;
+    max-width: 22px;
+    background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+    border-radius: 6px 6px 0 0;
+    align-items: center;
+    padding-top: 4px;
+}
+
+.highlightedBar .barFill {
+    background: linear-gradient(180deg, #00b4db 0%, #0f172a 100%);
+    box-shadow: 0 4px 10px rgba(0, 180, 219, 0.4);
+}
+
+.barVal {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+}
+
+.barLabel {
+    font-size: 10px !important;
+    color: #64748b !important;
+    margin-top: 6px;
+}
+
+/* Gráficos 2 & 4: Barras Horizontales */
+.horizontalBarList {
+    gap: 12px;
+}
+
+.hBarItem {
+    gap: 4px;
+}
+
+.hBarHeader {
+    margin-bottom: 2px;
+}
+
+.hBarName {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #334155 !important;
+}
+
+.hBarCount {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+}
+
+.hBarTrack {
+    width: 100%;
+    height: 8px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.hBarFill {
+    height: 100%;
+    border-radius: 4px;
+}
+
+.fillCyan { background: linear-gradient(90deg, #38bdf8, #0284c7); }
+.fillIndigo { background: linear-gradient(90deg, #818cf8, #4f46e5); }
+.fillBlue { background: linear-gradient(90deg, #60a5fa, #2563eb); }
+.fillPurple { background: linear-gradient(90deg, #c084fc, #9333ea); }
+.fillAmber { background: linear-gradient(90deg, #fbbf24, #d97706); }
+.fillRose { background: linear-gradient(90deg, #fb7185, #e11d48); }
+
+/* Gráfico 3: Donut Resumen */
+.donutCardBox {
+    background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #ccfbf1;
+    margin-bottom: 16px;
+}
+
+.donutCenterBig {
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    line-height: 1;
+}
+
+.donutCenterSmall {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #0d9488 !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.legendBox {
+    gap: 6px;
+}
+
+.legendItemText {
+    font-size: 11px !important;
+    color: #475569 !important;
+}
+
+.colorDotCyan { color: #00b4db !important; font-size: 0.65rem !important; }
+.colorDotAmber { color: #f59e0b !important; font-size: 0.65rem !important; }
+.colorDotEmerald { color: #10b981 !important; font-size: 0.65rem !important; }
+
+/* ==========================================================================
+   5. FOOTER DE ESTATUS S/4HANA
+   ========================================================================== */
+.dashboardFooter {
+    background: #ffffff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.footerIcon {
+    color: #00b4db !important;
+    font-size: 1rem !important;
+}
+
+.footerText {
+    color: #334155 !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+}
+
+.footerTimestamp {
+    color: #64748b !important;
+    font-size: 11px !important;
+}

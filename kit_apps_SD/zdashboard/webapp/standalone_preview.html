@@ -1425,7 +1425,7 @@
                             <div class="form-group" style="grid-column: span 1;">
                                 <label class="form-label"><span>Cliente Solicitante (BP)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-customer', 'Buscar Cliente Solicitante (KNA1 / BUT000)')">🔍 F4</span></label>
                                 <div class="form-input-container">
-                                    <input id="inp-customer" class="form-input" placeholder="Buscar Cliente Solicitante (F4)" value="0000100323 - Supermercados El Valle C.A." />
+                                    <input id="inp-customer" class="form-input" placeholder="Buscar Cliente Solicitante (F4)" value="Z200MIN01 - Bodegas & Puntos de Venta Express" />
                                     <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-customer', 'Buscar Cliente Solicitante (KNA1 / BUT000)')">🔍</button>
                                 </div>
                             </div>
@@ -1494,7 +1494,7 @@
                 onSave: function() {
                     var orderType = ((document.getElementById("inp-ordertype") && document.getElementById("inp-ordertype").value) ? document.getElementById("inp-ordertype").value.split("-")[0].trim() : "") || "ZPED";
                     var custRaw = (document.getElementById("inp-customer") && document.getElementById("inp-customer").value) ? document.getElementById("inp-customer").value.trim() : "0000100323";
-                    var custCode = (custRaw ? (custRaw.indexOf(" - ") !== -1 ? custRaw.split(" - ")[0].trim() : custRaw.trim()) : "") || "0000100323";
+                    var custCode = (custRaw ? (custRaw.indexOf(" - ") !== -1 ? custRaw.split(" - ")[0].trim() : custRaw.trim()) : "") || "Z200MIN01";
                     var custName = (custRaw.indexOf("-") !== -1 ? custRaw.split("-")[1].trim() : custRaw) || "Supermercados El Valle C.A.";
                     var refValue = (document.getElementById("inp-orderref") ? document.getElementById("inp-orderref").value.trim() : "") || ("PED-Z200-" + Math.floor(1000 + Math.random() * 9000));
                     var matRaw = (document.getElementById("inp-material") && document.getElementById("inp-material").value) ? document.getElementById("inp-material").value.trim() : "ZACE-12";
@@ -1828,7 +1828,7 @@
                         <div class="form-group">
                             <label class="form-label"><span>Destinatario de Mercancías (Cliente BP)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-del-cust', 'Buscar Destinatario')">🔍 F4</span></label>
                             <div class="form-input-container">
-                                <input id="inp-del-cust" class="form-input" value="0000100323 - Supermercados El Valle C.A." />
+                                <input id="inp-del-cust" class="form-input" value="Z200MIN01 - Bodegas & Puntos de Venta Express" />
                                 <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-del-cust', 'Buscar Destinatario')">🔍</button>
                             </div>
                         </div>
@@ -1895,7 +1895,7 @@
                         <div class="form-group">
                             <label class="form-label"><span>Cliente Responsable del Pago (BP)</span><span style="color:#0284c7; cursor:pointer;" onclick="openF4Help('customers', 'inp-bill-cust', 'Buscar Cliente Facturado')">🔍 F4</span></label>
                             <div class="form-input-container">
-                                <input id="inp-bill-cust" class="form-input" value="0000100323 - Supermercados El Valle C.A." />
+                                <input id="inp-bill-cust" class="form-input" value="Z200MIN01 - Bodegas & Puntos de Venta Express" />
                                 <button class="btn-f4" type="button" onclick="openF4Help('customers', 'inp-bill-cust', 'Buscar Cliente Facturado')">🔍</button>
                             </div>
                         </div>
@@ -2208,6 +2208,7 @@
 
                 setTimeout(function() {
                     executeVA05Query();
+                    if (typeof syncOrdersFromSap === "function") syncOrdersFromSap();
                 }, 50);
             }
         }
@@ -2222,7 +2223,11 @@
 
             // En caso de VA05, es la consulta del reporte ALV: ejecutar consulta y mantener modal abierto
             if (currentAppKey === "va05") {
-                executeVA05Query();
+                if (typeof syncOrdersFromSap === "function") {
+                    syncOrdersFromSap();
+                } else {
+                    executeVA05Query();
+                }
                 return;
             }
 
@@ -2263,8 +2268,8 @@
             var divisionRaw = document.getElementById("inp-division") ? document.getElementById("inp-division").value.trim() : "";
             var division = (divisionRaw ? (divisionRaw.indexOf(" - ") !== -1 ? divisionRaw.split(" - ")[0].trim() : divisionRaw.trim()) : "") || "ZB";
 
-            var custRaw = (document.getElementById("inp-customer") ? document.getElementById("inp-customer").value.trim() : "") || "0000100323";
-            var custCode = (custRaw ? (custRaw.indexOf(" - ") !== -1 ? custRaw.split(" - ")[0].trim() : custRaw.trim()) : "") || "0000100323";
+            var custRaw = (document.getElementById("inp-customer") ? document.getElementById("inp-customer").value.trim() : "") || "Z200MIN01";
+            var custCode = (custRaw ? (custRaw.indexOf(" - ") !== -1 ? custRaw.split(" - ")[0].trim() : custRaw.trim()) : "") || "Z200MIN01";
             var custName = (custRaw.indexOf("-") !== -1 ? custRaw.split("-")[1].trim() : custRaw) || "Cliente";
 
             var refValue = (document.getElementById("inp-orderref") ? document.getElementById("inp-orderref").value.trim() : "") || ("PED-" + Math.floor(1000 + Math.random() * 9000));

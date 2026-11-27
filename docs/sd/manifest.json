@@ -1,0 +1,70 @@
+{
+  "_version": "1.40.0",
+  "sap.app": {
+    "id": "com.avlis.distribuidora.dashboard",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "1.0.0"
+    },
+    "title": "Centro de Mando Comercial y Logístico",
+    "subTitle": "Distribuidora Express S.A.",
+    "description": "Panel de control ejecutivo y operacional con integración en tiempo real a SAP S/4HANA 1909 (Mandante 100)",
+    "crossNavigation": {
+      "inbounds": {
+        "ZDashboard-display": {
+          "semanticObject": "ZDashboard",
+          "action": "display",
+          "title": "Panel de Control",
+          "subTitle": "Distribuidora Express S.A.",
+          "icon": "sap-icon://bby-sales-order",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "com.avlis.distribuidora.dashboard.view.Main",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.108.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "": {
+        "type": "sap.ui.model.json.JSONModel"
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    }
+  }
+}
